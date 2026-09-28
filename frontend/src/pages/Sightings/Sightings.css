@@ -1,0 +1,500 @@
+/* ==========================================
+   Sightings Page
+   ========================================== */
+
+.sightings-page {
+    color: #4a321f;
+    font-size: 2.5rem;
+    margin: 0 0 5px 0;
+}
+
+/* ------------------------------------------
+   Header
+   ------------------------------------------ */
+
+.sightings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.sightings-header h1 {
+    color: #4a321f;
+    font-size: 2.5rem;
+    margin: 0 0 6px 0;
+}
+
+.sightings-subtitle {
+    color: #80684d;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.sightings-count {
+    color: #80684d;
+    font-size: 0.95rem;
+    margin: 0 0 25px 0;
+}
+
+/* Search and Filters Controls */
+.sightings-controls {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #d6b98c;
+    background-color: #fff8e7;
+    font-size: 1rem;
+    color: #3e2f20;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #234d32;
+    box-shadow: 0 0 0 3px rgba(35, 77, 50, 0.1);
+}
+
+.location-select {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #d6b98c;
+    background-color: #fff8e7;
+    font-size: 1rem;
+    color: #3e2f20;
+    outline: none;
+    cursor: pointer;
+}
+
+.location-select:focus {
+    border-color: #234d32;
+}
+
+/* ------------------------------------------
+   Sightings Grid
+   ------------------------------------------ */
+
+.sightings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* ------------------------------------------
+   Sighting Card
+   ------------------------------------------ */
+
+.sighting-card {
+    border-radius: 12px;
+    background-color: #fff8e7;
+    border: 1px solid #d6b98c;
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.sighting-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(80, 50, 20, 0.15);
+}
+
+/* ------------------------------------------
+   Sighting Image
+   ------------------------------------------ */
+
+.sighting-image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 1px solid #d6b98c;
+}
+
+.sighting-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.sighting-card:hover .sighting-image {
+    transform: scale(1.05);
+}
+
+/* Image placeholder */
+
+.sighting-image-placeholder {
+    width: 100%;
+    height: 220px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #eee1c8;
+
+    font-size: 3rem;
+    border-bottom: 1px solid #d6b98c;
+}
+
+/* ------------------------------------------
+   Card Content
+   ------------------------------------------ */
+
+.sighting-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.sighting-content h2 {
+    color: #4a321f;
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 1.4rem;
+}
+
+.sighting-scientific-name {
+    font-style: italic;
+    color: #80684d;
+    font-size: 0.95rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+/* ------------------------------------------
+   Sighting Information
+   ------------------------------------------ */
+
+.sighting-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+.sighting-info p {
+    margin: 0;
+
+    color: #5c4630;
+    font-size: 0.95rem;
+
+    line-height: 1.5;
+}
+
+.sighting-info strong {
+    color: #234d32;
+    font-size: 0.85rem;
+}
+
+/* ------------------------------------------
+   Notes
+   ------------------------------------------ */
+
+.sighting-notes {
+    margin-top: auto;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #d6b98c;
+}
+
+.sighting-notes strong {
+    color: #234d32;
+    font-size: 0.85rem;
+}
+
+.sighting-notes p {
+    color: #5c4630;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 5px 0 0 0;
+}
+
+/* ------------------------------------------
+   View Button
+   ------------------------------------------ */
+
+.sighting-view-button {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #234d32;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.sighting-view-button:hover {
+    background-color: #1a3a25;
+}
+
+/* ------------------------------------------
+   Empty State
+   ------------------------------------------ */
+
+.no-sightings {
+    background-color: #fff8e7;
+
+    border: 1px solid #d6b98c;
+    border-radius: 12px;
+
+    padding: 60px 30px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.06);
+}
+
+.no-sightings h2 {
+    color: #4a321f;
+    margin: 0 0 10px 0;
+}
+
+.no-sightings p {
+    color: #80684d;
+    margin: 0;
+}
+
+/* ==========================================
+   Sighting Detail Page
+   ========================================== */
+
+.sighting-detail-page {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Back button */
+
+.back-link {
+    display: inline-block;
+
+    margin-bottom: 25px;
+
+    color: #234d32;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #1a3a25;
+}
+
+/* Main detail section */
+
+.sighting-detail {
+    display: grid;
+
+    grid-template-columns: 1.1fr 1fr;
+
+    gap: 40px;
+
+    background-color: #fff8e7;
+
+    border: 1px solid #d6b98c;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 16px rgba(80, 50, 20, 0.08);
+}
+
+/* Detail image */
+
+.sighting-detail-image {
+    width: 100%;
+    min-height: 400px;
+}
+
+.sighting-detail-image img {
+    width: 100%;
+    height: 100%;
+
+    min-height: 400px;
+
+    object-fit: cover;
+}
+
+/* Detail placeholder */
+
+.detail-image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #eee1c8;
+
+    font-size: 5rem;
+}
+
+/* Detail information */
+
+.sighting-detail-info {
+    padding: 40px 35px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sighting-detail-info h1 {
+    color: #4a321f;
+
+    font-size: 2.4rem;
+
+    margin: 0 0 8px 0;
+}
+
+.sighting-detail-info .scientific-name {
+    margin-bottom: 30px;
+}
+
+/* Information list */
+
+.detail-info-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.detail-info-list p {
+    margin: 0;
+
+    color: #5c4630;
+
+    line-height: 1.5;
+}
+
+.detail-info-list strong {
+    display: block;
+
+    color: #234d32;
+
+    font-size: 0.85rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    margin-bottom: 3px;
+}
+
+/* ------------------------------------------
+   Detail Sections
+   ------------------------------------------ */
+
+.detail-section {
+    margin-top: 35px;
+}
+
+.detail-section h2 {
+    color: #4a321f;
+
+    font-size: 1.5rem;
+
+    margin: 0 0 15px 0;
+}
+
+.detail-card {
+    background-color: #fff8e7;
+
+    border: 1px solid #d6b98c;
+
+    border-radius: 10px;
+
+    padding: 22px;
+
+    box-shadow: 0 3px 10px rgba(80, 50, 20, 0.05);
+}
+
+.detail-card h3 {
+    color: #234d32;
+
+    margin: 0 0 8px 0;
+}
+
+.detail-card p {
+    color: #5c4630;
+
+    line-height: 1.6;
+
+    margin: 0 0 8px 0;
+}
+
+.detail-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   Responsive
+   ========================================== */
+
+@media (max-width: 1000px) {
+    .sightings-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sighting-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .sighting-detail-image {
+        min-height: 350px;
+    }
+
+    .sighting-detail-image img {
+        min-height: 350px;
+        max-height: 450px;
+    }
+}
+
+@media (max-width: 650px) {
+    .sightings-header {
+        align-items: flex-start;
+    }
+
+    .sightings-header h1 {
+        font-size: 2rem;
+    }
+
+    .sightings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sighting-image-wrapper,
+    .sighting-image-placeholder {
+        height: 200px;
+    }
+
+    .sighting-detail-info {
+        padding: 25px 20px;
+    }
+
+    .sighting-detail-info h1 {
+        font-size: 2rem;
+    }
+}
