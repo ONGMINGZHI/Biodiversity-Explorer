@@ -25,11 +25,11 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Public pages */}
+                {/* all can use */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                {/* Protected pages */}
+                {/* only login can use */}
                 <Route
                     path="/*"
                     element={

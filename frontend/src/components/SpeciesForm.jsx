@@ -14,15 +14,25 @@ function SpeciesForm({
     const [formData, setFormData] = useState({
         name: "",
         scientificName: "",
-        category: "",
+
+        // Taxonomy
+        kingdom: "",
+        phylum: "",
+        className: "",
+        order: "",
+        family: "",
+        genus: "",
+
         description: "",
         habitat: "",
         region: "",
         conservationStatus: "",
+
         imageUrl: "",
         imageCredit: "",
         imageSource: "",
         imageLicense: "",
+
         interestingFacts: "",
     });
 
@@ -38,18 +48,34 @@ function SpeciesForm({
             setFormData({
                 name: initialData.name || "",
                 scientificName: initialData.scientificName || "",
-                category: initialData.category || "",
+
+                // Taxonomy
+                kingdom: initialData.kingdom || "",
+                phylum: initialData.phylum || "",
+                className: initialData.className || "",
+                order: initialData.order || "",
+                family: initialData.family || "",
+                genus: initialData.genus || "",
+
                 description: initialData.description || "",
-                habitat: initialData.habitat?._id || initialData.habitat || "",
+
+                habitat:
+                    initialData.habitat?._id ||
+                    initialData.habitat ||
+                    "",
+
                 region: initialData.region || "",
+
                 conservationStatus:
                     initialData.conservationStatus?._id ||
                     initialData.conservationStatus ||
                     "",
+
                 imageUrl: initialData.imageUrl || "",
                 imageCredit: initialData.imageCredit || "",
                 imageSource: initialData.imageSource || "",
                 imageLicense: initialData.imageLicense || "",
+
                 interestingFacts:
                     Array.isArray(initialData.interestingFacts)
                         ? initialData.interestingFacts.join("\n")
@@ -155,7 +181,6 @@ function SpeciesForm({
                 </p>
             </div>
 
-
             {/* Form */}
             <form
                 className="form-card"
@@ -168,13 +193,12 @@ function SpeciesForm({
                     </div>
                 )}
 
-
                 {/* Name + Scientific Name */}
                 <div className="form-row">
 
                     <div className="form-group">
                         <label htmlFor="name">
-                            Species Name *
+                            Common Name *
                         </label>
 
                         <input
@@ -187,7 +211,6 @@ function SpeciesForm({
                         />
                     </div>
 
-
                     <div className="form-group">
                         <label htmlFor="scientificName">
                             Scientific Name *
@@ -199,81 +222,151 @@ function SpeciesForm({
                             type="text"
                             value={formData.scientificName}
                             onChange={handleChange}
+                            placeholder="e.g. Elephas maximus"
                             required
                         />
                     </div>
 
                 </div>
 
+                {/* Taxonomy */}
+                <div className="taxonomy-section">
 
-                {/* Category + Region */}
-                <div className="form-row">
+                    <h2>Taxonomy</h2>
 
-                    <div className="form-group">
-                        <label htmlFor="category">
-                            Category *
-                        </label>
+                    <p className="form-help">
+                        Enter the biological classification of this species.
+                    </p>
 
-                        <select
-                            id="category"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">
-                                Select category
-                            </option>
+                    {/* Kingdom + Phylum */}
+                    <div className="form-row">
 
-                            <option value="Mammal">
-                                Mammal
-                            </option>
+                        <div className="form-group">
+                            <label htmlFor="kingdom">
+                                Kingdom *
+                            </label>
 
-                            <option value="Bird">
-                                Bird
-                            </option>
+                            <input
+                                id="kingdom"
+                                name="kingdom"
+                                type="text"
+                                value={formData.kingdom}
+                                onChange={handleChange}
+                                placeholder="e.g. Animalia"
+                                required
+                            />
+                        </div>
 
-                            <option value="Reptile">
-                                Reptile
-                            </option>
+                        <div className="form-group">
+                            <label htmlFor="phylum">
+                                Phylum *
+                            </label>
 
-                            <option value="Amphibian">
-                                Amphibian
-                            </option>
+                            <input
+                                id="phylum"
+                                name="phylum"
+                                type="text"
+                                value={formData.phylum}
+                                onChange={handleChange}
+                                placeholder="e.g. Chordata"
+                                required
+                            />
+                        </div>
 
-                            <option value="Fish">
-                                Fish
-                            </option>
-
-                            <option value="Invertebrate">
-                                Invertebrate
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-                        </select>
                     </div>
 
+                    {/* Class + Order */}
+                    <div className="form-row">
 
-                    <div className="form-group">
-                        <label htmlFor="region">
-                            Region *
-                        </label>
+                        <div className="form-group">
+                            <label htmlFor="className">
+                                Class *
+                            </label>
 
-                        <input
-                            id="region"
-                            name="region"
-                            type="text"
-                            value={formData.region}
-                            onChange={handleChange}
-                            placeholder="e.g. Peninsular Malaysia"
-                            required
-                        />
+                            <input
+                                id="className"
+                                name="className"
+                                type="text"
+                                value={formData.className}
+                                onChange={handleChange}
+                                placeholder="e.g. Mammalia"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="order">
+                                Order *
+                            </label>
+
+                            <input
+                                id="order"
+                                name="order"
+                                type="text"
+                                value={formData.order}
+                                onChange={handleChange}
+                                placeholder="e.g. Proboscidea"
+                                required
+                            />
+                        </div>
+
+                    </div>
+
+                    {/* Family + Genus */}
+                    <div className="form-row">
+
+                        <div className="form-group">
+                            <label htmlFor="family">
+                                Family *
+                            </label>
+
+                            <input
+                                id="family"
+                                name="family"
+                                type="text"
+                                value={formData.family}
+                                onChange={handleChange}
+                                placeholder="e.g. Elephantidae"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="genus">
+                                Genus *
+                            </label>
+
+                            <input
+                                id="genus"
+                                name="genus"
+                                type="text"
+                                value={formData.genus}
+                                onChange={handleChange}
+                                placeholder="e.g. Elephas"
+                                required
+                            />
+                        </div>
+
                     </div>
 
                 </div>
 
+                {/* Region */}
+                <div className="form-group">
+                    <label htmlFor="region">
+                        Region *
+                    </label>
+
+                    <input
+                        id="region"
+                        name="region"
+                        type="text"
+                        value={formData.region}
+                        onChange={handleChange}
+                        placeholder="e.g. Peninsular Malaysia"
+                        required
+                    />
+                </div>
 
                 {/* Habitat + Conservation Status */}
                 <div className="form-row">
@@ -308,7 +401,6 @@ function SpeciesForm({
                         </select>
                     </div>
 
-
                     <div className="form-group">
                         <label htmlFor="conservationStatus">
                             Conservation Status *
@@ -341,7 +433,6 @@ function SpeciesForm({
 
                 </div>
 
-
                 {/* Description */}
                 <div className="form-group">
                     <label htmlFor="description">
@@ -358,7 +449,6 @@ function SpeciesForm({
                     />
                 </div>
 
-
                 {/* Image URL */}
                 <div className="form-group">
                     <label htmlFor="imageUrl">
@@ -374,7 +464,6 @@ function SpeciesForm({
                         placeholder="https://..."
                     />
                 </div>
-
 
                 {/* Image Credit + License */}
                 <div className="form-row">
@@ -394,7 +483,6 @@ function SpeciesForm({
                         />
                     </div>
 
-
                     <div className="form-group">
                         <label htmlFor="imageLicense">
                             Image License
@@ -412,7 +500,6 @@ function SpeciesForm({
 
                 </div>
 
-
                 {/* Image Source */}
                 <div className="form-group">
                     <label htmlFor="imageSource">
@@ -428,7 +515,6 @@ function SpeciesForm({
                         placeholder="https://..."
                     />
                 </div>
-
 
                 {/* Image Preview */}
                 {formData.imageUrl && (
@@ -452,7 +538,6 @@ function SpeciesForm({
                     </div>
                 )}
 
-
                 {/* Interesting Facts */}
                 <div className="form-group">
                     <label htmlFor="interestingFacts">
@@ -474,7 +559,6 @@ function SpeciesForm({
                     </small>
                 </div>
 
-
                 {/* Buttons */}
                 <div className="form-actions">
 
@@ -492,7 +576,6 @@ function SpeciesForm({
                         )}
 
                     </div>
-
 
                     {/* Cancel + Save */}
                     <div className="form-actions-right">

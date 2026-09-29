@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getSpeciesById } from "../../utils/api";
-import DetailPage from "../../components/DetailPage";
-import "./Species.css"
-
+import "./Species.css";
 
 function SpeciesDetail() {
     const { id } = useParams();
@@ -38,9 +36,7 @@ function SpeciesDetail() {
     if (error) {
         return (
             <div className="page error-state">
-                <p className="error-message">
-                    ⚠️ {error}
-                </p>
+                <p className="error-message">⚠️ {error}</p>
             </div>
         );
     }
@@ -54,147 +50,175 @@ function SpeciesDetail() {
     }
 
     return (
-        <DetailPage
-            backLink="/species"
-            backText="Back to Species"
-            title={species.name}
-            subtitle={species.scientificName}
-            image={species.imageUrl}
-            imageAlt={species.name}
-        >
+        <div className="page detail-page">
+            {/* Back button */}
+            <Link to="/species" className="back-link">
+                ← Back to Species
+            </Link>
 
-            {/* Basic Information */}
-            <section className="detail-section">
-                <h2>Basic Information</h2>
-
-                <div className="detail-info-grid">
-
-                    <div className="detail-info-item">
-                        <strong>Category</strong>
-                        <span>{species.category}</span>
+            {/* Main information */}
+            <div className="detail-hero">
+                {/* Image */}
+                {species.imageUrl && (
+                    <div className="detail-image">
+                        <img src={species.imageUrl} alt={species.name} />
                     </div>
+                )}
 
-                    <div className="detail-info-item">
-                        <strong>Region</strong>
-                        <span>{species.region}</span>
-                    </div>
+                {/* Title */}
+                <div className="detail-header">
+                    <h1>{species.name}</h1>
 
+                    {species.scientificName && <p className="detail-subtitle">{species.scientificName}</p>}
                 </div>
-            </section>
+            </div>
 
-            {/* Description */}
-            <section className="detail-section">
-                <h2>Description</h2>
-
-                <div className="detail-card">
-                    <p>{species.description}</p>
-                </div>
-            </section>
-
-            {/* Habitat */}
-            <section className="detail-section">
-                <h2>Habitat</h2>
-
-                {species.habitat ? (
-                    <div className="detail-card">
-                        <h3>{species.habitat.name}</h3>
-
-                        <p>
-                            {species.habitat.description}
-                        </p>
-                    </div>
-                ) : (
-                    <p>No habitat information available.</p>
-                )}
-            </section>
-
-            {/* Conservation Status */}
-            <section className="detail-section">
-                <h2>Conservation Status</h2>
-
-                {species.conservationStatus ? (
-                    <div className="detail-card">
-                        <h3>
-                            {species.conservationStatus.name}
-                        </h3>
-
-                        <p>
-                            {species.conservationStatus.description}
-                        </p>
-                    </div>
-                ) : (
-                    <p>
-                        No conservation status information
-                        available.
-                    </p>
-                )}
-            </section>
-
-            {/* Interesting Facts */}
-            <section className="detail-section">
-                <h2>Interesting Facts</h2>
-
-                {species.interestingFacts &&
-                species.interestingFacts.length > 0 ? (
-                    <div className="detail-card">
-                        <ul className="facts-list">
-                            {species.interestingFacts.map(
-                                (fact, index) => (
-                                    <li key={index}>
-                                        {fact}
-                                    </li>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                ) : (
-                    <p>
-                        No interesting facts available.
-                    </p>
-                )}
-            </section>
-
-            {/* Image Information */}
-            {(species.imageCredit ||
-                species.imageSource ||
-                species.imageLicense) && (
+            {/* Page content */}
+            <div className="detail-content">
                 <section className="detail-section">
-                    <h2>Image Information</h2>
+                    <h2>Taxonomy</h2>
 
-                    <div className="detail-card">
+                    <div className="taxonomy-grid">
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Kingdom</span>
+                            <span className="taxonomy-value">{species.kingdom}</span>
+                        </div>
 
-                        {species.imageCredit && (
-                            <p>
-                                <strong>Credit:</strong>{" "}
-                                {species.imageCredit}
-                            </p>
-                        )}
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Phylum</span>
+                            <span className="taxonomy-value">{species.phylum}</span>
+                        </div>
 
-                        {species.imageSource && (
-                            <p>
-                                <strong>Source:</strong>{" "}
-                                <a
-                                    href={species.imageSource}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    View Source
-                                </a>
-                            </p>
-                        )}
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Class</span>
+                            <span className="taxonomy-value">{species.className}</span>
+                        </div>
 
-                        {species.imageLicense && (
-                            <p>
-                                <strong>License:</strong>{" "}
-                                {species.imageLicense}
-                            </p>
-                        )}
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Order</span>
+                            <span className="taxonomy-value">{species.order}</span>
+                        </div>
 
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Family</span>
+                            <span className="taxonomy-value">{species.family}</span>
+                        </div>
+
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Genus</span>
+                            <span className="taxonomy-value">{species.genus}</span>
+                        </div>
                     </div>
                 </section>
-            )}
 
-        </DetailPage>
+                {/* Region */}
+                <section className="detail-section">
+                    <h2>Region</h2>
+
+                    <div className="detail-card">
+                        <p>{species.region}</p>
+                    </div>
+                </section>
+
+                {/* Description */}
+                <section className="detail-section">
+                    <h2>Description</h2>
+
+                    <div className="detail-card">
+                        <p>{species.description || "No description available."}</p>
+                    </div>
+                </section>
+
+                {/* Habitat */}
+                <section className="detail-section">
+                    <h2>Habitat</h2>
+
+                    {species.habitat ? (
+                        <div className="detail-card">
+                            <h3>{species.habitat.name}</h3>
+
+                            {species.habitat.description && <p>{species.habitat.description}</p>}
+
+                            {species.habitat.region && (
+                                <p>
+                                    <strong>Region:</strong> {species.habitat.region}
+                                </p>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="detail-card">
+                            <p>No habitat information available.</p>
+                        </div>
+                    )}
+                </section>
+
+                {/* Conservation Status */}
+                <section className="detail-section">
+                    <h2>Conservation Status</h2>
+
+                    {species.conservationStatus ? (
+                        <div className="detail-card">
+                            <h3>{species.conservationStatus.name}</h3>
+
+                            {species.conservationStatus.description && <p>{species.conservationStatus.description}</p>}
+                        </div>
+                    ) : (
+                        <div className="detail-card">
+                            <p>No conservation status information available.</p>
+                        </div>
+                    )}
+                </section>
+
+                {/* Interesting Facts */}
+                <section className="detail-section">
+                    <h2>Interesting Facts</h2>
+
+                    {species.interestingFacts && species.interestingFacts.length > 0 ? (
+                        <div className="detail-card">
+                            <ul className="facts-list">
+                                {species.interestingFacts.map((fact, index) => (
+                                    <li key={index}>{fact}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (
+                        <div className="detail-card">
+                            <p>No interesting facts available.</p>
+                        </div>
+                    )}
+                </section>
+
+                {/* Image Information */}
+                {(species.imageCredit || species.imageSource || species.imageLicense) && (
+                    <section className="detail-section">
+                        <h2>Image Information</h2>
+
+                        <div className="detail-card">
+                            {species.imageCredit && (
+                                <p>
+                                    <strong>Credit:</strong> {species.imageCredit}
+                                </p>
+                            )}
+
+                            {species.imageSource && (
+                                <p>
+                                    <strong>Source:</strong>{" "}
+                                    <a href={species.imageSource} target="_blank" rel="noopener noreferrer">
+                                        View Source
+                                    </a>
+                                </p>
+                            )}
+
+                            {species.imageLicense && (
+                                <p>
+                                    <strong>License:</strong> {species.imageLicense}
+                                </p>
+                            )}
+                        </div>
+                    </section>
+                )}
+            </div>
+        </div>
     );
 }
 

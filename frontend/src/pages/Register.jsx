@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../utils/api";
 
 function Register() {
@@ -10,13 +10,13 @@ function Register() {
     const [password, setPassword] = useState("");
 
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleRegister = async (e) => {
+        e.preventDefault();
 
         setError("");
-        setMessage("");
+        setSuccess("");
 
         try {
             const result = await registerUser({
@@ -25,8 +25,8 @@ function Register() {
                 password
             });
 
-            setMessage(
-                result.message || "Registration successful."
+            setSuccess(
+                result.message || "Registration successful!"
             );
 
             setTimeout(() => {
@@ -34,77 +34,84 @@ function Register() {
             }, 1000);
 
         } catch (error) {
-            setError(error.message);
+            setError(error.message || "Registration failed");
         }
     };
 
     return (
-        <div>
-            <h1>Register</h1>
+        <div className="login-container">
+            <div className="login-card">
 
-            {message && <p>{message}</p>}
+                <h2>Register</h2>
 
-            {error && <p>{error}</p>}
+                {error && (
+                    <p className="login-error">
+                        {error}
+                    </p>
+                )}
 
-            <form onSubmit={handleSubmit}>
+                {success && (
+                    <p className="register-success">
+                        {success}
+                    </p>
+                )}
 
-                <div>
-                    <label>Name</label>
+                <form onSubmit={handleRegister}>
 
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(event) =>
-                            setName(event.target.value)
-                        }
-                        required
-                    />
-                </div>
+                    <div className="form-group">
+                        <label>Name</label>
 
-                <br />
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Enter your name"
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label>Email</label>
+                    <div className="form-group">
+                        <label>Email</label>
 
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) =>
-                            setEmail(event.target.value)
-                        }
-                        required
-                    />
-                </div>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
+                            required
+                        />
+                    </div>
 
-                <br />
+                    <div className="form-group">
+                        <label>Password</label>
 
-                <div>
-                    <label>Password</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password"
+                            minLength="6"
+                            required
+                        />
+                    </div>
 
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(event) =>
-                            setPassword(event.target.value)
-                        }
-                        required
-                    />
-                </div>
+                    <button type="submit">
+                        Register
+                    </button>
 
-                <br />
+                </form>
 
-                <button type="submit">
-                    Register
-                </button>
+                <p className="register-login">
+                    Already have an account?{" "}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/login")}
+                    >
+                        Login
+                    </button>
+                </p>
 
-            </form>
-
-            <p>
-                Already have an account?{" "}
-                <Link to="/login">
-                    Login
-                </Link>
-            </p>
+            </div>
         </div>
     );
 }

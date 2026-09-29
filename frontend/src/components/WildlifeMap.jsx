@@ -1,14 +1,8 @@
-import {
-    MapContainer,
-    TileLayer,
-    Marker,
-    Popup
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 
 function WildlifeMap({ locations }) {
-    // Only use locations with valid coordinates
     const validLocations = locations.filter(
         (location) =>
             location.latitude !== undefined &&
@@ -19,20 +13,27 @@ function WildlifeMap({ locations }) {
 
     return (
         <div className="locations-map-container">
-
             <MapContainer
                 center={[4.2105, 101.9758]}
                 zoom={6}
                 minZoom={5}
                 maxZoom={15}
+
+                // Give Leaflet some extra space around Malaysia
                 maxBounds={[
-                    [0.5, 99.0],
-                    [7.5, 120.0]
+                    [-2, 94],
+                    [12, 125],
                 ]}
-                maxBoundsViscosity={1.0}
+
+                maxBoundsViscosity={0.5}
+
+                scrollWheelZoom={false}
+                zoomControl={false}
+                doubleClickZoom={false}
+                touchZoom={false}
+
                 className="locations-map"
             >
-
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; OpenStreetMap contributors"
@@ -43,10 +44,13 @@ function WildlifeMap({ locations }) {
                         key={location._id}
                         position={[
                             Number(location.latitude),
-                            Number(location.longitude)
+                            Number(location.longitude),
                         ]}
                     >
-                        <Popup>
+                        <Popup
+                            autoPan={true}
+                            autoPanPadding={[80, 120]}
+                        >
                             <div className="location-popup">
                                 <h3>{location.name}</h3>
 
@@ -68,9 +72,7 @@ function WildlifeMap({ locations }) {
                         </Popup>
                     </Marker>
                 ))}
-
             </MapContainer>
-
         </div>
     );
 }

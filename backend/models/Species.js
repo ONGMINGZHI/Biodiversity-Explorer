@@ -12,7 +12,33 @@ const speciesSchema = new mongoose.Schema({
         unique: true,
     },
 
-    category: {
+    // Taxonomic classification
+    kingdom: {
+        type: String,
+        required: true,
+    },
+
+    phylum: {
+        type: String,
+        required: true,
+    },
+
+    className: {
+        type: String,
+        required: true,
+    },
+
+    order: {
+        type: String,
+        required: true,
+    },
+
+    family: {
+        type: String,
+        required: true,
+    },
+
+    genus: {
         type: String,
         required: true,
     },
@@ -25,7 +51,6 @@ const speciesSchema = new mongoose.Schema({
     habitat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Habitat",
-        // so objectId refers to a document in the Habitat model
         required: true,
     },
 
@@ -44,6 +69,7 @@ const speciesSchema = new mongoose.Schema({
         type: String,
         default: "https://placehold.co/600x400/png?text=Photo+Coming+Soon",
     },
+
     imageCredit: {
         type: String,
     },

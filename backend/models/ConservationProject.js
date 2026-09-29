@@ -41,6 +41,9 @@ const conservationProjectSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
     },
+    projectUrl: {
+    type: String,
+},
 
     createdAt: {
         type: Date,

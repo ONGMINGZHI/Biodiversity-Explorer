@@ -57,15 +57,23 @@ export const loginUser = async (data) => {
 
 // species
 
-export const getSpecies = async (search = "", category = "All") => {
+export const getSpecies = async (
+    search = "",
+    kingdom = "All",
+    className = "All"
+) => {
     const params = new URLSearchParams();
 
     if (search) {
         params.append("search", search);
     }
 
-    if (category !== "All") {
-        params.append("category", category);
+    if (kingdom !== "All") {
+        params.append("kingdom", kingdom);
+    }
+
+    if (className !== "All") {
+        params.append("className", className);
     }
 
     const response = await fetch(
@@ -88,23 +96,32 @@ export const getSpecies = async (search = "", category = "All") => {
     return response.json();
 };
 
+
 export const getSpeciesById = async (id) => {
-    const response = await fetch(`${API_URL}/species/${id}`);
+    const response = await fetch(
+        `${API_URL}/species/${id}`
+    );
 
     return handleResponse(response);
 };
 
+
 export const createSpecies = async (data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_URL}/species`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-    });
+    const response = await fetch(
+        `${API_URL}/species`,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+
+            body: JSON.stringify(data),
+        }
+    );
 
     return handleResponse(response);
 };
@@ -113,14 +130,19 @@ export const createSpecies = async (data) => {
 export const updateSpecies = async (id, data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_URL}/species/${id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-    });
+    const response = await fetch(
+        `${API_URL}/species/${id}`,
+        {
+            method: "PATCH",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+
+            body: JSON.stringify(data),
+        }
+    );
 
     return handleResponse(response);
 };
@@ -129,15 +151,20 @@ export const updateSpecies = async (id, data) => {
 export const deleteSpecies = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_URL}/species/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response = await fetch(
+        `${API_URL}/species/${id}`,
+        {
+            method: "DELETE",
+
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 
     return handleResponse(response);
 };
+
 // habitat
 
 export const getHabitats = async () => {

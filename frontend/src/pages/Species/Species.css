@@ -1,162 +1,890 @@
-/* Species Page Layout */
-.species-page h1 {
-    color: #4a321f;
-    font-size: 2.5rem;
-    margin: 0 0 5px 0;
+.species-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 50px;
+    box-sizing: border-box;
 }
+
+/* header */
 
 .species-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 24px;
     margin-bottom: 30px;
 }
 
-.species-subtitle {
-    color: #80684d;
-    margin: 0;
-    font-size: 1.1rem;
+.species-page h1 {
+    color: #4a321f;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin: 0 0 6px;
 }
 
-/* Search and Filters Controls */
+.species-page .subtitle {
+    color: #80684d;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   ADD SPECIES BUTTON
+   ========================================================= */
+
+.add-button {
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 18px;
+
+    background-color: #234d32;
+    color: white;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.add-button:hover {
+    background-color: #1a3a25;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(35, 77, 50, 0.2);
+}
+
+.add-button:active {
+    transform: translateY(0);
+}
+
+/* =========================================================
+   SEARCH & FILTER
+   ========================================================= */
+
 .species-controls {
     display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 14px;
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.search-input,
+.category-select {
+    box-sizing: border-box;
+
+    height: 46px;
+
+    border: 1px solid #d6b98c;
+    border-radius: 8px;
+
+    background-color: #fff8e7;
+    color: #3e2f20;
+
+    font-size: 0.95rem;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .search-input {
     flex: 1;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid #d6b98c;
-    background-color: #fff8e7;
-    font-size: 1rem;
-    color: #3e2f20;
-    outline: none;
-    transition: border-color 0.2s;
+    min-width: 0;
+    padding: 0 16px;
 }
 
-.search-input:focus {
+.category-select {
+    width: 210px;
+    padding: 0 14px;
+    cursor: pointer;
+}
+
+.search-input::placeholder {
+    color: #9a856b;
+}
+
+.search-input:focus,
+.category-select:focus {
     border-color: #234d32;
     box-shadow: 0 0 0 3px rgba(35, 77, 50, 0.1);
 }
 
-.category-select {
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid #d6b98c;
-    background-color: #fff8e7;
-    font-size: 1rem;
-    color: #3e2f20;
-    outline: none;
-    cursor: pointer;
-}
+/* =========================================================
+   SPECIES COUNT
+   ========================================================= */
 
-.category-select:focus {
-    border-color: #234d32;
-}
-
-/* Species count helper */
 .species-count {
     color: #80684d;
-    font-size: 0.95rem;
-    margin-bottom: 25px;
+    font-size: 0.9rem;
+    margin: 0 0 22px;
 }
 
-/* Card Grid Layout */
+/* =========================================================
+   SPECIES GRID
+   ========================================================= */
+
 .species-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
 }
 
+/* =========================================================
+   SPECIES CARD
+   ========================================================= */
+
 .species-card {
-    border-radius: 12px;
-    background-color: #fff8e7;
-    border: 1px solid #d6b98c;
-    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
     display: flex;
     flex-direction: column;
+    min-width: 0;
     overflow: hidden;
+
+    border: 1px solid #d6b98c;
+    border-radius: 12px;
+
+    background-color: #fff8e7;
+
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
+
     transition:
-        transform 0.2s,
-        box-shadow 0.2s;
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .species-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(80, 50, 20, 0.15);
+
+    border-color: #c7a875;
+
+    box-shadow: 0 8px 20px rgba(80, 50, 20, 0.14);
 }
 
-/* Image scaling wrapper */
+/* =========================================================
+   CARD IMAGE
+   ========================================================= */
+
 .card-image-wrapper {
     width: 100%;
-    height: 200px;
+    height: 210px;
+
     overflow: hidden;
+
+    background-color: #eadfc9;
+
     border-bottom: 1px solid #d6b98c;
 }
 
 .species-card-image {
+    display: block;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
-    transition: transform 0.3s;
+
+    transition: transform 0.35s ease;
 }
 
 .species-card:hover .species-card-image {
     transform: scale(1.05);
 }
 
-/* Card Text Contents */
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
 .card-content {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+
+    padding: 20px;
 }
 
 .species-card h2 {
+    margin: 0 0 6px;
+
     color: #4a321f;
-    margin-top: 0;
-    margin-bottom: 6px;
-    font-size: 1.4rem;
+
+    font-size: 1.35rem;
+    line-height: 1.35;
 }
 
 .scientific-name {
-    font-style: italic;
+    margin: 0 0 12px;
+
     color: #80684d;
-    font-size: 0.95rem;
-    margin-top: 0;
-    margin-bottom: 12px;
+
+    font-size: 0.92rem;
+    font-style: italic;
+
+    line-height: 1.4;
 }
 
 .category-tag {
+    margin: 0 0 20px;
+
     color: #5c4630;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
+
+    font-size: 0.88rem;
+    line-height: 1.5;
 }
 
-/* Card Action Layout */
+.category-tag strong {
+    color: #4a321f;
+}
+
+/* =========================================================
+   CARD FOOTER
+   ========================================================= */
+
 .card-footer {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+
+    margin-top: auto;
 }
+
+/* =========================================================
+   VIEW DETAILS BUTTON
+   ========================================================= */
 
 .view-button {
     display: block;
-    text-align: center;
-    padding: 10px;
+
+    padding: 10px 14px;
+
+    border-radius: 7px;
+
     background-color: #234d32;
     color: white;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 0.95rem;
-    transition: background-color 0.2s;
+
+    text-align: center;
+    text-decoration: none;
+
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .view-button:hover {
     background-color: #1a3a25;
+    color: white;
+
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   ADMIN EDIT BUTTON
+   ========================================================= */
+
+.admin-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-button {
+    width: 100%;
+
+    padding: 9px 14px;
+
+    border: 1px solid #b99765;
+    border-radius: 7px;
+
+    background-color: transparent;
+    color: #5c4630;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #eadfc9;
+    border-color: #8d7048;
+}
+
+/* =========================================================
+   NO RESULTS
+   ========================================================= */
+
+.no-results {
+    grid-column: 1 / -1;
+
+    padding: 50px 20px;
+
+    border: 1px dashed #d6b98c;
+    border-radius: 12px;
+
+    background-color: #fff8e7;
+
+    text-align: center;
+}
+
+.no-results p {
+    margin: 0;
+    color: #80684d;
+}
+
+/* =========================================================
+   SPECIES DETAIL PAGE
+   ========================================================= */
+
+.detail-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   DETAIL BACK LINK
+   ========================================================= */
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-bottom: 24px;
+
+    color: #234d32;
+    text-decoration: none;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.back-link:hover {
+    color: #1a3a25;
+    transform: translateX(-2px);
+}
+
+/* =========================================================
+   DETAIL HERO
+   ========================================================= */
+
+.detail-hero {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+
+    gap: 36px;
+    align-items: center;
+
+    margin-bottom: 42px;
+}
+
+/* =========================================================
+   DETAIL IMAGE
+   ========================================================= */
+
+.detail-image {
+    width: 100%;
+    height: 300px;
+
+    overflow: hidden;
+
+    border: 1px solid #d6b98c;
+    border-radius: 14px;
+
+    background-color: #eadfc9;
+
+    box-shadow: 0 6px 18px rgba(80, 50, 20, 0.1);
+}
+
+.detail-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* =========================================================
+   DETAIL HEADER
+   ========================================================= */
+
+.detail-header {
+    min-width: 0;
+}
+
+.detail-header h1 {
+    margin: 0 0 10px;
+
+    color: #4a321f;
+
+    font-size: 2.8rem;
+    line-height: 1.15;
+}
+
+.detail-subtitle {
+    margin: 0;
+
+    color: #80684d;
+
+    font-size: 1.15rem;
+    font-style: italic;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   DETAIL CONTENT
+   ========================================================= */
+
+.detail-content {
+    width: 100%;
+}
+
+.detail-section {
+    margin-bottom: 34px;
+}
+
+.detail-section h2 {
+    margin: 0 0 14px;
+
+    color: #4a321f;
+
+    font-size: 1.45rem;
+    line-height: 1.3;
+}
+
+.detail-section h3 {
+    margin: 0 0 8px;
+
+    color: #4a321f;
+
+    font-size: 1.15rem;
+}
+
+/* =========================================================
+   TAXONOMY
+   ========================================================= */
+
+.taxonomy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.taxonomy-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 16px 18px;
+
+    border: 1px solid #d6b98c;
+    border-radius: 10px;
+
+    background-color: #fff8e7;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.taxonomy-item:hover {
+    border-color: #c7a875;
+
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
+
+    transform: translateY(-2px);
+}
+
+.taxonomy-rank {
+    color: #80684d;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.taxonomy-value {
+    color: #3e2f20;
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* =========================================================
+   DETAIL BASIC INFORMATION
+   ========================================================= */
+
+.detail-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.detail-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 16px 18px;
+
+    border: 1px solid #d6b98c;
+    border-radius: 10px;
+
+    background-color: #fff8e7;
+}
+
+.detail-info-item strong {
+    color: #80684d;
+
+    font-size: 0.8rem;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detail-info-item span {
+    color: #3e2f20;
+    font-size: 1rem;
+}
+
+/* =========================================================
+   DETAIL CARDS
+   ========================================================= */
+
+.detail-card {
+    padding: 20px;
+
+    border: 1px solid #d6b98c;
+    border-radius: 10px;
+
+    background-color: #fff8e7;
+
+    box-shadow: 0 3px 10px rgba(80, 50, 20, 0.05);
+}
+
+.detail-card p {
+    margin: 0;
+
+    color: #5c4630;
+
+    font-size: 0.98rem;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   INTERESTING FACTS
+   ========================================================= */
+
+.facts-list {
+    margin: 0;
+    padding-left: 22px;
+
+    color: #5c4630;
+}
+
+.facts-list li {
+    margin-bottom: 9px;
+    line-height: 1.6;
+}
+
+.facts-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   IMAGE INFORMATION
+   ========================================================= */
+
+.detail-card a {
+    color: #234d32;
+    font-weight: 600;
+}
+
+.detail-card a:hover {
+    color: #1a3a25;
+}
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.loading-state,
+.error-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 300px;
+    padding: 30px;
+
+    text-align: center;
+}
+
+.loading-state p {
+    color: #80684d;
+}
+
+.error-message {
+    margin: 0;
+
+    padding: 14px 18px;
+
+    border: 1px solid #e0b4a8;
+    border-radius: 8px;
+
+    background-color: #fff0ed;
+    color: #9a3d2e;
+}
+
+/* =========================================================
+   TABLET — SPECIES LIST
+   ========================================================= */
+
+@media (max-width: 1000px) {
+    .species-page {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .species-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+/* =========================================================
+   TABLET — SPECIES DETAIL
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .detail-page {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .detail-hero {
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .detail-image {
+        height: 260px;
+    }
+
+    .detail-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .taxonomy-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* =========================================================
+   MOBILE — BOTH PAGES
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    /* Species list */
+
+    .species-page {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .species-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+
+        margin-bottom: 24px;
+    }
+
+    .species-page h1 {
+        font-size: 2.1rem;
+    }
+
+    .add-button {
+        width: 100%;
+    }
+
+    .species-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-input,
+    .category-select {
+        width: 100%;
+    }
+
+    .species-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .card-image-wrapper {
+        height: 220px;
+    }
+
+
+    /* Species detail */
+
+     .detail-page {
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-bottom: 40px;
+    }
+
+    .detail-hero {
+        grid-template-columns: 1fr;
+        gap: 20px;
+
+        margin-bottom: 32px;
+    }
+
+    .detail-image {
+        height: 260px;
+    }
+
+    .detail-header h1 {
+        font-size: 2rem;
+    }
+
+    .detail-subtitle {
+        font-size: 1rem;
+    }
+
+    .taxonomy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-section {
+        margin-bottom: 28px;
+    }
+
+    .detail-section h2 {
+        font-size: 1.3rem;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    /* Species list */
+
+    .species-page {
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: 35px;
+    }
+
+    .species-page h1 {
+        font-size: 1.8rem;
+    }
+
+    .species-page .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .card-image-wrapper {
+        height: 190px;
+    }
+
+    .card-content {
+        padding: 16px;
+    }
+
+    .species-card h2 {
+        font-size: 1.2rem;
+    }
+
+
+    /* Species detail */
+
+    .detail-page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .detail-image {
+        height: 220px;
+    }
+
+    .detail-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .detail-card {
+        padding: 16px;
+    }
+
+    .detail-card p {
+        font-size: 0.94rem;
+    }
+
+    .taxonomy-item {
+        padding: 14px 16px;
+    }
+
+    .detail-info-item {
+        padding: 14px 16px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+    .species-page h1 {
+        font-size: 1.6rem;
+    }
+
+    .card-image-wrapper {
+        height: 170px;
+    }
+
+    .detail-image {
+        height: 190px;
+    }
+
+    .detail-header h1 {
+        font-size: 1.55rem;
+    }
 }

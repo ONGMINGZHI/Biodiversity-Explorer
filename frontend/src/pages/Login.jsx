@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../utils/api";
 
 function Login() {
@@ -10,8 +10,8 @@ function Login() {
 
     const [error, setError] = useState("");
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleLogin = async (e) => {
+        e.preventDefault();
 
         setError("");
 
@@ -22,62 +22,78 @@ function Login() {
             });
 
             localStorage.setItem("token", result.token);
-            localStorage.setItem("user", JSON.stringify(result.user));
+            localStorage.setItem(
+                "user",
+                JSON.stringify(result.user)
+            );
 
             navigate("/");
+
         } catch (error) {
-            setError(error.message);
+            setError(error.message || "Login failed");
         }
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="login-container">
+            <div className="login-card">
 
-            {error && <p>{error}</p>}
+                <h2>Login</h2>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
+                {error && (
+                    <p className="login-error">
+                        {error}
+                    </p>
+                )}
 
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) =>
-                            setEmail(event.target.value)
-                        }
-                        required
-                    />
-                </div>
+                <form onSubmit={handleLogin}>
 
-                <br />
+                    <div className="form-group">
+                        <label>Email</label>
 
-                <div>
-                    <label>Password</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                            placeholder="Enter your email"
+                            required
+                        />
+                    </div>
 
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(event) =>
-                            setPassword(event.target.value)
-                        }
-                        required
-                    />
-                </div>
+                    <div className="form-group">
+                        <label>Password</label>
 
-                <br />
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
 
-                <button type="submit">
-                    Login
-                </button>
-            </form>
+                    <button type="submit">
+                        Login
+                    </button>
 
-            <p>
-                Don't have an account?{" "}
-                <Link to="/register">
-                    Register
-                </Link>
-            </p>
+                </form>
+
+                <p className="register-login">
+                    Don't have an account?{" "}
+
+                    <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                    >
+                        Register
+                    </button>
+                </p>
+
+            </div>
         </div>
     );
 }
