@@ -189,6 +189,49 @@ export const getLocations = async () => {
     return handleResponse(response);
 };
 
+export const getLocationById = async (id) => {
+    const response = await fetch(`${API_URL}/locations/${id}`);
+
+    return handleResponse(response);
+};
+
+export const createLocation = async (locationData, token) => {
+    const response = await fetch(`${API_URL}/locations`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(locationData),
+    });
+
+    return handleResponse(response);
+};
+
+export const updateLocation = async (id, locationData, token) => {
+    const response = await fetch(`${API_URL}/locations/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(locationData),
+    });
+
+    return handleResponse(response);
+};
+
+export const deleteLocation = async (id, token) => {
+    const response = await fetch(`${API_URL}/locations/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return handleResponse(response);
+};
+
 // sighting
 
 export const getSightings = async (

@@ -8,7 +8,6 @@
     padding: 40px 24px;
 }
 
-
 /* Header */
 
 .conservation-projects-header {
@@ -29,7 +28,6 @@
     color: #666;
 }
 
-
 /* Add button */
 
 .conservation-project-add-button {
@@ -45,7 +43,6 @@
 .conservation-project-add-button:hover {
     background: #256628;
 }
-
 
 /* Search */
 
@@ -71,14 +68,12 @@
     background: white;
 }
 
-
 /* Count */
 
 .conservation-project-count {
     color: #666;
     margin-bottom: 25px;
 }
-
 
 /* =========================================
    PROJECT GRID
@@ -90,7 +85,6 @@
     gap: 24px;
 }
 
-
 /* Card */
 
 .conservation-project-card {
@@ -98,15 +92,15 @@
     border: 1px solid #e3e3e3;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .conservation-project-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
-
 
 /* Card image */
 
@@ -125,7 +119,6 @@
     font-size: 50px;
 }
 
-
 /* Card content */
 
 .conservation-project-card-content {
@@ -142,7 +135,6 @@
     margin-bottom: 15px;
 }
 
-
 /* Status */
 
 .conservation-project-status {
@@ -154,7 +146,6 @@
     font-size: 13px;
     font-weight: 600;
 }
-
 
 /* Card buttons */
 
@@ -184,7 +175,6 @@
     color: #333;
 }
 
-
 /* Empty */
 
 .conservation-project-empty {
@@ -193,7 +183,6 @@
     padding: 60px 20px;
     color: #777;
 }
-
 
 /* =========================================
    ADD / EDIT PAGE
@@ -208,7 +197,6 @@
 .conservation-project-form-page h1 {
     margin-bottom: 30px;
 }
-
 
 /* Form */
 
@@ -249,7 +237,6 @@
     min-height: 150px;
 }
 
-
 /* Date row */
 
 .conservation-project-date-row {
@@ -257,7 +244,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
-
 
 /* Form buttons */
 
@@ -286,7 +272,6 @@
     background: #2e7d32;
     color: white;
 }
-
 
 /* =========================================
    DELETE SECTION
@@ -318,7 +303,6 @@
     background: #a91f1f;
 }
 
-
 /* =========================================
    DETAIL PAGE
 ========================================= */
@@ -335,7 +319,6 @@
     color: #2e7d32;
     text-decoration: none;
 }
-
 
 /* Main detail */
 
@@ -373,7 +356,6 @@
     color: #555;
 }
 
-
 /* Status */
 
 .conservation-project-detail-status {
@@ -386,14 +368,13 @@
     font-weight: 600;
 }
 
-
 /* Species section */
 
 .conservation-project-species-section {
     margin-top: 30px;
 }
 
-.conservation-project-species-grid {
+.conservation-project-gridd {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 18px;
@@ -415,7 +396,6 @@
     color: #777;
 }
 
-
 /* =========================================
    LOADING / ERROR
 ========================================= */
@@ -434,18 +414,16 @@
     color: #b3261e;
 }
 
-
 /* =========================================
    RESPONSIVE
 ========================================= */
 
 @media (max-width: 900px) {
-
     .conservation-project-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .conservation-project-species-grid {
+    .conservation-project-gridd {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -454,9 +432,7 @@
     }
 }
 
-
 @media (max-width: 600px) {
-
     .conservation-projects-header {
         flex-direction: column;
         align-items: flex-start;
@@ -470,7 +446,7 @@
         grid-template-columns: 1fr;
     }
 
-    .conservation-project-species-grid {
+    .conservation-project-gridd {
         grid-template-columns: 1fr;
     }
 

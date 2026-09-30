@@ -1,71 +1,3 @@
-.species-page {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px 50px;
-    box-sizing: border-box;
-}
-
-/* header */
-
-.species-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 30px;
-}
-
-.species-page h1 {
-    color: #4a321f;
-    font-size: 2.5rem;
-    line-height: 1.2;
-    margin: 0 0 6px;
-}
-
-.species-page .subtitle {
-    color: #80684d;
-    margin: 0;
-    font-size: 1.05rem;
-    line-height: 1.5;
-}
-
-/* =========================================================
-   ADD SPECIES BUTTON
-   ========================================================= */
-
-.add-button {
-    flex-shrink: 0;
-
-    border: none;
-    border-radius: 8px;
-
-    padding: 11px 18px;
-
-    background-color: #234d32;
-    color: white;
-
-    font-size: 0.95rem;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.add-button:hover {
-    background-color: #1a3a25;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(35, 77, 50, 0.2);
-}
-
-.add-button:active {
-    transform: translateY(0);
-}
-
 /* =========================================================
    SEARCH & FILTER
    ========================================================= */
@@ -119,29 +51,11 @@
     box-shadow: 0 0 0 3px rgba(35, 77, 50, 0.1);
 }
 
-/* =========================================================
-   SPECIES COUNT
-   ========================================================= */
-
-.species-count {
-    color: #80684d;
-    font-size: 0.9rem;
-    margin: 0 0 22px;
-}
-
-/* =========================================================
-   SPECIES GRID
-   ========================================================= */
-
-.species-grid {
+.gridd {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
 }
-
-/* =========================================================
-   SPECIES CARD
-   ========================================================= */
 
 .species-card {
     display: flex;
@@ -203,24 +117,6 @@
 /* =========================================================
    CARD CONTENT
    ========================================================= */
-
-.card-content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-
-    padding: 20px;
-}
-
-.species-card h2 {
-    margin: 0 0 6px;
-
-    color: #4a321f;
-
-    font-size: 1.35rem;
-    line-height: 1.35;
-}
-
 .scientific-name {
     margin: 0 0 12px;
 
@@ -243,160 +139,6 @@
 
 .category-tag strong {
     color: #4a321f;
-}
-
-/* =========================================================
-   CARD FOOTER
-   ========================================================= */
-
-.card-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    margin-top: auto;
-}
-
-/* =========================================================
-   VIEW DETAILS BUTTON
-   ========================================================= */
-
-.view-button {
-    display: block;
-
-    padding: 10px 14px;
-
-    border-radius: 7px;
-
-    background-color: #234d32;
-    color: white;
-
-    text-align: center;
-    text-decoration: none;
-
-    font-size: 0.92rem;
-    font-weight: 600;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.view-button:hover {
-    background-color: #1a3a25;
-    color: white;
-
-    transform: translateY(-1px);
-}
-
-/* =========================================================
-   ADMIN EDIT BUTTON
-   ========================================================= */
-
-.admin-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.edit-button {
-    width: 100%;
-
-    padding: 9px 14px;
-
-    border: 1px solid #b99765;
-    border-radius: 7px;
-
-    background-color: transparent;
-    color: #5c4630;
-
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.edit-button:hover {
-    background-color: #eadfc9;
-    border-color: #8d7048;
-}
-
-/* =========================================================
-   NO RESULTS
-   ========================================================= */
-
-.no-results {
-    grid-column: 1 / -1;
-
-    padding: 50px 20px;
-
-    border: 1px dashed #d6b98c;
-    border-radius: 12px;
-
-    background-color: #fff8e7;
-
-    text-align: center;
-}
-
-.no-results p {
-    margin: 0;
-    color: #80684d;
-}
-
-/* =========================================================
-   SPECIES DETAIL PAGE
-   ========================================================= */
-
-.detail-page {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 32px 60px;
-    box-sizing: border-box;
-}
-
-/* =========================================================
-   DETAIL BACK LINK
-   ========================================================= */
-
-.back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    margin-bottom: 24px;
-
-    color: #234d32;
-    text-decoration: none;
-
-    font-size: 0.95rem;
-    font-weight: 600;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.back-link:hover {
-    color: #1a3a25;
-    transform: translateX(-2px);
-}
-
-/* =========================================================
-   DETAIL HERO
-   ========================================================= */
-
-.detail-hero {
-    display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
-
-    gap: 36px;
-    align-items: center;
-
-    margin-bottom: 42px;
 }
 
 /* =========================================================
@@ -424,63 +166,6 @@
     height: 100%;
 
     object-fit: cover;
-}
-
-/* =========================================================
-   DETAIL HEADER
-   ========================================================= */
-
-.detail-header {
-    min-width: 0;
-}
-
-.detail-header h1 {
-    margin: 0 0 10px;
-
-    color: #4a321f;
-
-    font-size: 2.8rem;
-    line-height: 1.15;
-}
-
-.detail-subtitle {
-    margin: 0;
-
-    color: #80684d;
-
-    font-size: 1.15rem;
-    font-style: italic;
-
-    line-height: 1.5;
-}
-
-/* =========================================================
-   DETAIL CONTENT
-   ========================================================= */
-
-.detail-content {
-    width: 100%;
-}
-
-.detail-section {
-    margin-bottom: 34px;
-}
-
-.detail-section h2 {
-    margin: 0 0 14px;
-
-    color: #4a321f;
-
-    font-size: 1.45rem;
-    line-height: 1.3;
-}
-
-.detail-section h3 {
-    margin: 0 0 8px;
-
-    color: #4a321f;
-
-    font-size: 1.15rem;
 }
 
 /* =========================================================
@@ -536,67 +221,48 @@
     font-weight: 600;
 }
 
-/* =========================================================
-   DETAIL BASIC INFORMATION
-   ========================================================= */
-
-.detail-info-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+.habitat-search-wrapper {
+    position: relative;
 }
 
-.detail-info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    padding: 16px 18px;
-
+.habitat-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: 220px;
+    overflow-y: auto;
+    background-color: white;
     border: 1px solid #d6b98c;
-    border-radius: 10px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.15);
+}
 
+.habitat-result {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    background-color: white;
+    color: #4a321f;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.habitat-result:hover {
     background-color: #fff8e7;
+    color: #234d32;
 }
 
-.detail-info-item strong {
-    color: #80684d;
-
-    font-size: 0.8rem;
-
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.detail-info-item span {
-    color: #3e2f20;
-    font-size: 1rem;
-}
-
-/* =========================================================
-   DETAIL CARDS
-   ========================================================= */
-
-.detail-card {
-    padding: 20px;
-
-    border: 1px solid #d6b98c;
-    border-radius: 10px;
-
-    background-color: #fff8e7;
-
-    box-shadow: 0 3px 10px rgba(80, 50, 20, 0.05);
-}
-
-.detail-card p {
+.habitat-no-results {
+    padding: 10px 12px;
     margin: 0;
-
-    color: #5c4630;
-
-    font-size: 0.98rem;
-    line-height: 1.7;
+    color: #aa7814;
+    font-size: 0.9rem;
 }
-
 /* =========================================================
    INTERESTING FACTS
    ========================================================= */
@@ -616,63 +282,17 @@
 .facts-list li:last-child {
     margin-bottom: 0;
 }
-
-/* =========================================================
-   IMAGE INFORMATION
-   ========================================================= */
-
-.detail-card a {
-    color: #234d32;
-    font-weight: 600;
-}
-
-.detail-card a:hover {
-    color: #1a3a25;
-}
-
-/* =========================================================
-   LOADING / ERROR
-   ========================================================= */
-
-.loading-state,
-.error-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-height: 300px;
-    padding: 30px;
-
-    text-align: center;
-}
-
-.loading-state p {
-    color: #80684d;
-}
-
-.error-message {
-    margin: 0;
-
-    padding: 14px 18px;
-
-    border: 1px solid #e0b4a8;
-    border-radius: 8px;
-
-    background-color: #fff0ed;
-    color: #9a3d2e;
-}
-
 /* =========================================================
    TABLET — SPECIES LIST
    ========================================================= */
 
 @media (max-width: 1000px) {
-    .species-page {
+    .pageee {
         padding-left: 24px;
         padding-right: 24px;
     }
 
-    .species-grid {
+    .gridd {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 20px;
     }
@@ -683,7 +303,6 @@
    ========================================================= */
 
 @media (max-width: 900px) {
-
     .detail-page {
         padding-left: 24px;
         padding-right: 24px;
@@ -712,15 +331,14 @@
    ========================================================= */
 
 @media (max-width: 700px) {
-
     /* Species list */
 
-    .species-page {
+    .pageee {
         padding-left: 18px;
         padding-right: 18px;
     }
 
-    .species-header {
+    .headerrrr {
         flex-direction: column;
         align-items: stretch;
         gap: 16px;
@@ -728,25 +346,19 @@
         margin-bottom: 24px;
     }
 
-    .species-page h1 {
+    .pageee h1 {
         font-size: 2.1rem;
     }
 
     .add-button {
         width: 100%;
     }
-
-    .species-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-
     .search-input,
     .category-select {
         width: 100%;
     }
 
-    .species-grid {
+    .gridd {
         grid-template-columns: 1fr;
         gap: 18px;
     }
@@ -755,10 +367,9 @@
         height: 220px;
     }
 
-
     /* Species detail */
 
-     .detail-page {
+    .detail-page {
         padding-left: 18px;
         padding-right: 18px;
         padding-bottom: 40px;
@@ -805,20 +416,19 @@
    ========================================================= */
 
 @media (max-width: 480px) {
-
     /* Species list */
 
-    .species-page {
+    .pageee {
         padding-left: 14px;
         padding-right: 14px;
         padding-bottom: 35px;
     }
 
-    .species-page h1 {
+    .pageee h1 {
         font-size: 1.8rem;
     }
 
-    .species-page .subtitle {
+    .pageee .subtitle {
         font-size: 0.95rem;
     }
 
@@ -826,14 +436,13 @@
         height: 190px;
     }
 
-    .card-content {
+    .contenttt {
         padding: 16px;
     }
 
-    .species-card h2 {
+    .carddd h2 {
         font-size: 1.2rem;
     }
-
 
     /* Species detail */
 
@@ -872,7 +481,7 @@
    ========================================================= */
 
 @media (max-width: 360px) {
-    .species-page h1 {
+    .pageee h1 {
         font-size: 1.6rem;
     }
 

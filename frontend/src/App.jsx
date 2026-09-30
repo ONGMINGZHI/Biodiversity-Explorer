@@ -12,6 +12,8 @@ import AddSpecies from "./pages/Species/AddSpecies";
 import EditSpecies from "./pages/Species/EditSpecies";
 import SpeciesDetail from "./pages/Species/SpeciesDetail";
 import Locations from "./pages/Locations/Locations";
+import AddLocation from "./pages/Locations/AddLocation";
+import EditLocation from "./pages/Locations/EditLocation";
 import Sightings from "./pages/Sightings/Sightings";
 import AddSighting from "./pages/Sightings/AddSighting";
 import EditSighting from "./pages/Sightings/EditSighting";
@@ -25,47 +27,50 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* all can use */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                {/* only login can use */}
                 <Route
                     path="/*"
                     element={
                         <ProtectedRoute>
-                            <>
-                                <Navbar />
+                            <Navbar />
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/species" element={<Species />} />
+                                <Route path="/species/new" element={<AddSpecies />} />
+                                <Route path="/species/edit/:id" element={<EditSpecies />} />
+                                <Route path="/species/:id" element={<SpeciesDetail />} />
 
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
+                                <Route path="/locations" element={<Locations />} />
+                                <Route path="/locations/add" element={<AddLocation />} />
+                                <Route path="/locations/edit/:id" element={<EditLocation />} />
 
-                                    <Route path="/species" element={<Species />} />
+                                <Route path="/sightings" element={<Sightings />} />
+                                <Route path="/sightings/new" element={<AddSighting />} />
+                                <Route path="/sightings/edit/:id" element={<EditSighting />} />
+                                <Route path="/sightings/:id" element={<SightingDetail />} />
 
-                                    <Route path="/species/new" element={<AddSpecies />} />
+                                <Route
+                                    path="/conservation-projects"
+                                    element={<ConservationProjects />}
+                                />
 
-                                    <Route path="/species/edit/:id" element={<EditSpecies />} />
+                                <Route
+                                    path="/conservation-projects/new"
+                                    element={<AddConservationProject />}
+                                />
 
-                                    <Route path="/species/:id" element={<SpeciesDetail />} />
+                                <Route
+                                    path="/conservation-projects/edit/:id"
+                                    element={<EditConservationProject />}
+                                />
 
-                                    <Route path="/locations" element={<Locations />} />
-
-                                    <Route path="/sightings" element={<Sightings />} />
-
-                                    <Route path="/sightings/new" element={<AddSighting />} />
-
-                                    <Route path="/sightings/edit/:id" element={<EditSighting />} />
-
-                                    <Route path="/sightings/:id" element={<SightingDetail />} />
-                                    <Route path="/conservation-projects" element={<ConservationProjects />} />
-
-                                    <Route path="/conservation-projects/new" element={<AddConservationProject />} />
-
-                                    <Route path="/conservation-projects/:id" element={<ConservationProjectDetail />} />
-
-                                    <Route path="/conservation-projects/edit/:id" element={<EditConservationProject />} />
-                                </Routes>
-                            </>
+                                <Route
+                                    path="/conservation-projects/:id"
+                                    element={<ConservationProjectDetail />}
+                                />
+                            </Routes>
                         </ProtectedRoute>
                     }
                 />
@@ -73,5 +78,4 @@ function App() {
         </BrowserRouter>
     );
 }
-
 export default App;

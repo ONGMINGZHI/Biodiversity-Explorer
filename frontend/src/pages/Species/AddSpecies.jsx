@@ -7,7 +7,6 @@ function AddSpecies() {
 
     const handleSubmit = async (data) => {
         await createSpecies(data);
-
         navigate("/species");
     };
 

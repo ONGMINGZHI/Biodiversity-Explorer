@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import SpeciesForm from "../../components/SpeciesForm";
-
-import {
-    getSpeciesById,
-    updateSpecies,
-    deleteSpecies,
-} from "../../utils/api";
-import "./Species.css"
-
+import { getSpeciesById, updateSpecies, deleteSpecies } from "../../utils/api";
+import "./Species.css";
 
 function EditSpecies() {
     const { id } = useParams();
@@ -23,10 +16,9 @@ function EditSpecies() {
         const loadSpecies = async () => {
             try {
                 const data = await getSpeciesById(id);
-
                 setSpecies(data);
             } catch (error) {
-                setError(error.message);
+                setError(error.message || "Failed to load species.");
             } finally {
                 setLoading(false);
             }
@@ -37,13 +29,11 @@ function EditSpecies() {
 
     const handleSubmit = async (data) => {
         await updateSpecies(id, data);
-
         navigate(`/species/${id}`);
     };
 
     const handleDelete = async () => {
         await deleteSpecies(id);
-
         navigate("/species");
     };
 
@@ -58,9 +48,7 @@ function EditSpecies() {
     if (error) {
         return (
             <div className="page error-state">
-                <p className="error-message">
-                    ⚠️ {error}
-                </p>
+                <p className="error-message">⚠️ {error}</p>
             </div>
         );
     }
@@ -68,22 +56,12 @@ function EditSpecies() {
     if (!species) {
         return (
             <div className="page error-state">
-                <p className="error-message">
-                    Species not found.
-                </p>
+                <p className="error-message">Species not found.</p>
             </div>
         );
     }
 
-    return (
-        <SpeciesForm
-            initialData={species}
-            onSubmit={handleSubmit}
-            onDelete={handleDelete}
-            onCancel={() => navigate(`/species/${id}`)}
-            editMode={true}
-        />
-    );
+    return <SpeciesForm initialData={species} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={() => navigate(`/species/${id}`)} editMode={true} />;
 }
 
 export default EditSpecies;

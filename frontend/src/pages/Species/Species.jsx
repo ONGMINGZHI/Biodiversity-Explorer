@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getSpecies } from "../../utils/api";
 import "./Species.css";
-
+import "../../App.css";
 function Species() {
     const [species, setSpecies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,11 +23,7 @@ function Species() {
                 setLoading(true);
                 setError("");
 
-                const data = await getSpecies(
-                    search,
-                    kingdom,
-                    className
-                );
+                const data = await getSpecies(search, kingdom, className);
 
                 setSpecies(data);
             } catch (err) {
@@ -68,31 +64,23 @@ function Species() {
     if (error) {
         return (
             <div className="page error-state">
-                <p className="error-message">
-                    ⚠️ Error: {error}
-                </p>
+                <p className="error-message">⚠️ Error: {error}</p>
             </div>
         );
     }
 
     return (
-        <div className="page species-page">
-
+        <div className="page pageee">
             {/* Header */}
-            <div className="species-header">
+            <div className="headerrrr">
                 <div>
                     <h1>Species</h1>
 
-                    <p className="subtitle">
-                        Explore the rich biodiversity of Malaysia.
-                    </p>
+                    <p className="subtitle">Explore the rich biodiversity of Malaysia.</p>
                 </div>
 
                 {isAdmin && (
-                    <button
-                        className="add-button"
-                        onClick={() => navigate("/species/new")}
-                    >
+                    <button className="add-button" onClick={() => navigate("/species/new")}>
                         + Add Species
                     </button>
                 )}
@@ -100,171 +88,92 @@ function Species() {
 
             {/* Search and Taxonomy Filters */}
             <div className="species-controls">
+                <input type="text" placeholder="Search species..." value={search} onChange={handleSearch} className="search-input" />
 
-                <input
-                    type="text"
-                    placeholder="Search species..."
-                    value={search}
-                    onChange={handleSearch}
-                    className="search-input"
-                />
+                <select value={kingdom} onChange={handleKingdom} className="category-select">
+                    <option value="All">All Kingdoms</option>
 
-                <select
-                    value={kingdom}
-                    onChange={handleKingdom}
-                    className="category-select"
-                >
-                    <option value="All">
-                        All Kingdoms
-                    </option>
+                    <option value="Animalia">Animalia</option>
 
-                    <option value="Animalia">
-                        Animalia
-                    </option>
+                    <option value="Plantae">Plantae</option>
 
-                    <option value="Plantae">
-                        Plantae
-                    </option>
-
-                    <option value="Fungi">
-                        Fungi
-                    </option>
+                    <option value="Fungi">Fungi</option>
                 </select>
 
-                <select
-                    value={className}
-                    onChange={handleClassName}
-                    className="category-select"
-                >
-                    <option value="All">
-                        All Classes
-                    </option>
+                <select value={className} onChange={handleClassName} className="category-select">
+                    <option value="All">All Classes</option>
 
-                    <option value="Mammalia">
-                        Mammalia
-                    </option>
+                    <option value="Mammalia">Mammalia</option>
 
-                    <option value="Aves">
-                        Aves
-                    </option>
+                    <option value="Aves">Aves</option>
 
-                    <option value="Reptilia">
-                        Reptilia
-                    </option>
+                    <option value="Reptilia">Reptilia</option>
 
-                    <option value="Amphibia">
-                        Amphibia
-                    </option>
+                    <option value="Amphibia">Amphibia</option>
 
-                    <option value="Actinopterygii">
-                        Actinopterygii
-                    </option>
+                    <option value="Actinopterygii">Actinopterygii</option>
 
-                    <option value="Magnoliopsida">
-                        Magnoliopsida
-                    </option>
+                    <option value="Magnoliopsida">Magnoliopsida</option>
                 </select>
-
             </div>
 
             {/* Species Count */}
-            <p className="species-count">
-                {species.length} species found
-            </p>
+            <p className="countttt">{species.length} species found</p>
 
             {/* Species Cards Grid */}
-            <div className="species-grid">
-
+            <div className="gridd">
                 {species.length > 0 ? (
-
                     species.map((item) => (
-
-                        <div
-                            className="species-card"
-                            key={item._id}
-                        >
-
+                        <div className="carddd" key={item._id}>
                             {item.imageUrl && (
                                 <div className="card-image-wrapper">
-
                                     <img
                                         src={item.imageUrl}
                                         alt={item.name}
                                         className="species-card-image"
                                         onError={(e) => {
-                                            e.currentTarget.style.display =
-                                                "none";
+                                            e.currentTarget.style.display = "none";
                                         }}
                                     />
-
                                 </div>
                             )}
 
-                            <div className="card-content">
-
+                            <div className="contenttt">
                                 <h2>{item.name}</h2>
 
-                                <p className="scientific-name">
-                                    {item.scientificName}
+                                <p className="scientific-name">{item.scientificName}</p>
+
+                                <p className="category-tag">
+                                    <strong>Kingdom:</strong> {item.kingdom}
                                 </p>
 
                                 <p className="category-tag">
-                                    <strong>Kingdom:</strong>{" "}
-                                    {item.kingdom}
+                                    <strong>Class:</strong> {item.className}
                                 </p>
 
-                                <p className="category-tag">
-                                    <strong>Class:</strong>{" "}
-                                    {item.className}
-                                </p>
-
-                                <div className="card-footer">
-
-                                    <Link
-                                        to={`/species/${item._id}`}
-                                        className="view-button"
-                                    >
+                                <div className="footerr">
+                                    <Link to={`/species/${item._id}`} className="view-button">
                                         View Details →
                                     </Link>
 
                                     {/* Admin Controls */}
                                     {isAdmin && (
                                         <div className="admin-buttons">
-
-                                            <button
-                                                className="edit-button"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/species/edit/${item._id}`
-                                                    )
-                                                }
-                                            >
+                                            <button className="edit-button" onClick={() => navigate(`/species/edit/${item._id}`)}>
                                                 Edit
                                             </button>
-
                                         </div>
                                     )}
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     ))
-
                 ) : (
-
                     <div className="no-results">
-                        <p>
-                            No species found matching your criteria.
-                        </p>
+                        <p>No species found matching your criteria.</p>
                     </div>
-
                 )}
-
             </div>
-
         </div>
     );
 }

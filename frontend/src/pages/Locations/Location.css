@@ -1,20 +1,4 @@
-.locations-page {
-    padding-bottom: 50px;
-}
-
-.locations-page h1 {
-    color: #4a321f;
-    font-size: 2.5rem;
-    margin: 0 0 5px 0;
-}
-
-.locations-subtitle {
-    color: #80684d;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-}
-
-/* Map container */
+/* Map */
 .locations-map-container {
     width: 100%;
     height: 500px;
@@ -29,53 +13,6 @@
     width: 100%;
     height: 100%;
 }
-
-/* Location list */
-.locations-list-section h2 {
-    color: #4a321f;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-}
-
-.locations-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.location-card {
-    background-color: #fff8e7;
-    border: 1px solid #d6b98c;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
-}
-
-.location-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(80, 50, 20, 0.15);
-}
-
-.location-card h3 {
-    color: #4a321f;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-}
-
-.location-card p {
-    color: #5c4630;
-    margin: 7px 0;
-    line-height: 1.5;
-}
-
-.location-card strong {
-    color: #234d32;
-}
-
 /* Map popup */
 .location-popup h3 {
     color: #4a321f;
@@ -87,18 +24,32 @@
     color: #5c4630;
 }
 
-/* Loading and error states */
-.locations-loading,
-.locations-error {
-    min-height: 50vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.1rem;
+.location-state {
+    margin: 0 0 12px;
+
+    color: #80684d;
+
+    font-size: 0.92rem;
+    font-style: italic;
+
+    line-height: 1.4;
 }
 
-.locations-error {
-    color: #a93226;
+.location-description {
+    margin: 0 0 20px;
+
+    color: #5c4630;
+
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+.location-coordinate {
+    margin: 0 0 20px;
+
+    color: #5c4630;
+
+    font-size: 0.88rem;
+    line-height: 1.5;
 }
 
 /* Responsive */
