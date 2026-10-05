@@ -1,306 +1,533 @@
 import { useEffect, useState } from "react";
 import { getHabitats, getConservationStatuses } from "../utils/api";
 import "../App.css";
+import "../pages/Species/Species.css";
 
 const taxonomyOptions = {
     Animalia: {
         Chordata: {
             Mammalia: {
-                Primates: {
-                    Hominidae: ["Homo", "Pongo"],
-                    Cercopithecidae: ["Macaca", "Trachypithecus", "Presbytis"],
-                    Hylobatidae: ["Hylobates", "Symphalangus"],
-                    Tarsiidae: ["Tarsius"],
-                },
                 Carnivora: {
-                    Felidae: ["Panthera", "Neofelis", "Prionailurus", "Catopuma"],
-                    Canidae: ["Cuon", "Vulpes"],
-                    Ursidae: ["Helarctos"],
-                    Mustelidae: ["Aonyx", "Lutra", "Martes", "Mustela", "Helictis"],
-                    Viverridae: ["Arctictis", "Paradoxurus", "Viverra", "Cynogale"],
-                    Herpestidae: ["Herpestes"],
+                    Felidae: {
+                        Panthera: ["Panthera"],
+                        Prionailurus: ["Prionailurus"],
+                        Neofelis: ["Neofelis"],
+                        Pardofelis: ["Pardofelis"],
+                    },
+                    Mustelidae: {
+                        Aonyx: ["Aonyx"],
+                        Lutra: ["Lutra"],
+                        Martes: ["Martes"],
+                        Arctonyx: ["Arctonyx"],
+                    },
+                    Viverridae: {
+                        Viverra: ["Viverra"],
+                        Paradoxurus: ["Paradoxurus"],
+                        Prionodon: ["Prionodon"],
+                        Arctictis: ["Arctictis"],
+                    },
+                    Ursidae: {
+                        Helarctos: ["Helarctos"],
+                    },
+                    Canidae: {
+                        Cuon: ["Cuon"],
+                    },
+                    Herpestidae: {
+                        Herpestes: ["Herpestes"],
+                    },
+                    Phasianidae: {
+                        "": [],
+                    },
+                },
+                Primates: {
+                    Hylobatidae: {
+                        Hylobates: ["Hylobates"],
+                        Symphalangus: ["Symphalangus"],
+                    },
+                    Cercopithecidae: {
+                        Presbytis: ["Presbytis"],
+                        Macaca: ["Macaca"],
+                        Trachypithecus: ["Trachypithecus"],
+                        Nasalis: ["Nasalis"],
+                        "Rhinopithecus": ["Rhinopithecus"],
+                    },
+                    Lorisidae: {
+                        Nycticebus: ["Nycticebus"],
+                    },
+                    Tarsiidae: {
+                        Carlito: ["Carlito"],
+                    },
+                    Pitheciidae: {
+                        Pithecia: ["Pithecia"],
+                    },
                 },
                 Proboscidea: {
-                    Elephantidae: ["Elephas"],
+                    Elephantidae: {
+                        Elephas: ["Elephas"],
+                    },
                 },
                 Perissodactyla: {
-                    Rhinocerotidae: ["Dicerorhinus"],
-                    Tapiridae: ["Tapirus"],
+                    Rhinocerotidae: {
+                        Dicerorhinus: ["Dicerorhinus"],
+                    },
                 },
                 Artiodactyla: {
-                    Bovidae: ["Capricornis", "Bos"],
-                    Cervidae: ["Rusa", "Muntiacus", "Axis", "Cervus"],
-                    Suidae: ["Sus"],
-                    Tragulidae: ["Tragulus"],
-                },
-                Chiroptera: {
-                    Pteropodidae: ["Pteropus", "Cynopterus", "Eonycteris"],
-                    Vespertilionidae: ["Pipistrellus", "Myotis", "Kerivoula"],
-                    Rhinolophidae: ["Rhinolophus"],
-                    Hipposideridae: ["Hipposideros"],
+                    Bovidae: {
+                        Bos: ["Bos"],
+                        Capricornis: ["Capricornis"],
+                    },
+                    Cervidae: {
+                        Rusa: ["Rusa"],
+                        Muntiacus: ["Muntiacus"],
+                        Axis: ["Axis"],
+                    },
+                    Suidae: {
+                        Sus: ["Sus"],
+                        Babyrousa: ["Babyrousa"],
+                    },
+                    Tragulidae: {
+                        Tragulus: ["Tragulus"],
+                    },
                 },
                 Rodentia: {
-                    Sciuridae: ["Callosciurus", "Ratufa", "Sundasciurus"],
-                    Muridae: ["Rattus", "Maxomys"],
-                    Hystricidae: ["Hystrix"],
+                    Sciuridae: {
+                        Callosciurus: ["Callosciurus"],
+                        Ratufa: ["Ratufa"],
+                        Sundasciurus: ["Sundasciurus"],
+                        Petaurista: ["Petaurista"],
+                    },
+                    Muridae: {
+                        Rattus: ["Rattus"],
+                        Maxomys: ["Maxomys"],
+                    },
+                },
+                Chiroptera: {
+                    Pteropodidae: {
+                        Pteropus: ["Pteropus"],
+                        Acerodon: ["Acerodon"],
+                        Cynopterus: ["Cynopterus"],
+                    },
+                    Rhinolophidae: {
+                        Rhinolophus: ["Rhinolophus"],
+                    },
                 },
                 Pholidota: {
-                    Manidae: ["Manis"],
+                    Manidae: {
+                        Manis: ["Manis"],
+                    },
                 },
-                Lagomorpha: {
-                    Leporidae: ["Lepus"],
-                },
-            },
-            Aves: {
-                Accipitriformes: {
-                    Accipitridae: ["Haliaeetus", "Spilornis", "Ictinaetus", "Nisaetus"],
-                },
-                Falconiformes: {
-                    Falconidae: ["Falco"],
-                },
-                Strigiformes: {
-                    Strigidae: ["Otus", "Glaucidium", "Strix"],
-                    Tytonidae: ["Tyto"],
-                },
-                Bucerotiformes: {
-                    Bucerotidae: ["Buceros", "Anthracoceros", "Rhyticeros"],
-                },
-                Piciformes: {
-                    Picidae: ["Dinopium", "Chrysophlegma", "Picus"],
-                },
-                Psittaciformes: {
-                    Psittaculidae: ["Psittacula", "Loriculus"],
-                },
-                Passeriformes: {
-                    Muscicapidae: ["Copsychus", "Cyornis"],
-                    Pycnonotidae: ["Pycnonotus"],
-                    Timaliidae: ["Stachyris"],
-                    Nectariniidae: ["Cinnyris", "Arachnothera"],
-                    Dicruridae: ["Dicrurus"],
-                    Corvidae: ["Dendrocitta", "Corvus"],
-                    Artamidae: ["Artamus"],
-                },
-                Galliformes: {
-                    Phasianidae: ["Lophura", "Argusianus"],
-                },
-                Anseriformes: {
-                    Anatidae: ["Anas", "Dendrocygna"],
-                },
-                Gruiformes: {
-                    Rallidae: ["Amaurornis", "Gallirallus"],
-                },
-                Pelecaniformes: {
-                    Ardeidae: ["Ardea", "Egretta", "Nycticorax"],
-                },
-                Charadriiformes: {
-                    Scolopacidae: ["Tringa", "Calidris"],
-                    Charadriidae: ["Charadrius"],
-                },
-                Coraciiformes: {
-                    Alcedinidae: ["Alcedo", "Halcyon"],
+                Scandentia: {
+                    Tupaiidae: {
+                        Tupaia: ["Tupaia"],
+                    },
                 },
             },
-            Reptilia: {
-                Testudines: {
-                    Testudinidae: ["Manouria"],
-                    Geoemydidae: ["Cuora", "Heosemys", "Malayemys"],
-                    Trionychidae: ["Pelochelys", "Dogania"],
-                    Cheloniidae: ["Chelonia", "Eretmochelys", "Lepidochelys"],
-                },
-                Squamata: {
-                    Pythonidae: ["Python"],
-                    Viperidae: ["Trimeresurus", "Daboia"],
-                    Elapidae: ["Naja", "Bungarus", "Ophiophagus"],
-                    Colubridae: ["Ptyas", "Ahaetulla", "Dendrelaphis"],
-                    Agamidae: ["Draco", "Bronchocela"],
-                    Gekkonidae: ["Gekko", "Cyrtodactylus"],
-                    Varanidae: ["Varanus"],
-                    Scincidae: ["Eutropis", "Sphenomorphus"],
-                },
-                Crocodylia: {
-                    Crocodylidae: ["Crocodylus"],
-                },
-            },
-            Amphibia: {
-                Anura: {
-                    Ranidae: ["Rana", "Hylarana"],
-                    Dicroglossidae: ["Fejervarya", "Limnonectes"],
-                    Rhacophoridae: ["Rhacophorus", "Polypedates"],
-                    Bufonidae: ["Duttaphrynus"],
-                    Microhylidae: ["Microhyla"],
-                },
-                Gymnophiona: {
-                    Ichthyophiidae: ["Ichthyophis"],
-                },
-            },
+
             Actinopterygii: {
+                Osteoglossiformes: {
+                    Osteoglossidae: {
+                        Scleropages: ["Scleropages"],
+                    },
+                    Notopteridae: {
+                        Notopterus: ["Notopterus"],
+                    },
+                },
                 Cypriniformes: {
-                    Cyprinidae: ["Barbodes", "Osteochilus", "Tor"],
-                    Cobitidae: ["Acantopsis"],
+                    Cyprinidae: {
+                        Tor: ["Tor"],
+                        Barbonymus: ["Barbonymus"],
+                        Rasbora: ["Rasbora"],
+                    },
                 },
                 Siluriformes: {
-                    Bagridae: ["Hemibagrus", "Mystus"],
-                    Pangasiidae: ["Pangasianodon"],
-                    Siluridae: ["Kryptopterus"],
+                    Pangasiidae: {
+                        Pangasianodon: ["Pangasianodon"],
+                    },
+                    Bagridae: {
+                        Mystus: ["Mystus"],
+                    },
                 },
                 Perciformes: {
-                    Cichlidae: ["Oreochromis"],
-                    Osphronemidae: ["Betta", "Trichopodus"],
-                    Serranidae: ["Epinephelus"],
+                    Osphronemidae: {
+                        Betta: ["Betta"],
+                        Trichopodus: ["Trichopodus"],
+                    },
                 },
-                Anabantiformes: {
-                    Channidae: ["Channa"],
+                Synbranchiformes: {
+                    Synbranchidae: {
+                        Monopterus: ["Monopterus"],
+                    },
                 },
-                Osteoglossiformes: {
-                    Notopteridae: ["Notopterus"],
+            },
+
+            Amphibia: {
+                Anura: {
+                    Bufonidae: {
+                        Phrynoidis: ["Phrynoidis"],
+                        Duttaphrynus: ["Duttaphrynus"],
+                    },
+                    Ranidae: {
+                        Amolops: ["Amolops"],
+                        Hylarana: ["Hylarana"],
+                        Odorrana: ["Odorrana"],
+                    },
+                    Rhacophoridae: {
+                        Rhacophorus: ["Rhacophorus"],
+                        Polypedates: ["Polypedates"],
+                        Kurixalus: ["Kurixalus"],
+                    },
+                    Microhylidae: {
+                        Microhyla: ["Microhyla"],
+                        Kaloula: ["Kaloula"],
+                    },
+                    Dicroglossidae: {
+                        Fejervarya: ["Fejervarya"],
+                        Limnonectes: ["Limnonectes"],
+                    },
+                },
+                Gymnophiona: {
+                    Ichthyophiidae: {
+                        Ichthyophis: ["Ichthyophis"],
+                    },
+                },
+            },
+
+            Reptilia: {
+                Squamata: {
+                    Pythonidae: {
+                        Python: ["Python"],
+                    },
+                    Varanidae: {
+                        Varanus: ["Varanus"],
+                    },
+                    Elapidae: {
+                        Naja: ["Naja"],
+                        Ophiophagus: ["Ophiophagus"],
+                        Bungarus: ["Bungarus"],
+                    },
+                    Viperidae: {
+                        Trimeresurus: ["Trimeresurus"],
+                    },
+                    Colubridae: {
+                        Ahaetulla: ["Ahaetulla"],
+                        Boiga: ["Boiga"],
+                    },
+                    Agamidae: {
+                        Draco: ["Draco"],
+                        Gonocephalus: ["Gonocephalus"],
+                    },
+                    Gekkonidae: {
+                        Gekko: ["Gekko"],
+                        Cyrtodactylus: ["Cyrtodactylus"],
+                    },
+                },
+                Testudines: {
+                    Testudinidae: {
+                        Manouria: ["Manouria"],
+                    },
+                    Geoemydidae: {
+                        Batagur: ["Batagur"],
+                        Cuora: ["Cuora"],
+                        Heosemys: ["Heosemys"],
+                    },
+                    Cheloniidae: {
+                        Chelonia: ["Chelonia"],
+                        Eretmochelys: ["Eretmochelys"],
+                        Lepidochelys: ["Lepidochelys"],
+                    },
+                    Dermochelyidae: {
+                        Dermochelys: ["Dermochelys"],
+                    },
+                    Trionychidae: {
+                        Pelochelys: ["Pelochelys"],
+                        Dogania: ["Dogania"],
+                    },
+                },
+                Crocodylia: {
+                    Crocodylidae: {
+                        Crocodylus: ["Crocodylus"],
+                    },
+                },
+            },
+
+            Aves: {
+                Passeriformes: {
+                    Eurylaimidae: {
+                        Eurylaimus: ["Eurylaimus"],
+                        Cymbirhynchus: ["Cymbirhynchus"],
+                    },
+                    Pittidae: {
+                        Pitta: ["Pitta"],
+                    },
+                    Muscicapidae: {
+                        Ficedula: ["Ficedula"],
+                        Copsychus: ["Copsychus"],
+                    },
+                    Pycnonotidae: {
+                        Pycnonotus: ["Pycnonotus"],
+                        Alophoixus: ["Alophoixus"],
+                    },
+                    Nectariniidae: {
+                        Arachnothera: ["Arachnothera"],
+                        Cinnyris: ["Cinnyris"],
+                    },
+                    Timaliidae: {
+                        Garrulax: ["Garrulax"],
+                        Stachyris: ["Stachyris"],
+                    },
+                },
+                Bucerotiformes: {
+                    Bucerotidae: {
+                        Buceros: ["Buceros"],
+                        Anthracoceros: ["Anthracoceros"],
+                        Rhinoplax: ["Rhinoplax"],
+                    },
+                },
+                Psittaciformes: {
+                    Psittaculidae: {
+                        Psittacula: ["Psittacula"],
+                        Loriculus: ["Loriculus"],
+                    },
+                },
+                Piciformes: {
+                    Picidae: {
+                        Dinopium: ["Dinopium"],
+                        Picus: ["Picus"],
+                    },
+                },
+                Accipitriformes: {
+                    Accipitridae: {
+                        Haliaeetus: ["Haliaeetus"],
+                        Spilornis: ["Spilornis"],
+                        Ictinaetus: ["Ictinaetus"],
+                    },
+                },
+                Strigiformes: {
+                    Strigidae: {
+                        Ninox: ["Ninox"],
+                    },
+                    Tytonidae: {
+                        Tyto: ["Tyto"],
+                    },
+                },
+                Galliformes: {
+                    Phasianidae: {
+                        Lophura: ["Lophura"],
+                        Polyplectron: ["Polyplectron"],
+                    },
+                },
+                Coraciiformes: {
+                    Alcedinidae: {
+                        Alcedo: ["Alcedo"],
+                        Halcyon: ["Halcyon"],
+                    },
                 },
             },
         },
+
         Arthropoda: {
             Insecta: {
                 Lepidoptera: {
-                    Nymphalidae: ["Hypolimnas", "Junonia"],
-                    Papilionidae: ["Papilio", "Graphium"],
-                    Pieridae: ["Appias", "Delias"],
-                    Lycaenidae: ["Jamides"],
-                    Saturniidae: ["Attacus"],
-                },
-                Coleoptera: {
-                    Scarabaeidae: ["Oryctes", "Protaetia"],
-                    Lucanidae: ["Odontolabis"],
-                    Cerambycidae: ["Batocera"],
+                    Saturniidae: {
+                        Attacus: ["Attacus"],
+                        Samia: ["Samia"],
+                    },
+                    Nymphalidae: {
+                        Idea: ["Idea"],
+                        Trogonoptera: ["Trogonoptera"],
+                    },
+                    Papilionidae: {
+                        Troides: ["Troides"],
+                        Papilio: ["Papilio"],
+                    },
+                    Pieridae: {
+                        Delias: ["Delias"],
+                    },
+                    Sphingidae: {
+                        Atlas: ["Atlas"],
+                        Daphnis: ["Daphnis"],
+                    },
                 },
                 Hymenoptera: {
-                    Apidae: ["Apis", "Xylocopa"],
-                    Vespidae: ["Vespa", "Polistes"],
-                    Formicidae: ["Oecophylla", "Camponotus"],
+                    Apidae: {
+                        Apis: ["Apis"],
+                        Xylocopa: ["Xylocopa"],
+                    },
+                    Vespidae: {
+                        Vespa: ["Vespa"],
+                        Ropalidia: ["Ropalidia"],
+                    },
                 },
-                Diptera: {
-                    Culicidae: ["Aedes", "Anopheles"],
-                    Muscidae: ["Musca"],
+                Coleoptera: {
+                    Scarabaeidae: {
+                        Chalcosoma: ["Chalcosoma"],
+                        Oryctes: ["Oryctes"],
+                    },
+                    Lucanidae: {
+                        Odontolabis: ["Odontolabis"],
+                    },
                 },
                 Odonata: {
-                    Libellulidae: ["Orthetrum", "Pantala"],
-                    Coenagrionidae: ["Ischnura"],
+                    Libellulidae: {
+                        Orthetrum: ["Orthetrum"],
+                        Neurothemis: ["Neurothemis"],
+                    },
                 },
                 Orthoptera: {
-                    Acrididae: ["Valanga"],
-                    Tettigoniidae: ["Mecopoda"],
+                    Tettigoniidae: {
+                        Mecopoda: ["Mecopoda"],
+                    },
                 },
             },
             Arachnida: {
                 Araneae: {
-                    Araneidae: ["Argiope", "Nephila"],
-                    Salticidae: ["Hyllus"],
+                    Theraphosidae: {
+                        Cyriopagopus: ["Cyriopagopus"],
+                    },
+                    Salticidae: {
+                        Cosmophasis: ["Cosmophasis"],
+                    },
                 },
                 Scorpiones: {
-                    Scorpionidae: ["Heterometrus"],
+                    Scorpionidae: {
+                        Heterometrus: ["Heterometrus"],
+                    },
                 },
             },
             Malacostraca: {
                 Decapoda: {
-                    Portunidae: ["Scylla", "Portunus"],
-                    Palaemonidae: ["Macrobrachium"],
+                    Gecarcinidae: {
+                        Gecarcoidea: ["Gecarcoidea"],
+                    },
+                    Portunidae: {
+                        Scylla: ["Scylla"],
+                    },
                 },
             },
         },
+
         Mollusca: {
             Gastropoda: {
                 Stylommatophora: {
-                    Achatinidae: ["Achatina"],
+                    Achatinidae: {
+                        Achatina: ["Achatina"],
+                    },
                 },
             },
             Bivalvia: {
                 Venerida: {
-                    Veneridae: ["Meretrix"],
+                    Unionidae: {
+                        Pilsbryoconcha: ["Pilsbryoconcha"],
+                    },
                 },
             },
-        },
+        }
     },
+
     Plantae: {
         Tracheophyta: {
             Magnoliopsida: {
                 Malpighiales: {
-                    Euphorbiaceae: ["Hevea", "Macaranga"],
-                    Salicaceae: ["Flacourtia"],
+                    Rafflesiaceae: {
+                        Rafflesia: ["Rafflesia"],
+                    },
+                    Euphorbiaceae: {
+                        Hevea: ["Hevea"],
+                        Euphorbia: ["Euphorbia"],
+                    },
                 },
                 Fabales: {
-                    Fabaceae: ["Acacia", "Albizia", "Dipterocarpus"],
-                },
-                Myrtales: {
-                    Myrtaceae: ["Syzygium", "Eucalyptus"],
+                    Fabaceae: {
+                        Acacia: ["Acacia"],
+                        Albizia: ["Albizia"],
+                        Dalbergia: ["Dalbergia"],
+                    },
                 },
                 Sapindales: {
-                    Anacardiaceae: ["Mangifera"],
-                    Rutaceae: ["Citrus"],
+                    Anacardiaceae: {
+                        Mangifera: ["Mangifera"],
+                    },
+                    Meliaceae: {
+                        Aquilaria: ["Aquilaria"],
+                        Dysoxylum: ["Dysoxylum"],
+                    },
+                },
+                Myrtales: {
+                    Myrtaceae: {
+                        Syzygium: ["Syzygium"],
+                    },
                 },
                 Laurales: {
-                    Lauraceae: ["Cinnamomum", "Litsea"],
-                },
-                Arecales: {
-                    Arecaceae: ["Cocos", "Elaeis", "Calamus"],
-                },
-                Malvales: {
-                    Malvaceae: ["Durio", "Hibiscus"],
+                    Lauraceae: {
+                        Cinnamomum: ["Cinnamomum"],
+                        Litsea: ["Litsea"],
+                    },
                 },
                 Ericales: {
-                    Ericaceae: ["Rhododendron"],
-                },
-                Gentianales: {
-                    Rubiaceae: ["Coffea", "Ixora"],
-                },
-                Lamiales: {
-                    Lamiaceae: ["Ocimum"],
-                    Acanthaceae: ["Justicia"],
+                    Nepenthaceae: {
+                        Nepenthes: ["Nepenthes"],
+                    },
                 },
             },
             Liliopsida: {
+                Arecales: {
+                    Arecaceae: {
+                        Elaeis: ["Elaeis"],
+                        Calamus: ["Calamus"],
+                        Nypa: ["Nypa"],
+                    },
+                },
                 Poales: {
-                    Poaceae: ["Bambusa", "Dendrocalamus", "Imperata"],
-                    Cyperaceae: ["Cyperus"],
+                    Poaceae: {
+                        Bambusa: ["Bambusa"],
+                        Gigantochloa: ["Gigantochloa"],
+                    },
                 },
                 Zingiberales: {
-                    Zingiberaceae: ["Zingiber", "Etlingera"],
-                    Musaceae: ["Musa"],
-                    Marantaceae: ["Maranta"],
-                },
-                Arecales: {
-                    Arecaceae: ["Elaeis", "Calamus"],
-                },
-                Asparagales: {
-                    Orchidaceae: ["Dendrobium", "Bulbophyllum", "Paphiopedilum"],
-                },
-            },
-        },
-        Bryophyta: {
-            Bryopsida: {
-                Bryales: {
-                    Bryaceae: ["Bryum"],
+                    Zingiberaceae: {
+                        Zingiber: ["Zingiber"],
+                        Etlingera: ["Etlingera"],
+                    },
                 },
             },
         },
         Polypodiopsida: {
             Polypodiales: {
-                Polypodiaceae: ["Drynaria"],
-                Gleicheniaceae: ["Dicranopteris"],
+                Polypodiaceae: {
+                    Platycerium: ["Platycerium"],
+                },
             },
         },
     },
+
     Fungi: {
         Agaricomycetes: {
             Agaricales: {
-                Agaricaceae: ["Agaricus"],
-                Amanitaceae: ["Amanita"],
-                Marasmiaceae: ["Marasmius"],
+                Agaricaceae: {
+                    Agaricus: ["Agaricus"],
+                },
+                Amanitaceae: {
+                    Amanita: ["Amanita"],
+                },
+                Marasmiaceae: {
+                    Marasmius: ["Marasmius"],
+                },
             },
             Polyporales: {
-                Polyporaceae: ["Polyporus"],
-                Ganodermataceae: ["Ganoderma"],
+                Polyporaceae: {
+                    Polyporus: ["Polyporus"],
+                    Trametes: ["Trametes"],
+                },
+                Ganodermataceae: {
+                    Ganoderma: ["Ganoderma"],
+                },
             },
         },
         Ascomycetes: {
             Pezizales: {
-                Morchellaceae: ["Morchella"],
+                Morchellaceae: {
+                    Morchella: ["Morchella"],
+                },
             },
         },
     },
@@ -349,32 +576,38 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     const [error, setError] = useState("");
 
     useEffect(() => {
-        if (initialData && Object.keys(initialData).length > 0) {
-            const selectedHabitat = initialData.habitat?._id || initialData.habitat || "";
-            setFormData({
-                name: initialData.name || "",
-                scientificName: initialData.scientificName || "",
-                kingdom: initialData.kingdom || "",
-                phylum: initialData.phylum || "",
-                className: initialData.className || "",
-                order: initialData.order || "",
-                family: initialData.family || "",
-                genus: initialData.genus || "",
-                description: initialData.description || "",
-                habitat: selectedHabitat,
-                region: initialData.region || "",
-                conservationStatus: initialData.conservationStatus?._id || initialData.conservationStatus || "",
-                imageUrl: initialData.imageUrl || "",
-                imageCredit: initialData.imageCredit || "",
-                imageSource: initialData.imageSource || "",
-                imageLicense: initialData.imageLicense || "",
-                interestingFacts: Array.isArray(initialData.interestingFacts) ? initialData.interestingFacts.join("\n") : initialData.interestingFacts || "",
-            });
-            if (initialData.habitat?.name) {
-                setHabitatSearch(initialData.habitat.name);
-            }
+    if (initialData && Object.keys(initialData).length > 0) {
+        console.log("EDIT DATA:", initialData);
+
+        const selectedHabitat = initialData.habitat?._id || initialData.habitat || "";
+
+        setFormData({
+            name: initialData.name || "",
+            scientificName: initialData.scientificName || "",
+            kingdom: initialData.kingdom || "",
+            phylum: initialData.phylum || "",
+            className: initialData.className || "",
+            order: initialData.order || "",
+            family: initialData.family || "",
+            genus: initialData.genus || "",
+            description: initialData.description || "",
+            habitat: selectedHabitat,
+            region: initialData.region || "",
+            conservationStatus: initialData.conservationStatus?._id || initialData.conservationStatus || "",
+            imageUrl: initialData.imageUrl || "",
+            imageCredit: initialData.imageCredit || "",
+            imageSource: initialData.imageSource || "",
+            imageLicense: initialData.imageLicense || "",
+            interestingFacts: Array.isArray(initialData.interestingFacts)
+                ? initialData.interestingFacts.join("\n")
+                : initialData.interestingFacts || "",
+        });
+
+        if (initialData.habitat?.name) {
+            setHabitatSearch(initialData.habitat.name);
         }
-    }, [initialData]);
+    }
+}, [initialData]);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -471,16 +704,35 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
+
         if (!formData.habitat) {
             setError("Please select a habitat.");
             return;
         }
+
+        if (formData.description.length > 300) {
+            setError("Description must not exceed 300 characters.");
+            return;
+        }
+
+        const facts = formData.interestingFacts
+            .split("\n")
+            .map((fact) => fact.trim())
+            .filter((fact) => fact !== "");
+
+        if (facts.length > 5) {
+            setError("You can enter a maximum of 5 interesting facts.");
+            return;
+        }
+
+        if (facts.some((fact) => fact.length > 150)) {
+            setError("Each interesting fact must not exceed 150 characters.");
+            return;
+        }
+
         const data = {
             ...formData,
-            interestingFacts: formData.interestingFacts
-                .split("\n")
-                .map((fact) => fact.trim())
-                .filter((fact) => fact !== ""),
+            interestingFacts: facts,
         };
 
         try {
@@ -503,7 +755,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
             setError(error.message || "Failed to delete species.");
         }
     };
-
+    const DEFAULT_IMAGE = "/images/image-coming-soon.png";
     return (
         <div className="form-page">
             <div className="form-header">
@@ -519,8 +771,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
                     <div className="form-group">
                         <label htmlFor="name">Common Name *</label>
 
-                        <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} 
-                        placeholder="e.g African elephant" required />
+                        <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} placeholder="e.g African elephant" required />
                     </div>
 
                     <div className="form-group">
@@ -673,7 +924,9 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
                 <div className="form-group">
                     <label htmlFor="description">Description *</label>
 
-                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Describe this species..." required />
+                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} maxLength={300} placeholder="Describe this species..." required />
+
+                    <p className="character-count">{formData.description.length}/300 characters</p>
                 </div>
 
                 <div className="form-group">
@@ -702,28 +955,28 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
                     <input id="imageSource" name="imageSource" type="url" value={formData.imageSource} onChange={handleChange} placeholder="https://..." />
                 </div>
 
-                {formData.imageUrl && (
-                    <div className="form-group">
-                        <label>Image Preview</label>
+                <div className="form-group">
+                    <label>Image Preview</label>
 
-                        <div className="form-image-preview">
-                            <img
-                                src={formData.imageUrl}
-                                alt="Preview"
-                                onError={(event) => {
-                                    event.currentTarget.style.display = "none";
-                                }}
-                            />
-                        </div>
+                    <div className="detail-image">
+                        <img
+                            src={formData.imageUrl || DEFAULT_IMAGE}
+                            alt="Preview"
+                            onError={(event) => {
+                                event.currentTarget.src = DEFAULT_IMAGE;
+                            }}
+                        />
                     </div>
-                )}
+                </div>
 
                 <div className="form-group">
                     <label htmlFor="interestingFacts">Interesting Facts</label>
 
-                    <textarea id="interestingFacts" name="interestingFacts" value={formData.interestingFacts} onChange={handleChange} placeholder={"Enter one fact per line.\nExample: Can swim long distances.\nExample: Mainly active at night."} />
+                    <textarea id="interestingFacts" name="interestingFacts" value={formData.interestingFacts} onChange={handleChange} maxLength={750} placeholder={"Enter one fact per line.\nExample: Can swim long distances.\nExample: Mainly active at night."} />
 
-                    <small>Enter one fact per line.</small>
+                    <p className="character-count">{formData.interestingFacts.length}/750 characters</p>
+
+                    <small>Enter up to 5 facts, one fact per line.</small>
                 </div>
 
                 <div className="form-actions">

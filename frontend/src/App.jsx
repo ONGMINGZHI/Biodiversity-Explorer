@@ -14,6 +14,7 @@ import SpeciesDetail from "./pages/Species/SpeciesDetail";
 import Locations from "./pages/Locations/Locations";
 import AddLocation from "./pages/Locations/AddLocation";
 import EditLocation from "./pages/Locations/EditLocation";
+import LocationDetail from"./pages/Locations/LocationDetail"
 import Sightings from "./pages/Sightings/Sightings";
 import AddSighting from "./pages/Sightings/AddSighting";
 import EditSighting from "./pages/Sightings/EditSighting";
@@ -43,8 +44,9 @@ function App() {
                                 <Route path="/species/:id" element={<SpeciesDetail />} />
 
                                 <Route path="/locations" element={<Locations />} />
-                                <Route path="/locations/add" element={<AddLocation />} />
+                                <Route path="/locations/new" element={<AddLocation />} />
                                 <Route path="/locations/edit/:id" element={<EditLocation />} />
+                                <Route path="/locations/:id" element={<LocationDetail />} />
 
                                 <Route path="/sightings" element={<Sightings />} />
                                 <Route path="/sightings/new" element={<AddSighting />} />

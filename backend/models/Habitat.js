@@ -10,6 +10,7 @@ const habitatSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
+        maxlength: 300
     },
 
     region: {

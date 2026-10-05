@@ -3,7 +3,14 @@ const Location = require("../models/Location");
 
 const getLocations = async (req, res) => {
     try {
-        const locations = await Location.find();
+        const { state } = req.query;
+        const filter = {};
+
+        if (state && state !== "All") {
+            filter.state = state;
+        }
+
+        const locations = await Location.find(filter).sort({ name: 1 });
 
         res.json(locations);
 

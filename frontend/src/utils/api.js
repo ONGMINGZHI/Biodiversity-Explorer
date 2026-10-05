@@ -4,17 +4,18 @@ const API_URL = "http://localhost:5000/api";
 const handleResponse = async (response) => {
     if (response.status === 401) {
         localStorage.removeItem("token");
-
+        localStorage.removeItem("user");
         window.location.href = "/login";
-
         throw new Error("Session expired. Please login again.");
     }
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error("Request failed");
+        throw new Error(data.message || "Request failed.");
     }
 
-    return response.json();
+    return data;
 };
 
 // auth
@@ -57,11 +58,7 @@ export const loginUser = async (data) => {
 
 // species
 
-export const getSpecies = async (
-    search = "",
-    kingdom = "All",
-    className = "All"
-) => {
+export const getSpecies = async (search = "", kingdom = "All", conservationStatus = "All") => {
     const params = new URLSearchParams();
 
     if (search) {
@@ -72,13 +69,11 @@ export const getSpecies = async (
         params.append("kingdom", kingdom);
     }
 
-    if (className !== "All") {
-        params.append("className", className);
+    if (conservationStatus !== "All") {
+        params.append("conservationStatus", conservationStatus);
     }
 
-    const response = await fetch(
-        `${API_URL}/species?${params.toString()}`
-    );
+    const response = await fetch(`${API_URL}/species?${params.toString()}`);
 
     if (response.status === 401) {
         localStorage.removeItem("token");
@@ -96,71 +91,56 @@ export const getSpecies = async (
     return response.json();
 };
 
-
 export const getSpeciesById = async (id) => {
-    const response = await fetch(
-        `${API_URL}/species/${id}`
-    );
+    const response = await fetch(`${API_URL}/species/${id}`);
 
     return handleResponse(response);
 };
-
 
 export const createSpecies = async (data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/species`,
-        {
-            method: "POST",
+    const response = await fetch(`${API_URL}/species`, {
+        method: "POST",
 
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
 
-            body: JSON.stringify(data),
-        }
-    );
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
-
 
 export const updateSpecies = async (id, data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/species/${id}`,
-        {
-            method: "PATCH",
+    const response = await fetch(`${API_URL}/species/${id}`, {
+        method: "PATCH",
 
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
 
-            body: JSON.stringify(data),
-        }
-    );
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
 
-
 export const deleteSpecies = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/species/${id}`,
-        {
-            method: "DELETE",
+    const response = await fetch(`${API_URL}/species/${id}`, {
+        method: "DELETE",
 
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     return handleResponse(response);
 };
@@ -183,10 +163,31 @@ export const getConservationStatuses = async () => {
 
 // location
 
-export const getLocations = async () => {
-    const response = await fetch(`${API_URL}/locations`);
+export const getLocations = async (state = "All") => {
+    const params = new URLSearchParams();
 
-    return handleResponse(response);
+    if (state !== "All") {
+        params.append("state", state);
+    }
+
+    const response = await fetch(
+        `${API_URL}/locations?${params.toString()}`
+    );
+
+    if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        window.location.href = "/login";
+
+        throw new Error("Session expired. Please login again.");
+    }
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch locations");
+    }
+
+    return response.json();
 };
 
 export const getLocationById = async (id) => {
@@ -195,35 +196,46 @@ export const getLocationById = async (id) => {
     return handleResponse(response);
 };
 
-export const createLocation = async (locationData, token) => {
+export const createLocation = async (data) => {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/locations`, {
         method: "POST",
+
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(locationData),
+
+        body: JSON.stringify(data),
     });
 
     return handleResponse(response);
 };
 
-export const updateLocation = async (id, locationData, token) => {
+export const updateLocation = async (id, data) => {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/locations/${id}`, {
         method: "PATCH",
+
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(locationData),
+
+        body: JSON.stringify(data),
     });
 
     return handleResponse(response);
 };
 
-export const deleteLocation = async (id, token) => {
+export const deleteLocation = async (id) => {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/locations/${id}`, {
         method: "DELETE",
+
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -234,28 +246,11 @@ export const deleteLocation = async (id, token) => {
 
 // sighting
 
-export const getSightings = async (
-    search = "",
-    species = "",
-    location = "",
-    date = ""
-) => {
+export const getSightings = async (search = "") => {
     const params = new URLSearchParams();
 
     if (search) {
         params.append("search", search);
-    }
-
-    if (species) {
-        params.append("species", species);
-    }
-
-    if (location) {
-        params.append("location", location);
-    }
-
-    if (date) {
-        params.append("date", date);
     }
 
     const token = localStorage.getItem("token");
@@ -264,8 +259,8 @@ export const getSightings = async (
         `${API_URL}/sightings?${params.toString()}`,
         {
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
         }
     );
 
@@ -273,9 +268,13 @@ export const getSightings = async (
 };
 
 export const getSightingById = async (id) => {
-    const response = await fetch(
-        `${API_URL}/sightings/${id}`
-    );
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/sightings/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     return handleResponse(response);
 };
@@ -283,17 +282,14 @@ export const getSightingById = async (id) => {
 export const createSighting = async (data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/sightings`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_URL}/sightings`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
@@ -301,17 +297,14 @@ export const createSighting = async (data) => {
 export const updateSighting = async (id, data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/sightings/${id}`,
-        {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_URL}/sightings/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
@@ -319,26 +312,19 @@ export const updateSighting = async (id, data) => {
 export const deleteSighting = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/sightings/${id}`,
-        {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
+    const response = await fetch(`${API_URL}/sightings/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     return handleResponse(response);
 };
 
-
 // conservation project
 
-export const getConservationProjects = async (
-    search = "",
-    status = "All"
-) => {
+export const getConservationProjects = async (search = "", status = "All") => {
     const params = new URLSearchParams();
 
     if (search) {
@@ -349,9 +335,7 @@ export const getConservationProjects = async (
         params.append("status", status);
     }
 
-    const response = await fetch(
-        `${API_URL}/conservation-projects?${params.toString()}`
-    );
+    const response = await fetch(`${API_URL}/conservation-projects?${params.toString()}`);
 
     return handleResponse(response);
 };
@@ -364,53 +348,42 @@ export const getConservationProjectById = async (id) => {
 export const createConservationProject = async (data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/conservation-projects`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        }
-    );
+    const response = await fetch(`${API_URL}/conservation-projects`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
-
 
 export const updateConservationProject = async (id, data) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/conservation-projects/${id}`,
-        {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        }
-    );
+    const response = await fetch(`${API_URL}/conservation-projects/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
 
     return handleResponse(response);
 };
 
-
 export const deleteConservationProject = async (id) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/conservation-projects/${id}`,
-        {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+    const response = await fetch(`${API_URL}/conservation-projects/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     return handleResponse(response);
 };

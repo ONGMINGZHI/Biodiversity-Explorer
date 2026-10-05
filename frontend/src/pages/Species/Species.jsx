@@ -11,7 +11,7 @@ function Species() {
     // Search & taxonomy filters
     const [search, setSearch] = useState("");
     const [kingdom, setKingdom] = useState("All");
-    const [className, setClassName] = useState("All");
+    const [conservationStatus, setConservationStatus] = useState("All");
 
     // Check admin status
     const user = JSON.parse(localStorage.getItem("user"));
@@ -23,7 +23,7 @@ function Species() {
                 setLoading(true);
                 setError("");
 
-                const data = await getSpecies(search, kingdom, className);
+                const data = await getSpecies(search, kingdom, conservationStatus);
 
                 setSpecies(data);
             } catch (err) {
@@ -34,7 +34,7 @@ function Species() {
         };
 
         loadSpecies();
-    }, [search, kingdom, className]);
+    }, [search, kingdom, conservationStatus]);
 
     const navigate = useNavigate();
 
@@ -48,9 +48,9 @@ function Species() {
         setKingdom(event.target.value);
     };
 
-    // Class filter handler
-    const handleClassName = (event) => {
-        setClassName(event.target.value);
+    // status filter handler
+    const handleConservationStatus = (event) => {
+        setConservationStatus(event.target.value);
     };
 
     if (loading) {
@@ -99,21 +99,18 @@ function Species() {
 
                     <option value="Fungi">Fungi</option>
                 </select>
-
-                <select value={className} onChange={handleClassName} className="category-select">
-                    <option value="All">All Classes</option>
-
-                    <option value="Mammalia">Mammalia</option>
-
-                    <option value="Aves">Aves</option>
-
-                    <option value="Reptilia">Reptilia</option>
-
-                    <option value="Amphibia">Amphibia</option>
-
-                    <option value="Actinopterygii">Actinopterygii</option>
-
-                    <option value="Magnoliopsida">Magnoliopsida</option>
+                <select value={conservationStatus} onChange={handleConservationStatus} className="category-select">
+                    <option value="All">All Conservation Status</option>
+                    <option value="Critically Endangered">Critically Endangered</option>
+                    <option value="Endangered">Endangered</option>
+                    <option value="Vulnerable">Vulnerable</option>
+                    <option value="Near Threatened">Near Threatened</option>
+                    <option value="Least Concern">Least Concern</option>
+                    <option value="Data Deficient">Data Deficient</option>
+                    <option value="Regionally Extinct">Regionally Extinct</option>
+                    <option value="Extinct in the Wild">Extinct in the Wild</option>
+                    <option value="Not Evaluated">Not Evaluated</option>
+                    <option value="Extinct">Extinct</option>
                 </select>
             </div>
 
@@ -125,18 +122,16 @@ function Species() {
                 {species.length > 0 ? (
                     species.map((item) => (
                         <div className="carddd" key={item._id}>
-                            {item.imageUrl && (
-                                <div className="card-image-wrapper">
-                                    <img
-                                        src={item.imageUrl}
-                                        alt={item.name}
-                                        className="species-card-image"
-                                        onError={(e) => {
-                                            e.currentTarget.style.display = "none";
-                                        }}
-                                    />
-                                </div>
-                            )}
+                            <div className="card-image-wrapper">
+                                <img
+                                    src={item.imageUrl || "/images/image-coming-soon.png"}
+                                    alt={item.name}
+                                    className="species-card-image"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "/images/image-coming-soon.png";
+                                    }}
+                                />
+                            </div>
 
                             <div className="contenttt">
                                 <h2>{item.name}</h2>

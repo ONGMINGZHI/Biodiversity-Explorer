@@ -24,7 +24,8 @@ const sightingSchema = new mongoose.Schema({
     },
 
     notes: {
-        type: String
+        type: String,
+        maxlength: 300
     },
 
     imageUrl: {

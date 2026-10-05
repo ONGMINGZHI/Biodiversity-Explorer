@@ -1,9 +1,10 @@
 const Species = require("../models/Species");
+const ConservationStatus = require("../models/ConservationStatus");
 
 // GET /species
 const getSpecies = async (req, res) => {
     try {
-        const { search, kingdom, className, order, family, region } = req.query;
+        const { search, kingdom, conservationStatus, className, order, family, region } = req.query;
 
         const filter = {};
 
@@ -25,11 +26,28 @@ const getSpecies = async (req, res) => {
             ];
         }
 
-        // Taxonomy filters
+        // Kingdom filter
         if (kingdom && kingdom !== "All") {
             filter.kingdom = kingdom;
         }
 
+        // Conservation status filter
+        if (conservationStatus && conservationStatus !== "All") {
+            const matchingStatus = await ConservationStatus.findOne({
+                name: {
+                    $regex: `^${conservationStatus}$`,
+                    $options: "i",
+                },
+            });
+
+            if (matchingStatus) {
+                filter.conservationStatus = matchingStatus._id;
+            } else {
+                return res.json([]);
+            }
+        }
+
+        // Other taxonomy filters
         if (className && className !== "All") {
             filter.className = className;
         }
@@ -107,16 +125,25 @@ const createSpecies = async (req, res) => {
         }
 
         // Check duplicate scientific name
-        const existingSpecies = await Species.findOne({
+        const existingScientificName = await Species.findOne({
             scientificName: speciesData.scientificName,
         });
 
-        if (existingSpecies) {
+        if (existingScientificName) {
             return res.status(400).json({
                 message: `Species already exists: ${speciesData.scientificName}`,
             });
         }
 
+        const existingName = await Species.findOne({
+            name: speciesData.name,
+        });
+
+        if (existingName) {
+            return res.status(400).json({
+                message: `A species with the name "${speciesData.name}" already exists.`,
+            });
+        }
         const species = await Species.create(speciesData);
 
         res.status(201).json({
@@ -126,15 +153,24 @@ const createSpecies = async (req, res) => {
     } catch (error) {
         // Duplicate scientificName
         if (error.code === 11000) {
+            const duplicateField = Object.keys(error.keyPattern)[0];
+
+            if (duplicateField === "name") {
+                return res.status(400).json({
+                    message: "A species with this common name already exists.",
+                });
+            }
+
+            if (duplicateField === "scientificName") {
+                return res.status(400).json({
+                    message: "A species with this scientific name already exists.",
+                });
+            }
+
             return res.status(400).json({
-                message: "Species scientific name already exists.",
+                message: "A species with this information already exists.",
             });
         }
-
-        res.status(400).json({
-            message: "Failed to create species.",
-            error: error.message,
-        });
     }
 };
 

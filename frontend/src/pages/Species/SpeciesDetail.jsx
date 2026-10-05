@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getSpeciesById } from "../../utils/api";
 import "./Species.css";
+import "../../App.css";
 
 function SpeciesDetail() {
     const { id } = useParams();
@@ -61,7 +62,13 @@ function SpeciesDetail() {
                 {/* Image */}
                 {species.imageUrl && (
                     <div className="detail-image">
-                        <img src={species.imageUrl} alt={species.name} />
+                        <img
+                            src={species.imageUrl || "/images/image-coming-soon.png"}
+                            alt={species.name}
+                            onError={(e) => {
+                                e.currentTarget.src = "/images/image-coming-soon.png";
+                            }}
+                        />
                     </div>
                 )}
 

@@ -1,98 +1,72 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getSightings, getSpecies, getLocations } from "../../utils/api";
+import { getSightings } from "../../utils/api";
 import "./Sightings.css";
+import "../../App.css";
 
 function Sightings() {
     const navigate = useNavigate();
+    const truncateText = (text, maxLength = 100) => {
+        if (!text) return "";
+        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    };
 
     const [sightings, setSightings] = useState([]);
-    const [species, setSpecies] = useState([]);
-    const [locations, setLocations] = useState([]);
-
     const [search, setSearch] = useState("");
-    const [selectedSpecies, setSelectedSpecies] = useState("");
-    const [selectedLocation, setSelectedLocation] = useState("");
-    const [date, setDate] = useState("");
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const [isAdmin, setIsAdmin] = useState(false);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const isAdmin = user?.role === "admin";
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        loadSightings();
+    }, []);
 
-        if (token) {
-            try {
-                const payload = JSON.parse(atob(token.split(".")[1]));
+    const loadSightings = async (searchTerm = "") => {
+        try {
+            setLoading(true);
+            setError("");
 
-                setIsAdmin(payload.role === "admin");
-            } catch {
-                setIsAdmin(false);
-            }
+            const data = await getSightings(searchTerm);
+
+            setSightings(Array.isArray(data) ? data : data.sightings || []);
+        } catch (err) {
+            setError(err.message || "Failed to fetch sightings.");
+        } finally {
+            setLoading(false);
         }
-    }, []);
+    };
 
-    useEffect(() => {
-        const loadOptions = async () => {
-            try {
-                const [speciesData, locationsData] = await Promise.all([getSpecies(), getLocations()]);
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+    };
 
-                setSpecies(Array.isArray(speciesData) ? speciesData : speciesData.species || []);
-
-                setLocations(Array.isArray(locationsData) ? locationsData : locationsData.locations || []);
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-
-        loadOptions();
-    }, []);
-
-    useEffect(() => {
-        const loadSightings = async () => {
-            try {
-                setLoading(true);
-                setError("");
-
-                const data = await getSightings(search, selectedSpecies, selectedLocation, date);
-
-                setSightings(Array.isArray(data) ? data : data.sightings || []);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        const timer = setTimeout(loadSightings, 300);
-
-        return () => clearTimeout(timer);
-    }, [search, selectedSpecies, selectedLocation, date]);
-
-    const clearFilters = () => {
-        setSearch("");
-        setSelectedSpecies("");
-        setSelectedLocation("");
-        setDate("");
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        loadSightings(search);
     };
 
     if (loading) {
+        return <div className="page loading-state">Loading sightings...</div>;
+    }
+
+    if (error) {
         return (
-            <div className="page loading-state">
-                <p>Loading sightings...</p>
+            <div className="page error-state">
+                <p className="error-message">⚠️ Error: {error}</p>
             </div>
         );
     }
 
     return (
-        <div className="page sightings-page">
-            <div className="sightings-header">
+        <div className="page pageee">
+            <div className="headerrrr">
                 <div>
                     <h1>Sightings</h1>
 
-                    <p className="sightings-subtitle">Explore wildlife observations recorded across Malaysia.</p>
+                    <p className="subtitle">Explore wildlife observations recorded across Malaysia.</p>
                 </div>
 
                 {isAdmin && (
@@ -102,52 +76,19 @@ function Sightings() {
                 )}
             </div>
 
-            <div className="sightings-controls">
-                <input type="text" className="search-input" placeholder="Search species..." value={search} onChange={(event) => setSearch(event.target.value)} />
+            <form className="sightings-controls" onSubmit={handleSubmit}>
+                <input type="text" placeholder="Search by species..." value={search} onChange={handleSearch} className="search-input" />
 
-                <select value={selectedSpecies} onChange={(event) => setSelectedSpecies(event.target.value)}>
-                    <option value="">All Species</option>
-
-                    {species.map((item) => (
-                        <option key={item._id} value={item._id}>
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
-
-                <select value={selectedLocation} onChange={(event) => setSelectedLocation(event.target.value)}>
-                    <option value="">All Locations</option>
-
-                    {locations.map((location) => (
-                        <option key={location._id} value={location._id}>
-                            {location.name}
-                        </option>
-                    ))}
-                </select>
-
-                <input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
-
-                <button className="clear-filter-button" onClick={clearFilters}>
-                    Clear
+                <button type="submit" className="search-button">
+                    Search
                 </button>
-            </div>
+            </form>
 
-            {error && <p className="error-message">⚠️ {error}</p>}
-
-            <p className="sightings-count">
-                {sightings.length} sighting
-                {sightings.length !== 1 ? "s" : ""} found
-            </p>
-
-            {sightings.length === 0 ? (
-                <div className="no-sightings">
-                    <h2>No sightings found</h2>
-                    <p>Try changing your search or filters.</p>
-                </div>
-            ) : (
-                <div className="sightings-grid">
-                    {sightings.map((sighting) => (
-                        <div className="sighting-card" key={sighting._id}>
+            <p className="countttt">{sightings.length} sightings found</p>
+            <div className="gridd">
+                {sightings.length > 0 ? (
+                    sightings.map((sighting) => (
+                        <div className="carddd" key={sighting._id}>
                             {sighting.imageUrl ? (
                                 <div className="sighting-image-wrapper">
                                     <img src={sighting.imageUrl} alt={sighting.species?.name || "Wildlife sighting"} className="sighting-image" />
@@ -156,7 +97,7 @@ function Sightings() {
                                 <div className="sighting-image-placeholder">🐾</div>
                             )}
 
-                            <div className="sighting-content">
+                            <div className="contenttt">
                                 <h2>{sighting.species?.name || "Unknown Species"}</h2>
 
                                 {sighting.species?.scientificName && <p className="sighting-scientific-name">{sighting.species.scientificName}</p>}
@@ -167,6 +108,14 @@ function Sightings() {
                                         <br />
                                         {sighting.location?.name || "Unknown Location"}
                                     </p>
+
+                                    {sighting.location?.state && (
+                                        <p>
+                                            <strong>State</strong>
+                                            <br />
+                                            {sighting.location.state}
+                                        </p>
+                                    )}
 
                                     <p>
                                         <strong>Date</strong>
@@ -181,24 +130,41 @@ function Sightings() {
                                     </p>
                                 </div>
 
-                                {sighting.notes && <p className="sighting-notes">{sighting.notes}</p>}
-
-                                <Link to={`/sightings/${sighting._id}`} className="view-button">
-                                    View Details
-                                </Link>
-
-                                {isAdmin && (
-                                    <button className="edit-button" onClick={() => navigate(`/sightings/edit/${sighting._id}`)}>
-                                        Edit
-                                    </button>
+                                {sighting.location && (
+                                    <p className="sighting-location-details">
+                                        <strong>Coordinates:</strong> {sighting.location.latitude}, {sighting.location.longitude}
+                                    </p>
                                 )}
+
+                                {sighting.notes && (
+                                    <p className="sighting-notes">
+                                        <strong>Notes:</strong> {truncateText(sighting.notes, 120)}
+                                    </p>
+                                )}
+
+                                <div className="footerr">
+                                    <Link to={`/sightings/${sighting._id}`} className="view-button">
+                                        View Details
+                                    </Link>
+
+                                    {isAdmin && (
+                                        <div className="admin-buttons">
+                                            <button className="edit-button" onClick={() => navigate(`/sightings/edit/${sighting._id}`)}>
+                                                Edit
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    ))}
-                </div>
-            )}
+                    ))
+                ) : (
+                    <div className="no-results">
+                        <p>No sightings found matching your criteria.</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
-
 export default Sightings;

@@ -90,32 +90,43 @@ function ConservationProjectForm({
         }));
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        try {
-            setLoading(true);
-            setError("");
+    setError("");
 
-            if (isEdit) {
-                await updateConservationProject(
-                    project._id,
-                    formData
-                );
-            } else {
-                await createConservationProject(formData);
-            }
+    if (!formData.name || !formData.description) {
+        setError("Please fill in all required fields.");
+        return;
+    }
 
-            onSuccess();
-        } catch (error) {
-            setError(
-                error.message ||
-                "Failed to save conservation project."
+    if (formData.description.length > 300) {
+        setError("Description must not exceed 300 characters.");
+        return;
+    }
+
+    try {
+        setLoading(true);
+
+        if (isEdit) {
+            await updateConservationProject(
+                project._id,
+                formData
             );
-        } finally {
-            setLoading(false);
+        } else {
+            await createConservationProject(formData);
         }
-    };
+
+        onSuccess();
+    } catch (error) {
+        setError(
+            error.message ||
+            "Failed to save conservation project."
+        );
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <form
@@ -146,20 +157,25 @@ function ConservationProjectForm({
             </div>
 
             {/* Description */}
-            <div className="form-group">
-                <label htmlFor="description">
-                    Description
-                </label>
+        <div className="form-group">
+    <label htmlFor="description">
+        Description
+    </label>
 
-                <textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows="5"
-                    required
-                />
-            </div>
+    <textarea
+        id="description"
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        rows="5"
+        maxLength={300}
+        required
+    />
+
+    <p className="character-count">
+        {formData.description.length}/300 characters
+    </p>
+</div>
 
             {/* Organisation */}
             <div className="form-group">

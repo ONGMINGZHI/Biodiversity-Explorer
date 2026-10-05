@@ -1,20 +1,14 @@
 const Sighting = require("../models/Sighting");
 const Species = require("../models/Species");
-const Location = require("../models/Location");
 
 // GET /sightings
 const getSightings = async (req, res) => {
     try {
-        const {
-            search,
-            species,
-            location,
-            date
-        } = req.query;
+        const { search } = req.query;
 
         const filter = {};
 
-        // Search species name
+        // Search by species name or scientific name
         if (search) {
             const matchingSpecies = await Species.find({
                 $or: [
@@ -38,29 +32,6 @@ const getSightings = async (req, res) => {
             };
         }
 
-        // Filter by species
-        if (species) {
-            filter.species = species;
-        }
-
-        // Filter by location
-        if (location) {
-            filter.location = location;
-        }
-
-        // Filter by date
-        if (date) {
-            const startDate = new Date(date);
-
-            const endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 1);
-
-            filter.date = {
-                $gte: startDate,
-                $lt: endDate
-            };
-        }
-
         const sightings = await Sighting.find(filter)
             .populate("species")
             .populate("location")
@@ -79,11 +50,13 @@ const getSightings = async (req, res) => {
 // GET /sightings/:id
 const getSightingById = async (req, res) => {
     try {
-        const sighting = await Sighting.findById(req.params.id).populate("species").populate("location");
+        const sighting = await Sighting.findById(req.params.id)
+            .populate("species")
+            .populate("location");
 
         if (!sighting) {
             return res.status(404).json({
-                message: "Sighting not found.",
+                message: "Sighting not found."
             });
         }
 
@@ -91,7 +64,7 @@ const getSightingById = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             message: "Invalid sighting ID.",
-            error: error.message,
+            error: error.message
         });
     }
 };

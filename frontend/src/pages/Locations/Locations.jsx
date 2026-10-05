@@ -7,6 +7,7 @@ import "../../App.css";
 
 function Locations() {
     const [locations, setLocations] = useState([]);
+    const [state, setState] = useState("All");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -18,7 +19,8 @@ function Locations() {
             try {
                 setLoading(true);
                 setError("");
-                const data = await getLocations();
+
+                const data = await getLocations(state);
 
                 setLocations(data);
             } catch (err) {
@@ -27,8 +29,12 @@ function Locations() {
                 setLoading(false);
             }
         };
+
         loadLocations();
-    }, []);
+    }, [state]);
+    const handleState = (event) => {
+        setState(event.target.value);
+    };
 
     const navigate = useNavigate();
 
@@ -43,6 +49,11 @@ function Locations() {
             </div>
         );
     }
+
+    const truncateText = (text, maxLength = 100) => {
+        if (!text) return "";
+        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    };
 
     return (
         <div className="page pageee">
@@ -59,7 +70,25 @@ function Locations() {
                     </button>
                 )}
             </div>
-
+            <div className="locations-controls">
+                <select value={state} onChange={handleState} className="category-select">
+                    <option value="All">All States</option>
+                    <option value="Johor">Johor</option>
+                    <option value="Kedah">Kedah</option>
+                    <option value="Kelantan">Kelantan</option>
+                    <option value="Malacca">Malacca</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                    <option value="Pahang">Pahang</option>
+                    <option value="Penang">Penang</option>
+                    <option value="Perak">Perak</option>
+                    <option value="Perlis">Perlis</option>
+                    <option value="Sabah">Sabah</option>
+                    <option value="Sarawak">Sarawak</option>
+                    <option value="Selangor">Selangor</option>
+                    <option value="Terengganu">Terengganu</option>
+                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                </select>
+            </div>
             {/* Map */}
             <div className="locations-map-container">
                 <WildlifeMap locations={locations} />
@@ -79,7 +108,7 @@ function Locations() {
                                     <strong>State:</strong> {location.state}
                                 </p>
 
-                                <p className="location-description">{location.description}</p>
+                                <p className="location-description">{truncateText(location.description)}</p>
 
                                 <p className="location-coordinate">
                                     <strong>Coordinates:</strong> {location.latitude}, {location.longitude}

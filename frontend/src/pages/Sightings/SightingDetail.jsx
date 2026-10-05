@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getSightingById } from "../../utils/api";
 import "./Sightings.css";
+import "../../App.css";
 
 function SightingDetail() {
     const { id } = useParams();
@@ -35,10 +36,8 @@ function SightingDetail() {
 
     if (error) {
         return (
-            <div className="page">
-                <p className="error-message">
-                    ⚠️ {error}
-                </p>
+            <div className="page error-state">
+                <p className="error-message">⚠️ {error}</p>
             </div>
         );
     }
@@ -52,128 +51,110 @@ function SightingDetail() {
     }
 
     return (
-        <div className="page sighting-detail-page">
-
-            <Link
-                to="/sightings"
-                className="back-link"
-            >
+        <div className="page detail-page">
+            <Link to="/sightings" className="back-link">
                 ← Back to Sightings
             </Link>
 
-            <div className="sighting-detail">
-
-                {/* Image */}
-                <div className="sighting-detail-image">
-                    {sighting.imageUrl ? (
+            <div className="detail-hero">
+                {sighting.imageUrl && (
+                    <div className="detail-image">
                         <img
                             src={sighting.imageUrl}
-                            alt={
-                                sighting.species?.name ||
-                                "Wildlife sighting"
-                            }
+                            alt={sighting.species?.name || "Wildlife sighting"}
                         />
-                    ) : (
-                        <div className="detail-image-placeholder">
-                            🐾
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
 
-                {/* Main Information */}
-                <div className="sighting-detail-info">
-
+                <div className="detail-header">
                     <h1>
-                        {sighting.species?.name ||
-                            "Unknown Species"}
+                        {sighting.species?.name || "Unknown Species"}
                     </h1>
 
                     {sighting.species?.scientificName && (
-                        <p className="scientific-name">
+                        <p className="detail-subtitle">
                             {sighting.species.scientificName}
                         </p>
                     )}
-
-                    <div className="detail-info-list">
-
-                        <p>
-                            <strong>Location</strong>
-                            <span>
-                                {sighting.location?.name ||
-                                    "Unknown Location"}
-                            </span>
-                        </p>
-
-                        <p>
-                            <strong>Date Observed</strong>
-                            <span>
-                                {new Date(
-                                    sighting.date
-                                ).toLocaleDateString()}
-                            </span>
-                        </p>
-
-                        <p>
-                            <strong>Number Observed</strong>
-                            <span>
-                                {sighting.numberObserved}
-                            </span>
-                        </p>
-
-                    </div>
-
                 </div>
             </div>
 
-            {/* Location */}
-            <section className="detail-section">
+            <div className="detail-content">
+                <section className="detail-section">
+                    <h2>Observation Details</h2>
 
-                <h2>Observation Location</h2>
+                    <div className="taxonomy-grid">
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Location</span>
+                            <span className="taxonomy-value">
+                                {sighting.location?.name || "Unknown Location"}
+                            </span>
+                        </div>
 
-                <div className="detail-card">
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">State</span>
+                            <span className="taxonomy-value">
+                                {sighting.location?.state || "Unknown"}
+                            </span>
+                        </div>
 
-                    <h3>
-                        {sighting.location?.name ||
-                            "Unknown Location"}
-                    </h3>
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Date</span>
+                            <span className="taxonomy-value">
+                                {new Date(sighting.date).toLocaleDateString()}
+                            </span>
+                        </div>
 
-                    {sighting.location?.state && (
-                        <p>
-                            <strong>State:</strong>{" "}
-                            {sighting.location.state}
-                        </p>
-                    )}
+                        <div className="taxonomy-item">
+                            <span className="taxonomy-rank">Number Observed</span>
+                            <span className="taxonomy-value">
+                                {sighting.numberObserved}
+                            </span>
+                        </div>
+                    </div>
+                </section>
 
-                    {sighting.location?.description && (
-                        <p>
-                            {sighting.location.description}
-                        </p>
-                    )}
+                <section className="detail-section">
+                    <h2>Observation Location</h2>
 
-                </div>
+                    <div className="detail-card">
+                        <h3>
+                            {sighting.location?.name || "Unknown Location"}
+                        </h3>
 
-            </section>
+                        {sighting.location?.state && (
+                            <p>
+                                <strong>State:</strong>{" "}
+                                {sighting.location.state}
+                            </p>
+                        )}
 
-            {/* Notes */}
-            <section className="detail-section">
+                        {sighting.location?.description && (
+                            <p>{sighting.location.description}</p>
+                        )}
 
-                <h2>Observation Notes</h2>
+                        {sighting.location && (
+                            <p>
+                                <strong>Coordinates:</strong>{" "}
+                                {sighting.location.latitude},{" "}
+                                {sighting.location.longitude}
+                            </p>
+                        )}
+                    </div>
+                </section>
 
-                <div className="detail-card">
+                <section className="detail-section">
+                    <h2>Observation Notes</h2>
 
-                    {sighting.notes ? (
-                        <p>{sighting.notes}</p>
-                    ) : (
-                        <p>
-                            No observation notes were
-                            provided.
-                        </p>
-                    )}
-
-                </div>
-
-            </section>
-
+                    <div className="detail-card">
+                        {sighting.notes ? (
+                            <p>{sighting.notes}</p>
+                        ) : (
+                            <p>No observation notes were provided.</p>
+                        )}
+                    </div>
+                </section>
+            </div>
         </div>
     );
 }

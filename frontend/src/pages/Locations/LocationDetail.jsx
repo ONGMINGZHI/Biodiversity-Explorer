@@ -86,7 +86,10 @@ function LocationDetail() {
 
                 <div className="detail-card">
                     <p>{locations.latitude}</p>
-                    <p>{locations.longtitude}</p>
+                </div>
+
+                <div className="detail-card">
+                    <p>{locations.longitude}</p>
                 </div>
             </section>
         </div>

@@ -4,6 +4,7 @@ const speciesSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true
     },
 
     scientificName: {
@@ -46,6 +47,7 @@ const speciesSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
+        maxlength: 300
     },
 
     habitat: {

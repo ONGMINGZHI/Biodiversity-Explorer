@@ -9,7 +9,7 @@ function LocationForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode
         latitude: initialData.latitude ?? "",
         longitude: initialData.longitude ?? "",
     });
-    
+
     const [error, setError] = useState("");
 
     const handleChange = (event) => {
@@ -22,25 +22,31 @@ function LocationForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError("");
-        if (!formData.name || !formData.state || !formData.description || formData.latitude === "" || formData.longitude === "") {
-            setError("Please fill in all required fields.");
-            return;
-        }
+    event.preventDefault();
+    setError("");
 
-        try {
-            await onSubmit({
-                name: formData.name,
-                state: formData.state,
-                description: formData.description,
-                latitude: Number(formData.latitude),
-                longitude: Number(formData.longitude),
-            });
-        } catch (error) {
-            setError(error.message || "Failed to save location.");
-        }
-    };
+    if (!formData.name || !formData.state || !formData.description || formData.latitude === "" || formData.longitude === "") {
+        setError("Please fill in all required fields.");
+        return;
+    }
+
+    if (formData.description.length > 300) {
+        setError("Description must not exceed 300 characters.");
+        return;
+    }
+
+    try {
+        await onSubmit({
+            name: formData.name,
+            state: formData.state,
+            description: formData.description,
+            latitude: Number(formData.latitude),
+            longitude: Number(formData.longitude),
+        });
+    } catch (error) {
+        setError(error.message || "Failed to save location.");
+    }
+};
 
     const handleDelete = async () => {
         const confirmed = window.confirm("Are you sure you want to delete this location?");
@@ -78,14 +84,31 @@ function LocationForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode
                 <div className="form-group">
                     <label htmlFor="state">State *</label>
 
-                    <input id="state" name="state" type="text" value={formData.state} onChange={handleChange} placeholder="e.g. Pahang" required />
+                    <select id="state" name="state" value={formData.state} onChange={handleChange} required>
+                        <option value="">Select state</option>
+                        <option value="Johor">Johor</option>
+                        <option value="Kedah">Kedah</option>
+                        <option value="Kelantan">Kelantan</option>
+                        <option value="Malacca">Malacca</option>
+                        <option value="Negeri Sembilan">Negeri Sembilan</option>
+                        <option value="Pahang">Pahang</option>
+                        <option value="Penang">Penang</option>
+                        <option value="Perak">Perak</option>
+                        <option value="Perlis">Perlis</option>
+                        <option value="Sabah">Sabah</option>
+                        <option value="Sarawak">Sarawak</option>
+                        <option value="Selangor">Selangor</option>
+                        <option value="Terengganu">Terengganu</option>
+                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                    </select>
                 </div>
 
                 {/* Description */}
                 <div className="form-group">
                     <label htmlFor="description">Description *</label>
 
-                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Describe this wildlife location..." required />
+                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} rows="5" maxLength="300" placeholder="Enter a short description..." required />
+                    <p className="character-count">{formData.description.length}/300 characters</p>
                 </div>
 
                 {/* Coordinates */}
