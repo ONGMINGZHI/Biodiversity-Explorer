@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getSpecies, getLocations } from "../utils/api";
+import "../App.css";
+import "../pages/Species/Species.css";
 
-function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, isEditing = false }) {
+function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode = false }) {
     const [species, setSpecies] = useState([]);
     const [locations, setLocations] = useState([]);
 
@@ -22,7 +24,6 @@ function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, isEditin
     });
 
     const [error, setError] = useState("");
-    const [saving, setSaving] = useState(false);
     const [loadingOptions, setLoadingOptions] = useState(true);
 
     useEffect(() => {
@@ -117,7 +118,6 @@ function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, isEditin
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         setError("");
 
         if (!formData.species || !formData.location || !formData.date || !formData.numberObserved) {
@@ -131,7 +131,6 @@ function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, isEditin
         }
 
         try {
-            setSaving(true);
 
             await onSubmit({
                 species: formData.species,
@@ -143,121 +142,166 @@ function SightingForm({ initialData = {}, onSubmit, onCancel, onDelete, isEditin
             });
         } catch (error) {
             setError(error.message || "Failed to save sighting.");
-        } finally {
-            setSaving(false);
         }
     };
 
+    const handleDelete = async () => {
+        const confirmed = window.confirm("Are you sure you want to delete this sighting?");
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await onDelete();
+        } catch (error) {
+            setError(error.message || "Failed to delete sighting.");
+        }
+    };
+    const DEFAULT_IMAGE = "/images/image-coming-soon.png";
+
     return (
-        <form className="reusable-form" onSubmit={handleSubmit}>
-            {error && <div className="form-error">{error}</div>}
+        <div className="form-page">
+            <div className="form-header">
+                <h1>{editMode ? "Edit Sighting" : "Add New Sighting"}</h1>
 
-            <div className="form-group">
-                <label htmlFor="speciesSearch">
-                    Species <span>*</span>
-                </label>
+                <p className="form-subtitle">{editMode ? "Update the information for this sighting." : "Add a new wildlife sighting to the Biodiversity Explorer."}</p>
+            </div>
 
-                <div className="habitat-search-wrapper">
-                    <input id="speciesSearch" type="text" value={speciesSearch} onChange={handleSpeciesSearch} onFocus={() => setShowSpeciesResults(true)} placeholder={loadingOptions ? "Loading species..." : "Search species..."} disabled={loadingOptions} autoComplete="off" />
+            <form className="form-card" onSubmit={handleSubmit}>
+                {error && <div className="form-error">⚠️ {error}</div>}
 
-                    {showSpeciesResults && speciesSearch && (
-                        <div className="habitat-search-results">
-                            {filteredSpecies.length > 0 ? (
-                                filteredSpecies.map((item) => (
-                                    <button key={item._id} type="button" className="habitat-result" onClick={() => handleSpeciesSelect(item)}>
-                                        <strong>{item.name}</strong>
-                                        {item.scientificName && (
-                                            <>
-                                                <br />
-                                                <small>{item.scientificName}</small>
-                                            </>
-                                        )}
-                                    </button>
-                                ))
-                            ) : (
-                                <p className="habitat-no-results">No species found.</p>
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="speciesSearch">
+                            Species <span>*</span>
+                        </label>
+
+                        <div className="habitat-search-wrapper">
+                            <input id="speciesSearch" type="text" value={speciesSearch} onChange={handleSpeciesSearch} onFocus={() => setShowSpeciesResults(true)} placeholder={loadingOptions ? "Loading species..." : "Search species..."} disabled={loadingOptions} autoComplete="off" />
+
+                            {showSpeciesResults && speciesSearch && (
+                                <div className="habitat-search-results">
+                                    {filteredSpecies.length > 0 ? (
+                                        filteredSpecies.map((item) => (
+                                            <button key={item._id} type="button" className="habitat-result" onClick={() => handleSpeciesSelect(item)}>
+                                                <strong>{item.name}</strong>
+
+                                                {item.scientificName && (
+                                                    <>
+                                                        <br />
+                                                        <small>{item.scientificName}</small>
+                                                    </>
+                                                )}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <p className="habitat-no-results">No species found.</p>
+                                    )}
+                                </div>
                             )}
                         </div>
-                    )}
-                </div>
-            </div>
+                    </div>
 
-            <div className="form-group">
-                <label htmlFor="locationSearch">
-                    Location <span>*</span>
-                </label>
+                    <div className="form-group">
+                        <label htmlFor="locationSearch">
+                            Location <span>*</span>
+                        </label>
 
-                <div className="habitat-search-wrapper">
-                    <input id="locationSearch" type="text" value={locationSearch} onChange={handleLocationSearch} onFocus={() => setShowLocationResults(true)} placeholder={loadingOptions ? "Loading locations..." : "Search location..."} disabled={loadingOptions} autoComplete="off" />
+                        <div className="habitat-search-wrapper">
+                            <input id="locationSearch" type="text" value={locationSearch} onChange={handleLocationSearch} onFocus={() => setShowLocationResults(true)} placeholder={loadingOptions ? "Loading locations..." : "Search location..."} disabled={loadingOptions} autoComplete="off" />
 
-                    {showLocationResults && locationSearch && (
-                        <div className="habitat-search-results">
-                            {filteredLocations.length > 0 ? (
-                                filteredLocations.map((location) => (
-                                    <button key={location._id} type="button" className="habitat-result" onClick={() => handleLocationSelect(location)}>
-                                        <strong>{location.name}</strong>
-                                        {location.state && (
-                                            <>
-                                                <br />
-                                                <small>{location.state}</small>
-                                            </>
-                                        )}
-                                    </button>
-                                ))
-                            ) : (
-                                <p className="habitat-no-results">No locations found.</p>
+                            {showLocationResults && locationSearch && (
+                                <div className="habitat-search-results">
+                                    {filteredLocations.length > 0 ? (
+                                        filteredLocations.map((location) => (
+                                            <button key={location._id} type="button" className="habitat-result" onClick={() => handleLocationSelect(location)}>
+                                                <strong>{location.name}</strong>
+
+                                                {location.state && (
+                                                    <>
+                                                        <br />
+                                                        <small>{location.state}</small>
+                                                    </>
+                                                )}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <p className="habitat-no-results">No locations found.</p>
+                                    )}
+                                </div>
                             )}
                         </div>
-                    )}
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="date">
-                    Date <span>*</span>
-                </label>
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="date">
+                            Date <span>*</span>
+                        </label>
 
-                <input id="date" type="date" name="date" value={formData.date} onChange={handleChange} required />
-            </div>
+                        <input id="date" type="date" name="date" value={formData.date} onChange={handleChange} required />
+                    </div>
 
-            <div className="form-group">
-                <label htmlFor="numberObserved">
-                    Number Observed <span>*</span>
-                </label>
+                    <div className="form-group">
+                        <label htmlFor="numberObserved">
+                            Number Observed <span>*</span>
+                        </label>
 
-                <input id="numberObserved" type="number" name="numberObserved" min="1" value={formData.numberObserved} onChange={handleChange} required />
-            </div>
+                        <input id="numberObserved" type="number" name="numberObserved" min="1" value={formData.numberObserved} onChange={handleChange} required />
+                    </div>
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="notes">Notes</label>
+                <div className="form-group">
+                    <label htmlFor="notes">Notes</label>
 
-                <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows="5" maxLength={300} placeholder="Add any observation notes..." />
+                    <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows="5" maxLength={300} placeholder="Add any observation notes..." />
 
-                <p className="character-count">{formData.notes.length}/300 characters</p>
-            </div>
+                    <p className="character-count">{formData.notes.length}/300 characters</p>
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="imageUrl">Image URL</label>
+                <div className="form-group">
+                    <label htmlFor="imageUrl">Image URL</label>
 
-                <input id="imageUrl" type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://..." />
-            </div>
+                    <input id="imageUrl" type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://..." />
+                </div>
 
-            <div className="form-actions">
-                <button type="submit" className="form-submit-button" disabled={saving}>
-                    {saving ? "Saving..." : isEditing ? "Update Sighting" : "Add Sighting"}
-                </button>
+                <div className="form-group">
+                    <label>Image Preview</label>
 
-                <button type="button" className="form-cancel-button" onClick={onCancel}>
-                    Cancel
-                </button>
+                    <div className="detail-image">
+                        <img
+                            src={formData.imageUrl || DEFAULT_IMAGE}
+                            alt="Preview"
+                            onError={(event) => {
+                                event.currentTarget.src = DEFAULT_IMAGE;
+                            }}
+                        />
+                    </div>
+                </div>
 
-                {isEditing && onDelete && (
-                    <button type="button" className="form-delete-button" onClick={onDelete}>
-                        Delete Sighting
-                    </button>
-                )}
-            </div>
-        </form>
+                <div className="form-actions">
+                    <div className="form-actions-left">
+                        {editMode &&(
+                            <button type="button" className="form-button form-button-delete" onClick={handleDelete}>
+                                Delete Sighting
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="form-actions-right">
+                        <button type="button" className="form-button form-button-cancel" onClick={onCancel}>
+                            Cancel
+                        </button>
+
+                        <button type="submit" className="form-button form-button-save">
+                            {editMode ? "Save Changes" : "Add Sighting"}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     );
 }
 

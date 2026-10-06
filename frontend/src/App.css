@@ -111,6 +111,24 @@ body {
     margin-top: auto;
 }
 
+/* search */
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #d6b98c;
+    background-color: #fff8e7;
+    font-size: 1rem;
+    color: #3e2f20;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #234d32;
+    box-shadow: 0 0 0 3px rgba(35, 77, 50, 0.1);
+}
+
 /* detail */
 .detail-page {
     width: 100%;

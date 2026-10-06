@@ -60,8 +60,11 @@ function SightingDetail() {
                 {sighting.imageUrl && (
                     <div className="detail-image">
                         <img
-                            src={sighting.imageUrl}
-                            alt={sighting.species?.name || "Wildlife sighting"}
+                            src={sighting.imageUrl || "/images/image-coming-soon.png"}
+                            alt={sighting.name}
+                            onError={(e) => {
+                                e.currentTarget.src = "/images/image-coming-soon.png";
+                            }}
                         />
                     </div>
                 )}

@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-    getSightingById,
-    updateSighting,
-    deleteSighting
-} from "../../utils/api";
-import SightingForm from "../../components/SightingForm";
+import { getSightingById, updateSighting, deleteSighting } from "../../utils/api";
 import "./Sightings.css";
+import SightingForm from "../../components/SightingForm";
 
 function EditSighting() {
     const { id } = useParams();
@@ -22,7 +18,7 @@ function EditSighting() {
                 const data = await getSightingById(id);
                 setSighting(data);
             } catch (error) {
-                setError(error.message);
+                setError(error.message || "Failed to load sightings.");
             } finally {
                 setLoading(false);
             }
@@ -33,74 +29,38 @@ function EditSighting() {
 
     const handleSubmit = async (data) => {
         await updateSighting(id, data);
-        navigate("/sightings");
+        navigate(`/sightings/${id}`);
     };
 
     const handleDelete = async () => {
-        const confirmed = window.confirm(
-            "Are you sure you want to delete this sighting?"
-        );
-
-        if (!confirmed) {
-            return;
-        }
-
-        try {
-            await deleteSighting(id);
-            navigate("/sightings");
-        } catch (error) {
-            setError(error.message);
-        }
+        await deleteSighting(id);
+        navigate("/sightings");
     };
-
     if (loading) {
         return (
             <div className="page loading-state">
-                <p>Loading sighting...</p>
+                <p>Loading sightings...</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="page">
-                <p className="error-message">
-                    ⚠️ {error}
-                </p>
+            <div className="page error-state">
+                <p className="error-message">⚠️ {error}</p>
             </div>
         );
     }
 
     if (!sighting) {
         return (
-            <div className="page">
-                <p>Sighting not found.</p>
+            <div className="page error-state">
+                <p className="error-message">Sighting not found.</p>
             </div>
         );
     }
 
-    return (
-        <div className="page form-page">
-
-            <div className="form-page-header">
-                <h1>Edit Wildlife Sighting</h1>
-
-                <p>
-                    Update the information for this
-                    wildlife observation.
-                </p>
-            </div>
-
-            <SightingForm
-                initialData={sighting}
-                isEditing={true}
-                onSubmit={handleSubmit}
-                onCancel={() => navigate("/sightings")}
-                onDelete={handleDelete}
-            />
-
-        </div>
-    );
+    return <SightingForm initialData={sighting} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={() => navigate(`/sightings/${id}`)} editMode={true} />;
 }
 
 export default EditSighting;

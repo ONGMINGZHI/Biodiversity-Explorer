@@ -89,13 +89,16 @@ function Sightings() {
                 {sightings.length > 0 ? (
                     sightings.map((sighting) => (
                         <div className="carddd" key={sighting._id}>
-                            {sighting.imageUrl ? (
-                                <div className="sighting-image-wrapper">
-                                    <img src={sighting.imageUrl} alt={sighting.species?.name || "Wildlife sighting"} className="sighting-image" />
-                                </div>
-                            ) : (
-                                <div className="sighting-image-placeholder">🐾</div>
-                            )}
+                            <div className="sighting-image-wrapper">
+                                <img
+                                    src={sighting.imageUrl || "/images/image-coming-soon.png"}
+                                    alt={sighting.species?.name || "Wildlife sighting"}
+                                    className="sighting-image"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "/images/image-coming-soon.png";
+                                    }}
+                                />
+                            </div>
 
                             <div className="contenttt">
                                 <h2>{sighting.species?.name || "Unknown Species"}</h2>

@@ -12,20 +12,11 @@ function AddSighting() {
     };
 
     return (
-        <div className="page form-page">
-            <div className="form-page-header">
-                <h1>Add Wildlife Sighting</h1>
-
-                <p>
-                    Record a new wildlife observation.
-                </p>
-            </div>
-
-            <SightingForm
-                onSubmit={handleSubmit}
-                onCancel={() => navigate("/sightings")}
-            />
-        </div>
+        <SightingForm
+            onSubmit={handleSubmit}
+            onCancel={() => navigate("/sightings")}
+            editMode={false}
+        />
     );
 }
 

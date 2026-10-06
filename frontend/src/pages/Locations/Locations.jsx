@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { getLocations } from "../../utils/api";
 import WildlifeMap from "../../components/WildlifeMap";
 import "./Location.css";
@@ -115,9 +115,6 @@ function Locations() {
                                 </p>
 
                                 <div className="footerr">
-                                    <Link to={`/locations/${location._id}`} className="view-button">
-                                        View Details →
-                                    </Link>
 
                                     {isAdmin && (
                                         <div className="admin-buttons">
