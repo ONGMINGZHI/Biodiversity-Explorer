@@ -44,6 +44,7 @@ const conservationProjectSchema = new mongoose.Schema({
     },
     projectUrl: {
     type: String,
+    trim:true
 },
 
     createdAt: {

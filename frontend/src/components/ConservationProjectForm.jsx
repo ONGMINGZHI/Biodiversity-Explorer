@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-    createConservationProject,
-    updateConservationProject,
-    getSpecies
-} from "../utils/api";
+import {getSpecies} from "../utils/api";
+import "../App.css";
+import "../pages/Species/Species.css";
 
-
-function ConservationProjectForm({
-    project = null,
-    onSuccess,
-    onCancel
-}) {
+function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCancel, editMode = false }) {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -19,55 +12,53 @@ function ConservationProjectForm({
         endDate: "",
         status: "Planned",
         species: [],
-        imageUrl: ""
+        imageUrl: "",
+        projectUrl: ""
     });
 
     const [species, setSpecies] = useState([]);
+    const [speciesOpen, setSpeciesOpen] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const isEdit = Boolean(project);
+    const DEFAULT_IMAGE = "/images/image-coming-soon.png";
 
-    // Load species for the species selector
     useEffect(() => {
         const loadSpecies = async () => {
             try {
                 const data = await getSpecies("", "All");
-
-                setSpecies(data);
+                setSpecies(Array.isArray(data) ? data : data.species || []);
             } catch (error) {
-                console.error(error);
+                setError(error.message || "Failed to load species.");
             }
         };
 
         loadSpecies();
     }, []);
 
-    // Fill form when editing
     useEffect(() => {
-        if (project) {
+        if (initialData) {
             setFormData({
-                name: project.name || "",
-                description: project.description || "",
-                organisation: project.organisation || "",
-                startDate: project.startDate
-                    ? project.startDate.substring(0, 10)
+                name: initialData.name || "",
+                description: initialData.description || "",
+                organisation: initialData.organisation || "",
+                startDate: initialData.startDate
+                    ? initialData.startDate.substring(0, 10)
                     : "",
-                endDate: project.endDate
-                    ? project.endDate.substring(0, 10)
+                endDate: initialData.endDate
+                    ? initialData.endDate.substring(0, 10)
                     : "",
-                status: project.status || "Planned",
-                species: project.species
-                    ? project.species.map((item) =>
-                          typeof item === "object"
-                              ? item._id
-                              : item
-                      )
+                status: initialData.status || "Planned",
+                species: initialData.species
+                    ? initialData.species.map((item) =>
+                        typeof item === "object" ? item._id : item
+                    )
                     : [],
-                imageUrl: project.imageUrl || ""
+                imageUrl: initialData.imageUrl || "",
+                projectUrl: initialData.projectUrl || ""
             });
         }
-    }, [project]);
+    }, [initialData]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -78,21 +69,32 @@ function ConservationProjectForm({
         }));
     };
 
-    const handleSpeciesChange = (event) => {
-        const selected = Array.from(
-            event.target.selectedOptions,
-            (option) => option.value
-        );
-
+    const handleSpeciesSelect = (speciesId) => {
         setFormData((previous) => ({
             ...previous,
-            species: selected
+            species: [...previous.species, speciesId]
+        }));
+
+        setSpeciesOpen(false);
+    };
+
+    const removeSpecies = (speciesId) => {
+        setFormData((previous) => ({
+            ...previous,
+            species: previous.species.filter((id) => id !== speciesId)
         }));
     };
 
-const handleSubmit = async (event) => {
-    event.preventDefault();
+    const getSpeciesName = (speciesId) => {
+        const selectedSpecies = species.find(
+            (item) => item._id === speciesId
+        );
 
+        return selectedSpecies ? selectedSpecies.name : "Unknown species";
+    };
+
+    const handleSubmit = async (event) => {
+    event.preventDefault();
     setError("");
 
     if (!formData.name || !formData.description) {
@@ -107,221 +109,304 @@ const handleSubmit = async (event) => {
 
     try {
         setLoading(true);
-
-        if (isEdit) {
-            await updateConservationProject(
-                project._id,
-                formData
-            );
-        } else {
-            await createConservationProject(formData);
-        }
-
-        onSuccess();
+        await onSubmit(formData);
     } catch (error) {
-        setError(
-            error.message ||
-            "Failed to save conservation project."
-        );
+        setError(error.message || "Failed to save conservation project.");
     } finally {
         setLoading(false);
     }
 };
 
     return (
-        <form
-            className="reusable-form"
-            onSubmit={handleSubmit}
-        >
+        <div className="form-page">
+            <div className="form-header">
+                <h1>
+                    {editMode
+                        ? "Edit Conservation Project"
+                        : "Add New Conservation Project"}
+                </h1>
 
-            {error && (
-                <div className="form-error">
-                    ⚠️ {error}
-                </div>
-            )}
-
-            {/* Name */}
-            <div className="form-group">
-                <label htmlFor="name">
-                    Project Name
-                </label>
-
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
+                <p className="form-subtitle">
+                    {editMode
+                        ? "Update the information for this conservation project."
+                        : "Add a conservation project protecting Malaysia's biodiversity."}
+                </p>
             </div>
 
-            {/* Description */}
-        <div className="form-group">
-    <label htmlFor="description">
-        Description
-    </label>
+            <form className="form-card" onSubmit={handleSubmit}>
+                {error && <div className="form-error">⚠️ {error}</div>}
 
-    <textarea
-        id="description"
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-        rows="5"
-        maxLength={300}
-        required
-    />
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="name">
+                            Project Name <span>*</span>
+                        </label>
 
-    <p className="character-count">
-        {formData.description.length}/300 characters
-    </p>
-</div>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="e.g. Juara Turtle Project"
+                            required
+                        />
+                    </div>
 
-            {/* Organisation */}
-            <div className="form-group">
-                <label htmlFor="organisation">
-                    Organisation
-                </label>
+                    <div className="form-group">
+                        <label htmlFor="organisation">
+                            Organisation
+                        </label>
 
-                <input
-                    id="organisation"
-                    name="organisation"
-                    type="text"
-                    value={formData.organisation}
-                    onChange={handleChange}
-                />
-            </div>
-
-            {/* Dates */}
-            <div className="form-row">
-
-                <div className="form-group">
-                    <label htmlFor="startDate">
-                        Start Date
-                    </label>
-
-                    <input
-                        id="startDate"
-                        name="startDate"
-                        type="date"
-                        value={formData.startDate}
-                        onChange={handleChange}
-                    />
+                        <input
+                            id="organisation"
+                            name="organisation"
+                            type="text"
+                            value={formData.organisation}
+                            onChange={handleChange}
+                            placeholder="e.g. Malaysian Wildlife"
+                        />
+                    </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="endDate">
-                        End Date
+                    <label htmlFor="description">
+                        Description <span>*</span>
                     </label>
 
-                    <input
-                        id="endDate"
-                        name="endDate"
-                        type="date"
-                        value={formData.endDate}
+                    <textarea
+                        id="description"
+                        name="description"
+                        value={formData.description}
                         onChange={handleChange}
+                        rows="5"
+                        maxLength={300}
+                        placeholder="Describe the conservation project..."
+                        required
                     />
+
+                    <p className="character-count">
+                        {formData.description.length}/300 characters
+                    </p>
                 </div>
 
-            </div>
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="startDate">Start Date</label>
 
-            {/* Status */}
-            <div className="form-group">
-                <label htmlFor="status">
-                    Status
-                </label>
+                        <input
+                            id="startDate"
+                            name="startDate"
+                            type="date"
+                            value={formData.startDate}
+                            onChange={handleChange}
+                        />
+                    </div>
 
-                <select
-                    id="status"
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
-                >
-                    <option value="Planned">
-                        Planned
-                    </option>
+                    <div className="form-group">
+                        <label htmlFor="endDate">End Date</label>
 
-                    <option value="Ongoing">
-                        Ongoing
-                    </option>
+                        <input
+                            id="endDate"
+                            name="endDate"
+                            type="date"
+                            value={formData.endDate}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
 
-                    <option value="Completed">
-                        Completed
-                    </option>
-                </select>
-            </div>
+                <div className="form-group">
+                    <label htmlFor="status">Status</label>
 
-            {/* Species */}
-            <div className="form-group">
-                <label htmlFor="species">
-                    Species
-                </label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                    >
+                        <option value="Planned">Planned</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
 
-                <select
-                    id="species"
-                    multiple
-                    value={formData.species}
-                    onChange={handleSpeciesChange}
-                >
-                    {species.map((item) => (
-                        <option
-                            key={item._id}
-                            value={item._id}
+                <div className="form-group">
+                    <label>Related Species</label>
+
+                    <div className="species-multiselect">
+                        <button
+                            type="button"
+                            className="species-select-box"
+                            onClick={() => setSpeciesOpen(!speciesOpen)}
                         >
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
+                            <span>
+                                {formData.species.length === 0
+                                    ? "Choose species..."
+                                    : `${formData.species.length} species selected`}
+                            </span>
 
-                <small>
-                    Hold Ctrl while clicking to select
-                    multiple species.
-                </small>
-            </div>
+                            <span className="species-arrow">
+                                {speciesOpen ? "▲" : "▼"}
+                            </span>
+                        </button>
 
-            {/* Image */}
-            <div className="form-group">
-                <label htmlFor="imageUrl">
-                    Image URL
-                </label>
+                        {speciesOpen && (
+                            <div className="species-dropdown">
+                                {species.length === 0 ? (
+                                    <div className="species-empty">
+                                        No species available.
+                                    </div>
+                                ) : (
+                                    species.map((item) => {
+                                        const selected =
+                                            formData.species.includes(item._id);
 
-                <input
-                    id="imageUrl"
-                    name="imageUrl"
-                    type="url"
-                    value={formData.imageUrl}
-                    onChange={handleChange}
-                    placeholder="https://..."
-                />
-            </div>
+                                        return (
+                                            <button
+                                                type="button"
+                                                key={item._id}
+                                                className={`species-option ${
+                                                    selected
+                                                        ? "species-option-selected"
+                                                        : ""
+                                                }`}
+                                                onClick={() =>
+                                                    !selected &&
+                                                    handleSpeciesSelect(item._id)
+                                                }
+                                                disabled={selected}
+                                            >
+                                                <span>{item.name}</span>
 
-            {/* Buttons */}
-            <div className="form-actions">
+                                                {selected && (
+                                                    <span>✓</span>
+                                                )}
+                                            </button>
+                                        );
+                                    })
+                                )}
+                            </div>
+                        )}
+                    </div>
 
-                <button
-                    type="button"
-                    className="cancel-button"
-                    onClick={onCancel}
-                    disabled={loading}
-                >
-                    Cancel
-                </button>
+                    {formData.species.length > 0 && (
+                        <div className="selected-species">
+                            {formData.species.map((speciesId) => (
+                                <div
+                                    className="species-chip"
+                                    key={speciesId}
+                                >
+                                    <span>
+                                        {getSpeciesName(speciesId)}
+                                    </span>
 
-                <button
-                    type="submit"
-                    className="submit-button"
-                    disabled={loading}
-                >
-                    {loading
-                        ? "Saving..."
-                        : isEdit
-                            ? "Update Project"
-                            : "Add Project"}
-                </button>
+                                    <button
+                                        type="button"
+                                        className="species-chip-remove"
+                                        onClick={() =>
+                                            removeSpecies(speciesId)
+                                        }
+                                        aria-label={`Remove ${getSpeciesName(
+                                            speciesId
+                                        )}`}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-            </div>
+                    <small>
+                        Select one or more species related to this project.
+                    </small>
+                </div>
 
-        </form>
+                <div className="form-group">
+                    <label htmlFor="projectUrl">Project Link</label>
+
+                    <input
+                        id="projectUrl"
+                        name="projectUrl"
+                        type="url"
+                        value={formData.projectUrl}
+                        onChange={handleChange}
+                        placeholder="https://example.com/conservation-project"
+                    />
+
+                    <small>
+                        Add the official website or page for this real-life
+                        conservation project.
+                    </small>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="imageUrl">Image URL</label>
+
+                    <input
+                        id="imageUrl"
+                        name="imageUrl"
+                        type="url"
+                        value={formData.imageUrl}
+                        onChange={handleChange}
+                        placeholder="https://..."
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Image Preview</label>
+
+                    <div className="detail-image">
+                        <img
+                            src={formData.imageUrl || DEFAULT_IMAGE}
+                            alt="Project preview"
+                            onError={(event) => {
+                                event.currentTarget.src = DEFAULT_IMAGE;
+                            }}
+                        />
+                    </div>
+                </div>
+
+                <div className="form-actions">
+                    <div className="form-actions-left">
+                        {editMode && onDelete && (
+                            <button
+                                type="button"
+                                className="form-button form-button-delete"
+                                onClick={onDelete}
+                                disabled={loading}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="form-actions-right">
+                        <button
+                            type="button"
+                            className="form-button form-button-cancel"
+                            onClick={onCancel}
+                            disabled={loading}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            className="form-button form-button-save"
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Saving..."
+                                : editMode
+                                    ? "Save Changes"
+                                    : "Add Project"}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     );
 }
 

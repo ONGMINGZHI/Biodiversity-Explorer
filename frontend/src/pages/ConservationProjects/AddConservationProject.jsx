@@ -1,26 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { createConservationProject } from "../../utils/api";
 import ConservationProjectForm from "../../components/ConservationProjectForm";
 import "./ConservationProject.css";
+
 function AddConservationProject() {
     const navigate = useNavigate();
 
-    const handleSuccess = () => {
+    const handleSubmit = async (data) => {
+        await createConservationProject(data);
         navigate("/conservation-projects");
     };
 
     return (
-        <div className="page form-page">
-
-            <h1>Add Conservation Project</h1>
-
-            <ConservationProjectForm
-                onSuccess={handleSuccess}
-                onCancel={() =>
-                    navigate("/conservation-projects")
-                }
-            />
-
-        </div>
+        <ConservationProjectForm
+            onSubmit={handleSubmit}
+            onCancel={() => navigate("/conservation-projects")}
+            editMode={false}
+        />
     );
 }
 
