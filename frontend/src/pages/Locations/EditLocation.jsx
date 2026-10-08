@@ -65,7 +65,7 @@ function EditLocation() {
         );
     }
 
-    return <LocationForm initialData={location} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={() => navigate(`/locations`)} editMode={true} />;
+    return <LocationForm initialData={location} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={handleCancel} editMode={true} />;
 }
 
 export default EditLocation;

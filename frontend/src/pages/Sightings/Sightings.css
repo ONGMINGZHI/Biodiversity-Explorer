@@ -39,7 +39,7 @@
     transition: transform 0.3s ease;
 }
 
-.scarddd:hover .sighting-image {
+.carddd:hover .sighting-image {
     transform: scale(1.05);
 }
 

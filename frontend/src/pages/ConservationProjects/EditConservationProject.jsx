@@ -36,6 +36,9 @@ function EditConservationProject() {
         await deleteConservationProject(id);
         navigate("/conservation-projects");
     };
+    const handleCancel = () => {
+        navigate(`/conservation-projects/${id}`);
+    };
 
     if (loading) {
         return (
@@ -61,7 +64,7 @@ function EditConservationProject() {
         );
     }
 
-    return <ConservationProjectForm initialData={project} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={() => navigate(`/conservation-projects/${id}`)} editMode={true} />;
+    return <ConservationProjectForm initialData={project} onSubmit={handleSubmit} onDelete={handleDelete} onCancel={handleCancel} editMode={true} />;
 }
 
 export default EditConservationProject;

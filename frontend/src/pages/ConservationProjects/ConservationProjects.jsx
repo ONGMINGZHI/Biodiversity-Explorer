@@ -52,40 +52,37 @@ function ConservationProjects() {
         );
     }
 
+    const shortenText = (text, maxWords = 10) => {
+        if (!text) return "No description available.";
+
+        const words = text.trim().split(/\s+/);
+
+        if (words.length <= maxWords) {
+            return text;
+        }
+
+        return words.slice(0, maxWords).join(" ") + "...";
+    };
+
     return (
         <div className="page pageee">
             <div className="headerrrr">
                 <div>
                     <h1>Conservation Projects</h1>
-                    <p className="subtitle">
-                        Explore conservation projects protecting Malaysia's biodiversity.
-                    </p>
+                    <p className="subtitle">Explore conservation projects protecting Malaysia's biodiversity.</p>
                 </div>
 
                 {isAdmin && (
-                    <button
-                        className="add-button"
-                        onClick={() => navigate("/conservation-projects/new")}
-                    >
+                    <button className="add-button" onClick={() => navigate("/conservation-projects/new")}>
                         + Add Conservation Project
                     </button>
                 )}
             </div>
 
             <form className="conservation-projects-controls">
-                <input
-                    type="text"
-                    placeholder="Search conservation projects..."
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    className="search-input"
-                />
+                <input type="text" placeholder="Search conservation projects..." value={search} onChange={(event) => setSearch(event.target.value)} className="search-input" />
 
-                <select
-                    value={status}
-                    onChange={(event) => setStatus(event.target.value)}
-                    className="category-select"
-                >
+                <select value={status} onChange={(event) => setStatus(event.target.value)} className="category-select">
                     <option value="All">All Statuses</option>
                     <option value="Planned">Planned</option>
                     <option value="Ongoing">Ongoing</option>
@@ -107,50 +104,38 @@ function ConservationProjects() {
                 <div className="gridd">
                     {projects.map((project) => (
                         <div className="carddd" key={project._id}>
-                            {project.imageUrl && (
-                                <div className="card-image-wrapper">
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={project.name}
-                                        className="conservation-project-card-image"
-                                        onError={(event) => {
-                                            event.currentTarget.parentElement.style.display = "none";
-                                        }}
-                                    />
-                                </div>
-                            )}
+                            <div className="project-image-wrapper">
+                                <img
+                                    src={project.imageUrl || "/images/image-coming-soon.png"}
+                                    alt={project?.name || "Wildlife project"}
+                                    className="project-image"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "/images/image-coming-soon.png";
+                                    }}
+                                />
+                            </div>
 
                             <div className="contenttt">
                                 <h2>{project.name}</h2>
 
+                                <p className="project-description-preview">{shortenText(project.description, 10)}</p>
+
                                 <p className="project-organisation">
-                                    <strong>Organisation:</strong>{" "}
-                                    {project.organisation || "Not specified"}
+                                    <strong>Organisation:</strong> {project.organisation || "Not specified"}
                                 </p>
 
                                 <p className="project-status">
-                                    <strong>Status:</strong>{" "}
-                                    {project.status || "Not specified"}
+                                    <strong>Status:</strong> {project.status || "Not specified"}
                                 </p>
 
                                 <div className="footerr">
-                                    <Link
-                                        to={`/conservation-projects/${project._id}`}
-                                        className="view-button"
-                                    >
+                                    <Link to={`/conservation-projects/${project._id}`} className="view-button">
                                         View Details →
                                     </Link>
 
                                     {isAdmin && (
                                         <div className="admin-buttons">
-                                            <button
-                                                className="edit-button"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/conservation-projects/edit/${project._id}`
-                                                    )
-                                                }
-                                            >
+                                            <button className="edit-button" onClick={() => navigate(`/conservation-projects/edit/${project._id}`)}>
                                                 Edit
                                             </button>
                                         </div>

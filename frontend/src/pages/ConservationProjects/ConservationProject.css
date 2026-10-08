@@ -1,21 +1,51 @@
-.search-input{
-    margin:0,0,20px
+.conservation-projects-controls {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    margin-bottom: 18px;
 }
-.category-select{
-    margin:0,10,40px
+.category-select {
+    box-sizing: border-box;
+
+    height: 46px;
+
+    border: 1px solid #d6b98c;
+    border-radius: 8px;
+
+    background-color: #fff8e7;
+    color: #3e2f20;
+
+    font-size: 0.95rem;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.category-select {
+    width: 210px;
+    padding: 0 14px;
+    cursor: pointer;
+}
+
+.category-select:focus {
+    border-color: #234d32;
+    box-shadow: 0 0 0 3px rgba(35, 77, 50, 0.1);
 }
 .conservation-project-organisation {
     color: #666;
     margin-bottom: 15px;
 }
 
-.conservation-project-status {
+.project-status-badge {
     display: inline-block;
-    padding: 5px 10px;
+    margin: 4px 0 14px;
+    padding: 6px 12px;
     border-radius: 20px;
-    background: #e8f5e9;
+    background-color: #e8f5e9;
     color: #2e7d32;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -185,24 +215,214 @@
     color: #777;
     font-size: 13px;
 }
+/* Conservation Project Detail */
+
+.conservation-project-detail-page {
+    max-width: 1100px;
+}
+
+/* Project image */
+
+.detail-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border: 1px solid #d6b98c;
+    border-radius: 14px;
+    background-color: #eadfc9;
+    box-shadow: 0 6px 18px rgba(80, 50, 20, 0.1);
+}
+
+.detail-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.project-image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 1px solid #d6b98c;
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.carddd:hover .project-image {
+    transform: scale(1.05);
+}
+
+.project-image-placeholder {
+    width: 100%;
+    height: 220px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #eee1c8;
+
+    font-size: 3rem;
+    border-bottom: 1px solid #d6b98c;
+}
+.detail-des {
+    grid-column: 1 / -1;
+    padding: 18px;
+    border: 1px solid #d6b98c;
+    border-radius: 10px;
+    background-color: #fff8e7;
+}
+
+.detail-des strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #80684d;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detail-des p {
+    margin: 0;
+    color: #5c4630;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+.project-description-preview {
+    color: #5c4630;
+    margin: 8px 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Project status */
+
+.project-status-badge {
+    display: inline-block;
+    margin: 4px 0 14px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Project organisation */
+
+.project-organisation-detail {
+    margin: 0;
+    color: #80684d;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+/* Project description */
+
+.project-description {
+    max-width: 850px;
+    margin: 0 0 24px;
+    color: #5c4630;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Related species */
+
+.project-species-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
 .species-detail-card {
+    margin: 0;
     display: block;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: 0.2s;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .species-detail-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(80, 50, 20, 0.12);
+}
+
+.species-detail-card h3 {
+    margin-bottom: 8px;
+}
+
+.species-detail-card .scientific-name {
+    color: #80684d;
+    font-size: 0.95rem;
+    font-style: italic;
 }
 
 .species-view-link {
     display: inline-block;
     margin-top: 10px;
     color: #2e7d32;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
+}
+
+/* Official project website */
+
+.project-link-button {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 7px;
+    background-color: #234d32;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.project-link-button:hover {
+    background-color: #1a3a25;
+    color: white;
+    transform: translateY(-1px);
+}
+.detail-hero.no-project-image {
+    display: block;
+}
+
+.detail-hero.no-project-image .detail-header {
+    max-width: 850px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .project-species-list {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-image {
+        height: 280px;
+    }
+}
+
+@media (max-width: 600px) {
+    .detail-image {
+        height: 240px;
+    }
+
+    .project-description {
+        font-size: 0.95rem;
+    }
 }
 @media (max-width: 900px) {
     .gridd {
