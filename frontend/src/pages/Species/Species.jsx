@@ -77,7 +77,6 @@ function Species() {
 
     return (
         <div className="page pageee">
-            {/* Header */}
             <div className="headerrrr">
                 <div>
                     <h1>Species</h1>

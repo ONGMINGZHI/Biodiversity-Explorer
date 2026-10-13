@@ -170,9 +170,7 @@ export const getLocations = async (state = "All") => {
         params.append("state", state);
     }
 
-    const response = await fetch(
-        `${API_URL}/locations?${params.toString()}`
-    );
+    const response = await fetch(`${API_URL}/locations?${params.toString()}`);
 
     if (response.status === 401) {
         localStorage.removeItem("token");
@@ -255,14 +253,11 @@ export const getSightings = async (search = "") => {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `${API_URL}/sightings?${params.toString()}`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+    const response = await fetch(`${API_URL}/sightings?${params.toString()}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     return handleResponse(response);
 };
@@ -387,3 +382,84 @@ export const deleteConservationProject = async (id) => {
 
     return handleResponse(response);
 };
+
+// taxonomy
+export const getTaxonomies = async (filters = {}) => {
+    const params = new URLSearchParams();
+
+    if (filters.rank) {
+        params.append("rank", filters.rank);
+    }
+
+    if (filters.parent !== undefined) {
+        params.append("parent", filters.parent === null ? "null" : filters.parent);
+    }
+
+    const query = params.toString();
+    const response = await fetch(`${API_URL}/taxonomy${query ? `?${query}` : ""}`);
+
+    return handleResponse(response);
+};
+
+export const getTaxonomyById = async (id) => {
+    const response = await fetch(`${API_URL}/taxonomy/${id}`);
+
+    return handleResponse(response);
+};
+
+export const createTaxonomy = async (data) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/taxonomy`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    return handleResponse(response);
+};
+
+export const updateTaxonomy = async (id, data) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/taxonomy/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    return handleResponse(response);
+};
+
+export const deleteTaxonomy = async (id) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/taxonomy/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return handleResponse(response);
+};
+
+export const importTaxonomyTree = async (tree) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${API_URL}/taxonomy/import`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ tree })
+    });
+    return handleResponse(response);
+};
+

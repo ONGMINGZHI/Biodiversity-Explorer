@@ -3,6 +3,7 @@ import "./App.css";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -22,6 +23,9 @@ import ConservationProjects from "./pages/ConservationProjects/ConservationProje
 import AddConservationProject from "./pages/ConservationProjects/AddConservationProject";
 import EditConservationProject from "./pages/ConservationProjects/EditConservationProject";
 import ConservationProjectDetail from "./pages/ConservationProjects/ConservationProjectDetail";
+import Taxonomy from "./pages/Taxonomy/Taxonomy";
+import AddTaxonomy from "./pages/Taxonomy/AddTaxonomy";
+import EditTaxonomy from "./pages/Taxonomy/EditTaxonomy";
 import Footer from "./components/Footer";
 
 function App() {
@@ -38,27 +42,99 @@ function App() {
                             <Navbar />
                             <Routes>
                                 <Route path="/" element={<Home />} />
+
                                 <Route path="/species" element={<Species />} />
-                                <Route path="/species/new" element={<AddSpecies />} />
-                                <Route path="/species/edit/:id" element={<EditSpecies />} />
+                                <Route
+                                    path="/species/new"
+                                    element={
+                                        <AdminRoute>
+                                            <AddSpecies />
+                                        </AdminRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/species/edit/:id"
+                                    element={
+                                        <AdminRoute>
+                                            <EditSpecies />
+                                        </AdminRoute>
+                                    }
+                                />
                                 <Route path="/species/:id" element={<SpeciesDetail />} />
 
                                 <Route path="/locations" element={<Locations />} />
-                                <Route path="/locations/new" element={<AddLocation />} />
-                                <Route path="/locations/edit/:id" element={<EditLocation />} />
+                                <Route
+                                    path="/locations/new"
+                                    element={
+                                        <AdminRoute>
+                                            <AddLocation />
+                                        </AdminRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/locations/edit/:id"
+                                    element={
+                                        <AdminRoute>
+                                            <EditLocation />
+                                        </AdminRoute>
+                                    }
+                                />
 
                                 <Route path="/sightings" element={<Sightings />} />
-                                <Route path="/sightings/new" element={<AddSighting />} />
-                                <Route path="/sightings/edit/:id" element={<EditSighting />} />
+                                <Route
+                                    path="/sightings/new"
+                                    element={
+                                        <AdminRoute>
+                                            <AddSighting />
+                                        </AdminRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/sightings/edit/:id"
+                                    element={
+                                        <AdminRoute>
+                                            <EditSighting />
+                                        </AdminRoute>
+                                    }
+                                />
                                 <Route path="/sightings/:id" element={<SightingDetail />} />
 
                                 <Route path="/conservation-projects" element={<ConservationProjects />} />
-
-                                <Route path="/conservation-projects/new" element={<AddConservationProject />} />
-
-                                <Route path="/conservation-projects/edit/:id" element={<EditConservationProject />} />
-
+                                <Route
+                                    path="/conservation-projects/new"
+                                    element={
+                                        <AdminRoute>
+                                            <AddConservationProject />
+                                        </AdminRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/conservation-projects/edit/:id"
+                                    element={
+                                        <AdminRoute>
+                                            <EditConservationProject />
+                                        </AdminRoute>
+                                    }
+                                />
                                 <Route path="/conservation-projects/:id" element={<ConservationProjectDetail />} />
+
+                                <Route path="/taxonomy" element={<Taxonomy />} />
+                                <Route
+                                    path="/taxonomy/new"
+                                    element={
+                                        <AdminRoute>
+                                            <AddTaxonomy />
+                                        </AdminRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/taxonomy/edit/:id"
+                                    element={
+                                        <AdminRoute>
+                                            <EditTaxonomy />
+                                        </AdminRoute>
+                                    }
+                                />
                             </Routes>
                             <Footer />
                         </ProtectedRoute>

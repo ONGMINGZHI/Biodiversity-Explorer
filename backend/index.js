@@ -10,6 +10,7 @@ const habitatRoutes = require("./routes/habitatRoutes");
 const locationRoutes = require("./routes/locationRoutes");
 const sightingRoutes = require("./routes/sightingRoutes");
 const conservationProjectRoutes = require("./routes/conservationProjectRoutes");
+const taxonomyRoutes =require("./routes/taxonomyRoutes")
 const { protect, adminOnly } = require("./middleware/authMiddleware");
 
 const app = express();
@@ -37,6 +38,9 @@ app.use("/api/sightings", sightingRoutes);
 
 // Conservation Project Route
 app.use("/api/conservation-projects", conservationProjectRoutes);
+
+// Taxonomy routes
+app.use("/api/taxonomy",taxonomyRoutes);
 
 // Test protected route
 app.get("/api/protected", protect, (req, res) => {

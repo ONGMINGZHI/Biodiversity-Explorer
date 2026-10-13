@@ -26,6 +26,8 @@ function Navbar() {
 
                     <Link to="/conservation-projects">Projects</Link>
 
+                    <Link to="/taxonomy">Taxonomy</Link>
+
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             </div>
