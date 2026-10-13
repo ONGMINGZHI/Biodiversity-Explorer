@@ -22,6 +22,7 @@ import ConservationProjects from "./pages/ConservationProjects/ConservationProje
 import AddConservationProject from "./pages/ConservationProjects/AddConservationProject";
 import EditConservationProject from "./pages/ConservationProjects/EditConservationProject";
 import ConservationProjectDetail from "./pages/ConservationProjects/ConservationProjectDetail";
+import Footer from "./components/Footer";
 
 function App() {
     return (
@@ -51,26 +52,15 @@ function App() {
                                 <Route path="/sightings/edit/:id" element={<EditSighting />} />
                                 <Route path="/sightings/:id" element={<SightingDetail />} />
 
-                                <Route
-                                    path="/conservation-projects"
-                                    element={<ConservationProjects />}
-                                />
+                                <Route path="/conservation-projects" element={<ConservationProjects />} />
 
-                                <Route
-                                    path="/conservation-projects/new"
-                                    element={<AddConservationProject />}
-                                />
+                                <Route path="/conservation-projects/new" element={<AddConservationProject />} />
 
-                                <Route
-                                    path="/conservation-projects/edit/:id"
-                                    element={<EditConservationProject />}
-                                />
+                                <Route path="/conservation-projects/edit/:id" element={<EditConservationProject />} />
 
-                                <Route
-                                    path="/conservation-projects/:id"
-                                    element={<ConservationProjectDetail />}
-                                />
+                                <Route path="/conservation-projects/:id" element={<ConservationProjectDetail />} />
                             </Routes>
+                            <Footer />
                         </ProtectedRoute>
                     }
                 />

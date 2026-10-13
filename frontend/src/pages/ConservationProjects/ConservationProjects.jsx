@@ -9,6 +9,7 @@ function ConservationProjects() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const [searchInput, setSearchInput] = useState("");
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("All");
 
@@ -79,8 +80,20 @@ function ConservationProjects() {
                 )}
             </div>
 
-            <form className="conservation-projects-controls">
-                <input type="text" placeholder="Search conservation projects..." value={search} onChange={(event) => setSearch(event.target.value)} className="search-input" />
+            <form
+                className="conservation-projects-controls"
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    setSearch(searchInput.trim());
+                }}
+            >
+                <div className="project-search-wrapper">
+                    <input type="text" placeholder="Search conservation projects..." value={searchInput} onChange={(event) => setSearchInput(event.target.value)} className="search-input" />
+                </div>
+
+                <button type="submit" className="search-button">
+                    Search
+                </button>
 
                 <select value={status} onChange={(event) => setStatus(event.target.value)} className="category-select">
                     <option value="All">All Statuses</option>

@@ -13,6 +13,7 @@ const taxonomyOptions = {
                         Prionailurus: ["Prionailurus"],
                         Neofelis: ["Neofelis"],
                         Pardofelis: ["Pardofelis"],
+                        Catopuma:["Catopuma"],
                     },
                     Mustelidae: {
                         Aonyx: ["Aonyx"],
@@ -23,7 +24,6 @@ const taxonomyOptions = {
                     Viverridae: {
                         Viverra: ["Viverra"],
                         Paradoxurus: ["Paradoxurus"],
-                        Prionodon: ["Prionodon"],
                         Arctictis: ["Arctictis"],
                     },
                     Ursidae: {
@@ -35,10 +35,11 @@ const taxonomyOptions = {
                     Herpestidae: {
                         Herpestes: ["Herpestes"],
                     },
-                    Phasianidae: {
-                        "": [],
+                    Prionodontidae: {
+                        Prionodon: ["Prionodon"],
                     },
                 },
+
                 Primates: {
                     Hylobatidae: {
                         Hylobates: ["Hylobates"],
@@ -49,7 +50,7 @@ const taxonomyOptions = {
                         Macaca: ["Macaca"],
                         Trachypithecus: ["Trachypithecus"],
                         Nasalis: ["Nasalis"],
-                        "Rhinopithecus": ["Rhinopithecus"],
+                        Rhinopithecus: ["Rhinopithecus"],
                     },
                     Lorisidae: {
                         Nycticebus: ["Nycticebus"],
@@ -60,6 +61,9 @@ const taxonomyOptions = {
                     Pitheciidae: {
                         Pithecia: ["Pithecia"],
                     },
+                    Hominidae:{
+                        Pongo:["Pongo"]
+                    }
                 },
                 Proboscidea: {
                     Elephantidae: {
@@ -88,6 +92,9 @@ const taxonomyOptions = {
                     Tragulidae: {
                         Tragulus: ["Tragulus"],
                     },
+                    Kogiidae:{
+                        Kogia:["Kogia"]
+                    }
                 },
                 Rodentia: {
                     Sciuridae: {
@@ -121,6 +128,11 @@ const taxonomyOptions = {
                         Tupaia: ["Tupaia"],
                     },
                 },
+                Sirenia:{
+                    Dugongidae:{
+                        Dugong:["Dugong"]
+                    }
+                }
             },
 
             Actinopterygii: {
@@ -156,6 +168,7 @@ const taxonomyOptions = {
                 Synbranchiformes: {
                     Synbranchidae: {
                         Monopterus: ["Monopterus"],
+                        Ophisternon: ["Ophisternon"],
                     },
                 },
             },
@@ -175,15 +188,21 @@ const taxonomyOptions = {
                         Rhacophorus: ["Rhacophorus"],
                         Polypedates: ["Polypedates"],
                         Kurixalus: ["Kurixalus"],
+                        Zhangixalus:["Zhangixalus"]
                     },
                     Microhylidae: {
                         Microhyla: ["Microhyla"],
                         Kaloula: ["Kaloula"],
+                        Kalophrynus:["Kalophrynus"]
                     },
                     Dicroglossidae: {
                         Fejervarya: ["Fejervarya"],
                         Limnonectes: ["Limnonectes"],
+                        Occidozyga:["Occidozyga"]
                     },
+                    Megophryidae:{
+                        Leptobrachella:["Leptobrachella"]
+                    }
                 },
                 Gymnophiona: {
                     Ichthyophiidae: {
@@ -207,6 +226,7 @@ const taxonomyOptions = {
                     },
                     Viperidae: {
                         Trimeresurus: ["Trimeresurus"],
+                        Tropidolaemus:["Tropidolaemus"]
                     },
                     Colubridae: {
                         Ahaetulla: ["Ahaetulla"],
@@ -270,17 +290,23 @@ const taxonomyOptions = {
                     Nectariniidae: {
                         Arachnothera: ["Arachnothera"],
                         Cinnyris: ["Cinnyris"],
+                        Aethopyga:["Aethopyga"]
                     },
                     Timaliidae: {
                         Garrulax: ["Garrulax"],
                         Stachyris: ["Stachyris"],
                     },
+                    Pityriasidae:{
+                        Pityriasis:["Pityriasis"],
+                    },
+                    
                 },
                 Bucerotiformes: {
                     Bucerotidae: {
                         Buceros: ["Buceros"],
                         Anthracoceros: ["Anthracoceros"],
                         Rhinoplax: ["Rhinoplax"],
+                        Rhyticeros:["Rhyticeros"]
                     },
                 },
                 Psittaciformes: {
@@ -322,6 +348,16 @@ const taxonomyOptions = {
                         Halcyon: ["Halcyon"],
                     },
                 },
+                Falconiformes:{
+                    Falconidae:{
+                        Microhieraax:["Microhieraax"]
+                    }
+                },
+                Podargiformes:{
+                    Podargidae:{
+                        Batrachostomus:["Batrachostomus"]
+                    }
+                }
             },
         },
 
@@ -421,7 +457,7 @@ const taxonomyOptions = {
                     },
                 },
             },
-        }
+        },
     },
 
     Plantae: {
@@ -463,11 +499,16 @@ const taxonomyOptions = {
                         Litsea: ["Litsea"],
                     },
                 },
-                Ericales: {
+                Caryophyllales: {
                     Nepenthaceae: {
                         Nepenthes: ["Nepenthes"],
                     },
                 },
+                Dilleniales:{
+                    Dilleniaceae:{
+                        Dillenia:["Dillenia"]
+                    }
+                }
             },
             Liliopsida: {
                 Arecales: {
@@ -489,12 +530,19 @@ const taxonomyOptions = {
                         Etlingera: ["Etlingera"],
                     },
                 },
+                Asparagales:{
+                    Orchidaceae:{
+                        Paphiopedilum:["Paphiopedilum"],
+                        Coelogyne:["Coelogyne"],
+                        Bulbophyllum:["Bulbophyllum"]
+                    }
+                }
             },
-        },
-        Polypodiopsida: {
-            Polypodiales: {
-                Polypodiaceae: {
-                    Platycerium: ["Platycerium"],
+            Polypodiopsida: {
+                Polypodiales: {
+                    Polypodiaceae: {
+                        Platycerium: ["Platycerium"],
+                    },
                 },
             },
         },
@@ -576,38 +624,36 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     const [error, setError] = useState("");
 
     useEffect(() => {
-    if (initialData && Object.keys(initialData).length > 0) {
-        console.log("EDIT DATA:", initialData);
+        if (initialData && Object.keys(initialData).length > 0) {
+            console.log("EDIT DATA:", initialData);
 
-        const selectedHabitat = initialData.habitat?._id || initialData.habitat || "";
+            const selectedHabitat = initialData.habitat?._id || initialData.habitat || "";
 
-        setFormData({
-            name: initialData.name || "",
-            scientificName: initialData.scientificName || "",
-            kingdom: initialData.kingdom || "",
-            phylum: initialData.phylum || "",
-            className: initialData.className || "",
-            order: initialData.order || "",
-            family: initialData.family || "",
-            genus: initialData.genus || "",
-            description: initialData.description || "",
-            habitat: selectedHabitat,
-            region: initialData.region || "",
-            conservationStatus: initialData.conservationStatus?._id || initialData.conservationStatus || "",
-            imageUrl: initialData.imageUrl || "",
-            imageCredit: initialData.imageCredit || "",
-            imageSource: initialData.imageSource || "",
-            imageLicense: initialData.imageLicense || "",
-            interestingFacts: Array.isArray(initialData.interestingFacts)
-                ? initialData.interestingFacts.join("\n")
-                : initialData.interestingFacts || "",
-        });
+            setFormData({
+                name: initialData.name || "",
+                scientificName: initialData.scientificName || "",
+                kingdom: initialData.kingdom || "",
+                phylum: initialData.phylum || "",
+                className: initialData.className || "",
+                order: initialData.order || "",
+                family: initialData.family || "",
+                genus: initialData.genus || "",
+                description: initialData.description || "",
+                habitat: selectedHabitat,
+                region: initialData.region || "",
+                conservationStatus: initialData.conservationStatus?._id || initialData.conservationStatus || "",
+                imageUrl: initialData.imageUrl || "",
+                imageCredit: initialData.imageCredit || "",
+                imageSource: initialData.imageSource || "",
+                imageLicense: initialData.imageLicense || "",
+                interestingFacts: Array.isArray(initialData.interestingFacts) ? initialData.interestingFacts.join("\n") : initialData.interestingFacts || "",
+            });
 
-        if (initialData.habitat?.name) {
-            setHabitatSearch(initialData.habitat.name);
+            if (initialData.habitat?.name) {
+                setHabitatSearch(initialData.habitat.name);
+            }
         }
-    }
-}, [initialData]);
+    }, [initialData]);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -725,8 +771,8 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
             return;
         }
 
-        if (facts.some((fact) => fact.length > 150)) {
-            setError("Each interesting fact must not exceed 150 characters.");
+        if (facts.some((fact) => fact.length > 200)) {
+            setError("Each interesting fact must not exceed 200 characters.");
             return;
         }
 

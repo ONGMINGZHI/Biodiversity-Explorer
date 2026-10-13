@@ -9,6 +9,7 @@ function Species() {
     const [error, setError] = useState("");
 
     // Search & taxonomy filters
+    const [searchInput, setSearchInput] = useState("");
     const [search, setSearch] = useState("");
     const [kingdom, setKingdom] = useState("All");
     const [conservationStatus, setConservationStatus] = useState("All");
@@ -40,7 +41,12 @@ function Species() {
 
     // Search handler
     const handleSearch = (event) => {
-        setSearch(event.target.value);
+        setSearchInput(event.target.value);
+    };
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        setSearch(searchInput.trim());
     };
 
     // Kingdom filter handler
@@ -88,7 +94,14 @@ function Species() {
 
             {/* Search and Taxonomy Filters */}
             <div className="species-controls">
-                <input type="text" placeholder="Search species..." value={search} onChange={handleSearch} className="search-input" />
+                <div className="species-search-wrapper">
+                    <form className="species-search-form" onSubmit={handleSearchSubmit}>
+                        <input type="text" placeholder="Search species..." value={searchInput} onChange={handleSearch} className="search-input" />
+                        <button type="submit" className="search-button">
+                            Search
+                        </button>
+                    </form>
+                </div>
 
                 <select value={kingdom} onChange={handleKingdom} className="category-select">
                     <option value="All">All Kingdoms</option>

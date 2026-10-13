@@ -1,8 +1,30 @@
 .conservation-projects-controls {
     display: flex;
-    gap: 14px;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.project-search-wrapper {
+    flex: 1;
+    min-width: 200px;
+}
+
+.project-search-wrapper .search-input {
     width: 100%;
-    margin-bottom: 18px;
+    box-sizing: border-box;
+}
+
+.search-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #234d32;
+    color: white;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background: #183b25;
 }
 .category-select {
     box-sizing: border-box;
