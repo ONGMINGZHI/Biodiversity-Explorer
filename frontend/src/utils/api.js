@@ -21,6 +21,7 @@ const handleResponse = async (response) => {
 // auth
 
 export const registerUser = async (data) => {
+    // send http request to backend
     const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {

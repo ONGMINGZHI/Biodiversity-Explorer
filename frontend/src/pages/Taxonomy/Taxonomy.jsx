@@ -21,9 +21,13 @@ function Taxonomy() {
         const loadTaxonomies = async () => {
             try {
                 setLoading(true);
+                // data si being retrieved
                 setError("");
+                // clear previous error
                 const data = await getTaxonomies();
+                // request taxonomy record
                 setTaxonomies(Array.isArray(data) ? data : []);
+                // save record and make sure data is array
             } catch (err) {
                 setError(err.message || "Failed to load taxonomy.");
             } finally {
@@ -34,6 +38,7 @@ function Taxonomy() {
         loadTaxonomies();
     }, []);
 
+    // if parent is object, need return its _id or else just parent
     const getParentId = (item) => (typeof item.parent === "object" ? item.parent?._id : item.parent);
 
     const getChildren = (parentId) => taxonomies.filter((item) => String(getParentId(item) || "") === String(parentId || "")).sort((a, b) => a.name.localeCompare(b.name));
@@ -43,13 +48,16 @@ function Taxonomy() {
     const matchesRank = (item) => rankFilter === "All" || item.rank === rankFilter;
 
     // Keep matching entries and their ancestors visible.
+    // combine the 2 filter
     const shouldKeepBranch = (item) => (matchesSearch(item) && matchesRank(item)) || getChildren(item._id).some(shouldKeepBranch);
+    // need have at least 1 children
 
     const toggleNode = (id) => {
         setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
     const renderTree = (items, depth = 0) =>
+        // depth = 0 mean it will start from kingdom
         items.map((item) => {
             const children = getChildren(item._id);
             const hasChildren = children.length > 0;
@@ -57,6 +65,7 @@ function Taxonomy() {
             const isExpanded = Boolean(expanded[item._id]) || filtersActive;
 
             if (!shouldKeepBranch(item)) return null;
+            // no children, no new branch
 
             return (
                 <div className="taxonomy-tree-branch" key={item._id}>
@@ -64,6 +73,7 @@ function Taxonomy() {
                         <button type="button" className="taxonomy-expand" onClick={() => toggleNode(item._id)} disabled={!hasChildren} aria-label={`${isExpanded ? "Collapse" : "Expand"} ${item.name}`}>
                             {hasChildren ? (isExpanded ? "▾" : "▸") : "·"}
                         </button>
+                        {/* ▾ :expand ▸:collapse . : no children */}
 
                         <div className="taxonomy-node-label">
                             <span className="taxonomy-node-name">{item.name}</span>
@@ -78,11 +88,14 @@ function Taxonomy() {
                     </div>
 
                     {hasChildren && isExpanded && <div className="taxonomy-tree-children">{renderTree(children, depth + 1)}</div>}
+                    {/* if got expand, render more branch */}
                 </div>
             );
         });
 
     const rootEntries = taxonomies.filter((item) => !getParentId(item)).sort((a, b) => a.name.localeCompare(b.name));
+
+    // no parent one :which is kingdom
 
     const filteredRootEntries = rootEntries.filter(shouldKeepBranch);
 
@@ -111,6 +124,7 @@ function Taxonomy() {
                     {ranks.map((rank) => (
                         <option key={rank} value={rank}>
                             {rank.charAt(0).toUpperCase() + rank.slice(1)}
+                            {/* kingdom-->Kingdom */}
                         </option>
                     ))}
                 </select>

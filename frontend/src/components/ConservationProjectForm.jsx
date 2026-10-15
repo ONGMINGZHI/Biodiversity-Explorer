@@ -117,6 +117,20 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
     }
 };
 
+const handleDelete = async () => {
+        const confirmed = window.confirm("Are you sure you want to delete this project?");
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await onDelete();
+        } catch (error) {
+            setError(error.message || "Failed to delete project.");
+        }
+    };
+
     return (
         <div className="form-page">
             <div className="form-header">
@@ -155,7 +169,7 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
 
                     <div className="form-group">
                         <label htmlFor="organisation">
-                            Organisation
+                            Organisation*
                         </label>
 
                         <input
@@ -165,6 +179,7 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
                             value={formData.organisation}
                             onChange={handleChange}
                             placeholder="e.g. Malaysian Wildlife"
+                            required
                         />
                     </div>
                 </div>
@@ -217,13 +232,13 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="status">Status</label>
+                    <label htmlFor="status">Status*</label>
 
                     <select
                         id="status"
                         name="status"
                         value={formData.status}
-                        onChange={handleChange}
+                        onChange={handleChange}required
                     >
                         <option value="Planned">Planned</option>
                         <option value="Ongoing">Ongoing</option>
@@ -232,7 +247,7 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
                 </div>
 
                 <div className="form-group">
-                    <label>Related Species</label>
+                    <label>Related Species*</label>
 
                     <div className="species-multiselect">
                         <button
@@ -370,14 +385,14 @@ function ConservationProjectForm({ initialData = null, onSubmit, onDelete, onCan
 
                 <div className="form-actions">
                     <div className="form-actions-left">
-                        {editMode && onDelete && (
+                        {editMode && (
                             <button
                                 type="button"
                                 className="form-button form-button-delete"
-                                onClick={onDelete}
+                                onClick={handleDelete}
                                 disabled={loading}
                             >
-                                Delete
+                                Delete project
                             </button>
                         )}
                     </div>

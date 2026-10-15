@@ -1,13 +1,9 @@
-/* =========================================================
-   HOME PAGE
-   ========================================================= */
+/* home page */
 .home-page {
     min-height: calc(100vh - 70px);
     background-color: #fffaf0;
 }
-/* =========================================================
-   HERO
-   ========================================================= */
+/* hero */
 .home-hero {
     position: relative;
     min-height: 500px;
@@ -15,17 +11,11 @@
     align-items: center;
     overflow: hidden;
     background:
-        linear-gradient(
-            rgba(35, 77, 50, 0.82),
-            rgba(35, 77, 50, 0.82)
-        ),
-        url("https://images.unsplash.com/photo-1516026672322-bc52d61a55d5")
-        center / cover no-repeat;
+        linear-gradient(rgba(35, 77, 50, 0.82), rgba(35, 77, 50, 0.82)),
+        url("https://images.unsplash.com/photo-1516026672322-bc52d61a55d5") center / cover no-repeat;
     color: white;
 }
-/* =========================================================
-   HERO CONTENT
-   ========================================================= */
+/* content */
 .home-hero-content {
     position: relative;
     z-index: 2;
@@ -55,9 +45,7 @@
     font-size: 1.15rem;
     line-height: 1.7;
 }
-/* =========================================================
-   ELEPHANT STICKER
-   ========================================================= */
+/* elephant  */
 .home-elephant {
     position: absolute;
     z-index: 1;
@@ -67,22 +55,15 @@
     height: auto;
     object-fit: contain;
     pointer-events: none;
-    /*
-        Soft sticker / shadow effect
-    */
-    filter:
-        drop-shadow(0 0 0 #fff8e7)
-        drop-shadow(0 0 5px #fff8e7)
-        drop-shadow(0 10px 15px rgba(0, 0, 0, 0.18));
-    /*
-        Gentle floating animation
-    */
+    /*     shadow */
+    filter: drop-shadow(0 0 0 #fff8e7) drop-shadow(0 0 5px #fff8e7) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.18));
+    /*     float animation */
     animation: elephantFloat 4s ease-in-out infinite;
     transition:
         width 0.3s ease,
         right 0.3s ease;
 }
-/* Gentle floating motion */
+
 @keyframes elephantFloat {
     0% {
         transform: translateY(0) rotate(0deg);
@@ -100,9 +81,7 @@
         transform: translateY(0) rotate(0deg);
     }
 }
-/* =========================================================
-   HERO BUTTONS
-   ========================================================= */
+/* hero button */
 .home-actions {
     display: flex;
     gap: 12px;
@@ -139,9 +118,7 @@
     color: #4a321f;
     transform: translateY(-2px);
 }
-/* =========================================================
-   EXPLORE SECTION
-   ========================================================= */
+/* explore */
 .home-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -158,17 +135,13 @@
     color: #80684d;
     font-size: 1rem;
 }
-/* =========================================================
-   FEATURE GRID
-   ========================================================= */
+/* feature */
 .home-feature-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
 }
-/* =========================================================
-   FEATURE CARD
-   ========================================================= */
+
 .home-feature-card {
     display: flex;
     flex-direction: column;
@@ -177,8 +150,7 @@
     border: 1px solid #d6b98c;
     border-radius: 12px;
     background-color: #fff8e7;
-    box-shadow:
-        0 4px 12px rgba(80, 50, 20, 0.08);
+    box-shadow: 0 4px 12px rgba(80, 50, 20, 0.08);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -187,8 +159,7 @@
 .home-feature-card:hover {
     transform: translateY(-4px);
     border-color: #c7a875;
-    box-shadow:
-        0 8px 20px rgba(80, 50, 20, 0.14);
+    box-shadow: 0 8px 20px rgba(80, 50, 20, 0.14);
 }
 .home-feature-card h3 {
     margin: 0 0 12px;
@@ -213,9 +184,7 @@
     color: #1a3a25;
     text-decoration: underline;
 }
-/* =========================================================
-   TABLET
-   ========================================================= */
+/* tablet */
 @media (max-width: 1000px) {
     .home-hero {
         min-height: 480px;
@@ -239,9 +208,7 @@
         padding: 22px;
     }
 }
-/* =========================================================
-   TABLET / SMALL LAPTOP
-   ========================================================= */
+/* sm laptop */
 @media (max-width: 800px) {
     .home-elephant {
         right: 1%;
@@ -255,9 +222,7 @@
         font-size: 2.7rem;
     }
 }
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* mobile */
 @media (max-width: 650px) {
     .home-hero {
         min-height: 600px;
@@ -285,25 +250,25 @@
     }
     /* Elephant moves underneath the text */
     .home-elephant {
-         .home-elephant {
-        right: 50%;
-        bottom: 20px;
-        width: 230px;
-        transform: translateX(50%);
-        animation: elephantFloatMobile 4s ease-in-out infinite;
+        .home-elephant {
+            right: 50%;
+            bottom: 20px;
+            width: 230px;
+            transform: translateX(50%);
+            animation: elephantFloatMobile 4s ease-in-out infinite;
+        }
     }
-}
-@keyframes elephantFloatMobile {
-    0% {
-        transform: translateX(50%) translateY(0);
+    @keyframes elephantFloatMobile {
+        0% {
+            transform: translateX(50%) translateY(0);
+        }
+        50% {
+            transform: translateX(50%) translateY(-8px);
+        }
+        100% {
+            transform: translateX(50%) translateY(0);
+        }
     }
-    50% {
-        transform: translateX(50%) translateY(-8px);
-    }
-    100% {
-        transform: translateX(50%) translateY(0);
-    }
-}
     .home-actions {
         flex-direction: column;
         width: 100%;
@@ -333,9 +298,7 @@
         min-height: auto;
     }
 }
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
+/* sm mobile */
 @media (max-width: 450px) {
     .home-hero {
         min-height: 570px;
@@ -373,9 +336,7 @@
         padding: 20px;
     }
 }
-/* =========================================================
-   VERY SMALL MOBILE
-   ========================================================= */
+/* very sm mobile */
 @media (max-width: 360px) {
     .home-hero {
         min-height: 550px;

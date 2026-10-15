@@ -51,7 +51,7 @@ function Footer() {
 
             <div className="footer-bottom">
                 <p>Images and information are credited to their respective sources. Please refer to individual licenses and attribution details.</p>
-                <p>© 2026 Biodiversity Explorer · Educational project</p>
+                <p>© 2026 Biodiversity Explorer · Sem 2 project</p>
             </div>
         </footer>
     );

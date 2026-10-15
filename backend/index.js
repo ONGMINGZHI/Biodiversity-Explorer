@@ -18,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// connect router to express
 // Auth routes
 app.use("/api/auth", authRoutes);
 
@@ -42,6 +43,7 @@ app.use("/api/conservation-projects", conservationProjectRoutes);
 // Taxonomy routes
 app.use("/api/taxonomy",taxonomyRoutes);
 
+// define get endpoint directly here//or can router.get at router file
 // Test protected route
 app.get("/api/protected", protect, (req, res) => {
     res.json({

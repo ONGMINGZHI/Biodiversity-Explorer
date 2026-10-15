@@ -211,8 +211,6 @@ const deleteTaxonomy = async (req, res) => {
 
 const IMPORT_TAXONOMY_RANKS = ["kingdom", "phylum", "class", "order", "family", "genus"];
 
-const escapeTaxonomyRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
 const importTaxonomyTree = async (req, res) => {
     try {
         const tree = req.body.tree;
@@ -285,5 +283,5 @@ module.exports = {
     createTaxonomy,
     updateTaxonomy,
     deleteTaxonomy,
-    importTaxonomyTree
+    importTaxonomyTree,
 };

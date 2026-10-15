@@ -47,7 +47,7 @@ const getSpecies = async (req, res) => {
             }
         }
 
-        // Other taxonomy filters
+        // Other taxonomy filters,just extra
         if (className && className !== "All") {
             filter.className = className;
         }

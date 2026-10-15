@@ -55,7 +55,7 @@ function WildlifeMap({ locations }) {
                                 <h3>{location.name}</h3>
 
                                 <p>
-                                    <strong>State:</strong>{" "}
+                                    <strong>State:</strong>
                                     {location.state}
                                 </p>
 
@@ -64,8 +64,8 @@ function WildlifeMap({ locations }) {
                                 </p>
 
                                 <p>
-                                    <strong>Coordinates:</strong>{" "}
-                                    {location.latitude},{" "}
+                                    <strong>Coordinates:</strong>
+                                    {location.latitude},
                                     {location.longitude}
                                 </p>
                             </div>

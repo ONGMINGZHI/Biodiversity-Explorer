@@ -89,6 +89,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+        // exp:{kingdom,Animalia}
 
         setFormData((prev) => {
             const updated = {
@@ -134,11 +135,15 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     if (!item.parent) return null;
     return typeof item.parent === "object" ? item.parent._id : item.parent;
 };
+// if no parebt:null, if got, return _id, or populate in mongoose will show all
 
     const getTaxonomyEntry = (rank, name, parentId = null) => taxonomies.find((item) => item.rank === rank && item.name === name && String(getParentId(item) || "") === String(parentId || ""));
+    // use string to compare more easy
 
     const getTaxonomyChildren = (parentId, rank) => taxonomies.filter((item) => item.rank === rank && String(getParentId(item) || "") === String(parentId || "")).sort((a, b) => a.name.localeCompare(b.name));
 
+
+    // the ?._id is use to access the id when parent exist
     const kingdomOptions = getTaxonomyChildren(null, "kingdom");
 
     const selectedKingdom = getTaxonomyEntry("kingdom", formData.kingdom);
@@ -166,7 +171,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     const handleHabitatSelect = (habitat) => {
         setFormData((prev) => ({ ...prev, habitat: habitat._id }));
         setHabitatSearch(habitat.name);
-        setShowHabitatResults(false);
+        setShowHabitatResults(false); 
     };
     //  Filter habitats based on search
     const filteredHabitats = habitats.filter((habitat) => habitat.name.toLowerCase().includes(habitatSearch.toLowerCase()));
@@ -174,6 +179,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
+        // If previous submission failed, its message disappear when the user try again.
 
         if (!formData.habitat) {
             setError("Please select a habitat.");
@@ -189,6 +195,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
             .split("\n")
             .map((fact) => fact.trim())
             .filter((fact) => fact !== "");
+            // new line, remove space, remove empty line
 
         if (facts.length > 5) {
             setError("You can enter a maximum of 5 interesting facts.");
@@ -198,6 +205,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
         if (facts.some((fact) => fact.length > 200)) {
             setError("Each interesting fact must not exceed 200 characters.");
             return;
+            // if 1 of the fact >200 will not continue (.some)
         }
 
         const data = {
@@ -241,7 +249,7 @@ function SpeciesForm({ initialData = {}, onSubmit, onCancel, onDelete, editMode 
                     <div className="form-group">
                         <label htmlFor="name">Common Name *</label>
 
-                        <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} placeholder="e.g African elephant" required />
+                        <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} placeholder="e.g Asian elephant" required />
                     </div>
 
                     <div className="form-group">

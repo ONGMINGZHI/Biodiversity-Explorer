@@ -20,7 +20,6 @@ const conservationProjectSchema = new mongoose.Schema({
 
     startDate: {
         type: Date,
-        required: true,
     },
 
     endDate: {
@@ -36,6 +35,7 @@ const conservationProjectSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Species",
+            required:true
         },
     ],
 

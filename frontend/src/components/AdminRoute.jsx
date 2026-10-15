@@ -1,11 +1,14 @@
 import { Navigate } from "react-router-dom";
 
 function AdminRoute({ children }) {
+    // retrieve token from local storage
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "null");
 
     if (!token) {
         return <Navigate to="/login" replace />;
+        // redirect user to login
+        // replace will replace the current history entry
     }
 
     try {
